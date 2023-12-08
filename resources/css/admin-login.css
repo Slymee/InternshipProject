@@ -1,0 +1,41 @@
+*,html,body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.main-section{
+    font-family: 'Poppins';
+    width: 100%;
+    height: 100vh;
+    background: rgb(61,81,181);
+    background: linear-gradient(313deg, rgba(61,81,181,1) 0%, rgba(77,103,255,1) 52%, rgba(92,137,180,1) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.formBanner{
+    margin-right: auto;
+    margin-left: auto;
+    width: 65%;
+    height: 80%;
+    background: #f0f2ff;
+    display: flex;
+    justify-content: space-between;
+
+
+    border-radius: 10px;
+    
+}
+
+.img-place{
+    /* background-image: url('../../public/storage/images/authenticate.jpg'); */
+    width: 50%;
+}
+
+.image{
+    width: 100%;
+    height: 100%;
+}
