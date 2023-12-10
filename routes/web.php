@@ -19,4 +19,10 @@ Route::get('/', function () {
 });
 
 
-Route::get('adminLogin', [AdminLoginController::class, 'index']);
+//admin routes
+Route::get('adminLogin', [AdminLoginController::class, 'showLoginForm']);
+Route::post('adminValidate', [AdminLoginController::class, 'login']);
+Route::get('dashboard', function (){
+    return "login";
+});
+

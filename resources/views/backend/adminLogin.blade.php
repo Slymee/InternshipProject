@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
     <title>Dashboard-Login</title>
+    
     @vite(['resources/css/admin-login.css'])
 
 </head>
@@ -17,7 +18,8 @@
             </div>
             <div class="form-place">
                 <span class="login-dashboard-text">Login to Dashboard</span>
-                <form action="" method="POST" autocomplete="off">
+                <form action="/adminValidate" method="POST" autocomplete="off">
+                    @csrf
                     <label for="username">Username</label><br>
                     <input type="text" name="username" id="" placeholder="Enter Username">
                     <br>

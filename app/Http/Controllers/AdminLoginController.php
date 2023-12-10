@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class AdminLoginController extends Controller
@@ -9,7 +10,7 @@ class AdminLoginController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function showLoginForm()
     {
         return view('backend.adminLogin');
     }
@@ -25,9 +26,19 @@ class AdminLoginController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function login(Request $request)
     {
-        //
+        try{
+            $loginDetail = $request->only('email', 'password');
+
+            if(Auth::attempt($loginDetail)):
+                return redirect()->intended('/dashboard');
+            endif;
+
+            return redirect()->route('adminLogin')->with('error', 'Credentials do not match');
+        }catch(\Exception $e){
+            dd($e->getMessage());
+        }
     }
 
     /**

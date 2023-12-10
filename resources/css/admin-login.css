@@ -24,8 +24,6 @@
     background: #f0f2ff;
     display: flex;
     justify-content: space-between;
-
-
     border-radius: 10px;
     
 }
@@ -104,4 +102,5 @@ input[type=submit]:hover{
     font-size: 14px;
     padding: 14px;
     color: rgb(61,81,181);
+    text-decoration: underline;
 }
