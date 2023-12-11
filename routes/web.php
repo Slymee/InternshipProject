@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AdminDataDetailsController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,5 +31,7 @@ Route::post('admin-validate', [AdminDataDetailsController::class, 'login']);
 Route::get('dashboard', function (){
     return view('backend.index');
 });
+
+Route::get('dashboard', [DashboardController::class, 'index']);
 
 
