@@ -15,7 +15,10 @@
         <div class="side-nav">
             @include('commonComponents.side-nav')
         </div>
-        <div></div>
+        <div class="side-container">
+            @include('commonComponents.bread-crumb')
+            <div class="content-container"></div>
+        </div>
     </section>
 </body>
 </html>

@@ -4,3 +4,18 @@
     box-sizing: border-box;
     font-family: Poppins;
 }
+
+.side-container{
+    padding: 10px;
+    width: 83%;
+}
+
+.bread-crumb-banner{
+    padding: 10px;
+    height: 70px;
+    font-size: 24px;
+    position: sticky;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, 0.2);
+}
