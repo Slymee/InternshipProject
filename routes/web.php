@@ -20,9 +20,14 @@ Route::get('/', function () {
 
 
 //admin routes
+                //admin login
 Route::get('admin-login', [AdminDataDetailsController::class, 'showLoginForm']);
 Route::post('admin-validate', [AdminDataDetailsController::class, 'login']);
+
+
+                //admin dashboard
 Route::get('dashboard', function (){
-    return "login";
+    return view('backend.index');
 });
+
 
