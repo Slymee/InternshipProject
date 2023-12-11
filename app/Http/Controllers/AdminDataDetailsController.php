@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
+use App\Models\AdminDataDetails;
 use Illuminate\Http\Request;
 
-class AdminLoginController extends Controller
+class AdminDataDetailsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -28,23 +28,13 @@ class AdminLoginController extends Controller
      */
     public function login(Request $request)
     {
-        try{
-            $loginDetail = $request->only('email', 'password');
-
-            if(Auth::attempt($loginDetail)):
-                return redirect()->intended('/dashboard');
-            endif;
-
-            return redirect()->route('adminLogin')->with('error', 'Credentials do not match');
-        }catch(\Exception $e){
-            dd($e->getMessage());
-        }
+        
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(AdminDataDetails $adminDataDetails)
     {
         //
     }
@@ -52,7 +42,7 @@ class AdminLoginController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(AdminDataDetails $adminDataDetails)
     {
         //
     }
@@ -60,7 +50,7 @@ class AdminLoginController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, AdminDataDetails $adminDataDetails)
     {
         //
     }
@@ -68,7 +58,7 @@ class AdminLoginController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(AdminDataDetails $adminDataDetails)
     {
         //
     }

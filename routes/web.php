@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\AdminLoginController;
+use App\Http\Controllers\AdminDataDetailsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,8 +20,8 @@ Route::get('/', function () {
 
 
 //admin routes
-Route::get('adminLogin', [AdminLoginController::class, 'showLoginForm']);
-Route::post('adminValidate', [AdminLoginController::class, 'login']);
+Route::get('admin-login', [AdminDataDetailsController::class, 'showLoginForm']);
+Route::post('admin-validate', [AdminDataDetailsController::class, 'login']);
 Route::get('dashboard', function (){
     return "login";
 });

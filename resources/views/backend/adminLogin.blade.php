@@ -18,7 +18,7 @@
             </div>
             <div class="form-place">
                 <span class="login-dashboard-text">Login to Dashboard</span>
-                <form action="/adminValidate" method="POST" autocomplete="off">
+                <form action="/admin-validate" method="POST" autocomplete="off">
                     @csrf
                     <label for="username">Username</label><br>
                     <input type="text" name="username" id="" placeholder="Enter Username">
