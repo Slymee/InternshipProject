@@ -1,0 +1,48 @@
+nav{
+    padding: 10px;
+    width: 17%;
+    background: rgb(61,81,181);
+    background: linear-gradient(313deg, rgba(61,81,181,1) 0%, rgba(77,103,255,1) 52%, rgba(92,137,180,1) 100%);
+    height: 100vh;
+    position: fixed;
+    color: white;
+}
+
+section{
+    display: flex;
+    justify-content: space-between;
+}
+
+.brand-place{
+    font-size: 30px;
+    align-items: center;
+    text-align: center;
+    border-bottom: 2px white solid;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+.activities{
+    height: 90%;
+    padding: 10px;
+    font-size: 24px;
+    margin-top: 10px;
+    letter-spacing: 2px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+ul>li{
+    list-style: none;
+    margin-top: 10px;
+    padding: 10px;
+}
+
+ul>li:hover{
+    cursor: pointer;
+    background-color: #000;
+    opacity: 60%;
+}
+

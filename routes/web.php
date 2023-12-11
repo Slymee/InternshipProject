@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AdminDataDetailsController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,9 +22,13 @@ Route::get('/', function () {
 
 
 //admin routes
+                //admin login
 Route::get('admin-login', [AdminDataDetailsController::class, 'showLoginForm']);
 Route::post('admin-validate', [AdminDataDetailsController::class, 'login']);
-Route::get('dashboard', function (){
-    return "login";
-});
+
+
+                //admin dashboard
+
+Route::get('dashboard', [DashboardController::class, 'index']);
+
 
