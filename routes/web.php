@@ -28,9 +28,6 @@ Route::post('admin-validate', [AdminDataDetailsController::class, 'login']);
 
 
                 //admin dashboard
-Route::get('dashboard', function (){
-    return view('backend.index');
-});
 
 Route::get('dashboard', [DashboardController::class, 'index']);
 
