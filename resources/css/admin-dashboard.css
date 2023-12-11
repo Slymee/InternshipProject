@@ -8,12 +8,14 @@
 .side-container{
     padding: 10px;
     width: 83%;
+    background-color: #e4e0e0;
 }
 
 .bread-crumb-banner{
     padding: 10px;
     height: 70px;
     font-size: 24px;
+    background-color: #fff;
     position: sticky;
     display: flex;
     justify-content: space-between;
