@@ -30,18 +30,22 @@ class AdminDataDetailsController extends Controller
      */
     public function login(Request $request): RedirectResponse
     {
-        try{
-            $credentials = $request->only('username', 'password');
+        // $credentials = $request->only('username', 'password');
 
+        $credentials = $request->validate([
+            'username' => 'bail|required',
+            'password' => 'required',
+        ]);
+
+        try{
             if(Auth::attempt($credentials)):
-                return redirect()->intended('/dashboard');
+                return redirect()->intended('/dashboard')->with('username', $credentials['username']);
             endif;
-            
-            return redirect()->back()->with('error', 'Credentials do not match!');
-        }catch (\Exception $e){
-            dd($e);
-            return redirect()->back()->with('error', 'Technical Issues Occurring!');
+        }catch(\Exception $e){
+            return redirect()->back()->with('error', $e->getMessage());
         }
+                    
+        return redirect()->back()->with('error', 'Credentials do not match!');
     }
 
     /**
