@@ -23,7 +23,7 @@ Route::get('/', function () {
 
 //admin routes
                 //admin login
-Route::get('admin-login', [AdminDataDetailsController::class, 'showLoginForm']);
+Route::get('admin-login', [AdminDataDetailsController::class, 'showLoginForm'])->name('admin-login');
 Route::post('admin-validate', [AdminDataDetailsController::class, 'login']);
 
 
