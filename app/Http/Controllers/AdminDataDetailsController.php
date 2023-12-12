@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\AdminDataDetails;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminDataDetailsController extends Controller
 {
@@ -26,9 +28,15 @@ class AdminDataDetailsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function login(Request $request)
+    public function login(Request $request): RedirectResponse
     {
+        $credentials = $request->only('username', 'password');
+
+        if(Auth::attempt($credentials)):
+            return redirect()->intended('/dashboard');
+        endif;
         
+        return redirect()->route('admin-login')->with('error', 'credentials do not match');
     }
 
     /**
