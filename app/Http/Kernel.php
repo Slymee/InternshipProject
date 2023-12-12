@@ -67,7 +67,9 @@ class Kernel extends HttpKernel
     ];
 
 
-
+protected $routeMiddleware = [
+    'restrictDirectAccess' => \App\Http\Middleware\RestrictDirectAccess::class,
+];
 }
 
 

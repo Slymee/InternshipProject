@@ -28,7 +28,7 @@ Route::post('admin-validate', [AdminDataDetailsController::class, 'login']);
 
 
                 //admin dashboard
-Route::get('dashboard', [DashboardController::class, 'index']);
+Route::get('dashboard', [DashboardController::class, 'index'])->middleware('restrictDirectAccess');
 
 
 
