@@ -31,3 +31,5 @@ Route::post('admin-validate', [AdminDataDetailsController::class, 'login']);
 Route::get('dashboard', [DashboardController::class, 'index']);
 
 
+
+
