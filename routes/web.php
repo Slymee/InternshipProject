@@ -25,6 +25,8 @@ Route::get('/', function () {
                 //admin login
 Route::get('admin-login', [AdminDataDetailsController::class, 'showLoginForm'])->name('admin-login');
 Route::post('admin-validate', [AdminDataDetailsController::class, 'login']);
+Route::post('admin-logout', [AdminDataDetailsController::class, 'logout'])->name('logout');
+
 
 
                 //admin dashboard

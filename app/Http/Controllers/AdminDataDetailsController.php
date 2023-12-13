@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+
 class AdminDataDetailsController extends Controller
 {
     /**
@@ -46,6 +47,17 @@ class AdminDataDetailsController extends Controller
         }
                     
         return redirect()->back()->with('error', 'Credentials do not match!');
+    }
+
+
+    //Logout Functionality
+    public function logout(Request $request){
+
+        try{
+            return redirect('admin-login')->with(Auth::logout());
+        }catch(\Exception $e){
+            dd($e);
+        }
     }
 
     /**

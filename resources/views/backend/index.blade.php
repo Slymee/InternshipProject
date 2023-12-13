@@ -17,7 +17,14 @@
         </div>
         <div class="side-container">
             @include('commonComponents.bread-crumb')
-            <div class="content-container"></div>
+            <div class="content-container">
+                <div class="statistics">
+                    <div class="stats-box">asdasd</div>
+                    <div class="stats-box">asdasd</div>
+                    <div class="stats-box">asdasd</div>
+                    <div class="stats-box">asdasd</div>
+                </div>
+            </div>
         </div>
     </section>
 </body>
