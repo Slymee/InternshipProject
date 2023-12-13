@@ -30,7 +30,7 @@ Route::post('admin-logout', [AdminDataDetailsController::class, 'logout'])->name
 
 
                 //admin dashboard
-Route::get('dashboard', [DashboardController::class, 'index']);
+Route::get('dashboard', [DashboardController::class, 'index'])->middleware('auth');
 
 
 
