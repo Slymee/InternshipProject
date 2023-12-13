@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginFormValidator;
 use App\Models\AdminDataDetails;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -29,14 +30,11 @@ class AdminDataDetailsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function login(Request $request): RedirectResponse
+    public function login(LoginFormValidator $request): RedirectResponse
     {
         // $credentials = $request->only('username', 'password');
 
-        $credentials = $request->validate([
-            'username' => 'bail|required',
-            'password' => 'required',
-        ]);
+        $credentials = $request->validated();
 
         try{
             if(Auth::attempt($credentials)):

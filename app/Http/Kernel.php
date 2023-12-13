@@ -66,10 +66,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
     ];
 
-
-protected $routeMiddleware = [
-    'restrictDirectAccess' => \App\Http\Middleware\RestrictDirectAccess::class,
-];
 }
 
 
