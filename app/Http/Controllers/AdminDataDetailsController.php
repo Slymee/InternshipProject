@@ -54,7 +54,7 @@ class AdminDataDetailsController extends Controller
         try{
             return redirect('admin-login')->with(Auth::logout());
         }catch(\Exception $e){
-            dd($e);
+            
         }
     }
 
