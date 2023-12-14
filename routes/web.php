@@ -24,20 +24,20 @@ Route::get('/', function () {
 
 //admin routes
                 //admin login
-Route::get('admin-login', [AdminDataDetailsController::class, 'showLoginForm'])->name('admin-login');
-Route::post('admin-validate', [AdminDataDetailsController::class, 'login']);
-Route::post('admin-logout', [AdminDataDetailsController::class, 'logout'])->name('logout');
+Route::get('/admin-login', [AdminDataDetailsController::class, 'showLoginForm'])->name('admin-login');
+Route::post('/admin-validate', [AdminDataDetailsController::class, 'login']);
+Route::post('/admin-logout', [AdminDataDetailsController::class, 'logout'])->name('logout');
 
 
 
                 //admin dashboard
-Route::get('dashboard', [DashboardController::class, 'index'])->middleware('auth');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 
 
                 //Forgot Password Routess
-Route::get('admin-forgot-password', [PasswordResetController::class, 'index'])->name('forgot-password-view');
-Route::post('forgot-password', [PasswordResetController::class, 'sendResetMail']);
-Route::get('admin-password-reset', [PasswordResetController::class, 'showNewPasswordForm']);
+Route::get('/admin-forgot-password', [PasswordResetController::class, 'index'])->name('forgot-password-view');
+Route::post('/forgot-password', [PasswordResetController::class, 'sendResetMail']);
+Route::get('/admin-password-reset/{token}', [PasswordResetController::class, 'showNewPasswordForm']);
 
 
 

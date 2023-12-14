@@ -25,8 +25,8 @@ class PasswordResetController extends Controller
     }
 
 
-    public function showNewPasswordForm(){
-        return view('backend.passwordReset');
+    public function showNewPasswordForm(string $token){
+        return view('backend.passwordReset', ['token'=> $token]);
     }
 
 

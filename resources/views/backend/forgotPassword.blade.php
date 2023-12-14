@@ -20,7 +20,7 @@
                 <form action="/forgot-password" method="POST" autocomplete="off">
                     @csrf
                     <label for="email">Email</label><br>
-                    <input type="email" name="email" id="" placeholder="Enter Email">
+                    <input type="text" name="email" id="" placeholder="Enter Email">
                     <br>
                     <input type="submit" value="Send Reset Link">
                 </form>
