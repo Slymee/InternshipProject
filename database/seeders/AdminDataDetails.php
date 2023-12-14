@@ -19,7 +19,7 @@ class AdminDataDetails extends Seeder
     {
         DB::table('users')->insert([
             'username' => 'slymee',
-            'email' => 'slymeesmurf@super.com',
+            'email' => 'slimismurf@gmail.com',
             'password' => Hash::make('slymee'),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),

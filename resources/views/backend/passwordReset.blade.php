@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-    <title>Dashboard-Login</title>
-    
-    @vite(['resources/css/admin-login.css'])
 
+    <title>Forgot Password</title>
+    @vite(['resources/css/admin-login.css'])
 </head>
 <body>
     <section class="main-section">
@@ -17,24 +16,17 @@
                 <img class="image" src="{{ URL('images/authenticate.jpg') }}" alt="Authenticate" srcset="">
             </div>
             <div class="form-place">
-                <span class="login-dashboard-text">Login to Dashboard</span>
-                <form action="/admin-validate" method="POST" autocomplete="off">
+                <span class="login-dashboard-text">Reset Password</span>
+                <form action="/forgot-password" method="POST" autocomplete="off">
                     @csrf
-                    <label for="username">Username</label><br>
-                    <input type="text" name="username" id="" placeholder="Enter Username">
+                    <label for="new-password">New Password</label><br>
+                    <input type="password" name="new-password" id="" placeholder="Enter New Password">
                     <br>
-                    <label for="password">Password</label><br>
-                    <input type="password" name="password" id="" placeholder="Enter Password"><br>
-                    <input type="submit" value="Login">
+                    <label for="confirm-password">Confirm Password</label><br>
+                    <input type="password" name="confirm-password" id="" placeholder="Confirm New Password">
+                    
+                    <input type="submit" value="Confirm Password">
                 </form>
-                <a href="#" onclick="event.preventDefault(); document.getElementById('forgot-password').submit();">
-                    <span class="forgot-password">Forgot Password?</span>
-                </a>
-
-                <form id="forgot-password" action="{{ route('forgot-password-view') }}" method="GET" style="display: none;">
-                    @csrf
-                </form>
-
                 <span class="error-message">
                 @if(session('error'))
                     {{ session('error') }}
@@ -50,5 +42,6 @@
             </div>
         </div>
     </section>
+
 </body>
 </html>
