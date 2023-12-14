@@ -104,3 +104,8 @@ input[type=submit]:hover{
     color: rgb(61,81,181);
     text-decoration: underline;
 }
+
+.error-message{
+    color: red;
+    padding: 10px;
+}

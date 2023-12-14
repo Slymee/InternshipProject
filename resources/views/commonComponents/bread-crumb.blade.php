@@ -1,4 +1,4 @@
 <div class="bread-crumb-banner">
     <span>Dashboard</span>
-    <span>AdminUsername</span>
+    <span>{{ auth()->user()->username }}</span>
 </div>

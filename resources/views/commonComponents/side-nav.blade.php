@@ -6,19 +6,22 @@
     <div class="activities">
         <div class="navigation">
             <ul>
-                <li><i class="fa-solid fa-layer-group"></i></i> Category</li>
-                <li><i class="fa-solid fa-layer-group"></i></i> Sub-category</li>
-                <li><i class="fa-solid fa-layer-group"></i> Product</li>
-                <li><i class="fa-solid fa-layer-group"></i></i> Orders</li>
-                <li><i class="fa-solid fa-layer-group"></i></i> Users</li>
-                <li><i class="fa-solid fa-layer-group"></i></i> Admins</li>
-
+                <a href=""><li><i class="fa-solid fa-layer-group"></i></i> Dashboard</li></a>
+                <a href=""><li><i class="fa-solid fa-layer-group"></i></i> Category</li></a>
+                <a href=""><li><i class="fa-solid fa-layer-group"></i></i> Sub-category</li></a>
+                <a href=""><li><i class="fa-solid fa-layer-group"></i></i> Users</li></a>
+                <a href=""><li><i class="fa-solid fa-layer-group"></i></i> Admins</li></a>
             </ul>
         </div>
         <div class="utilities">
             <ul>
-                <li><i class="fa-solid fa-layer-group"></i></i> Settings</li>
-                <li><i class="fa-solid fa-layer-group"></i></i> Logout</li>
+                <a href=""><li><i class="fa-solid fa-layer-group"></i></i> Settings</li></a>
+                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><li><i class="fa-solid fa-layer-group"></i> 
+                    Logout</li></a>
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
             </ul>
         </div>
     </div>

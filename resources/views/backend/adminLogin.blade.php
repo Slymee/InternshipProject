@@ -28,6 +28,18 @@
                     <input type="submit" value="Login">
                 </form>
                 <span class="forgot-password">Forgot Password?</span>
+                <span class="error-message">
+                @if(session('error'))
+                    {{ session('error') }}
+                @endif
+
+                @if($errors->any())
+                    @foreach ($errors->all() as $error)
+                        {{ $error}} <br>
+                    @endforeach                    
+                @endif
+                </span>
+
             </div>
         </div>
     </section>

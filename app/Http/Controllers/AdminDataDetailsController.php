@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginFormValidator;
 use App\Models\AdminDataDetails;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class AdminDataDetailsController extends Controller
 {
@@ -26,9 +30,32 @@ class AdminDataDetailsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function login(Request $request)
+    public function login(LoginFormValidator $request): RedirectResponse
     {
-        
+        // $credentials = $request->only('username', 'password');
+
+        $credentials = $request->validated();
+
+        try{
+            if(Auth::attempt($credentials)):
+                return redirect()->intended('/dashboard')->with('username', $credentials['username']);
+            endif;
+        }catch(\Exception $e){
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+                    
+        return redirect()->back()->with('error', 'Credentials do not match!');
+    }
+
+
+    //Logout Functionality
+    public function logout(Request $request){
+
+        try{
+            return redirect('admin-login')->with(Auth::logout());
+        }catch(\Exception $e){
+            
+        }
     }
 
     /**
