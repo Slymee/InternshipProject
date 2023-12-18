@@ -37,7 +37,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('aut
                 //Forgot Password Routess
 Route::get('/admin-forgot-password', [PasswordResetController::class, 'index'])->name('forgot-password-view');
 Route::post('/forgot-password', [PasswordResetController::class, 'sendResetMail']);
-Route::get('/admin-password-reset/{token}', [PasswordResetController::class, 'showNewPasswordForm']);
+Route::get('/admin-password-reset/{token}', [PasswordResetController::class, 'showNewPasswordForm'])->name('password.reset');
 Route::post('/admin-password-reset', [PasswordResetController::class, 'submitNewPasswordForm']);
 
 

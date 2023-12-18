@@ -28,23 +28,26 @@ class PasswordResetController extends Controller
     {
         $token = Str::random(64);
 
+        // dd($request->validated()['email']);
+
+
         try{
             DB::table('password_reset_tokens')->insert([
-                'email' => $request->validated(),
+                'email' => $request->validated()['email'],
                 'token' => $token,
                 "created_at" => Carbon::now(),
             ]);
 
             Mail::send('backend.resetPasswordLink', ['token' => $token], function($message) use($request){
-                $message->to($request->validated());
+                $message->to($request->validated()['email']);
                 $message->subject('Reset Password');
             });
-
+            
             return back()->with('message', 'Your password reset link has been sent to your email.');
             
     
         }catch(\Exception $e){
-
+            dd($e);
         }
     }
 
