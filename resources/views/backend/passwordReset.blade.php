@@ -17,7 +17,7 @@
             </div>
             <div class="form-place">
                 <span class="login-dashboard-text">Reset Password</span>
-                <form action="/submit-new-password" method="POST" autocomplete="off">
+                <form action={{ route{{ 'admin.new.password' }} }} method="POST" autocomplete="off">
                     @csrf
                     <label for="new-password">New Password</label><br>
                     <input type="password" name="new-password" id="" placeholder="Enter New Password">
