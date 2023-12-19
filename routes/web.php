@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminDataDetailsController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PasswordResetController;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -23,14 +24,22 @@ Route::get('/', function () {
 
 //admin routes
                 //admin login
-Route::get('admin-login', [AdminDataDetailsController::class, 'showLoginForm'])->name('admin-login');
-Route::post('admin-validate', [AdminDataDetailsController::class, 'login']);
-Route::post('admin-logout', [AdminDataDetailsController::class, 'logout'])->name('logout');
+Route::get('/admin-login', [AdminDataDetailsController::class, 'showLoginForm'])->name('login');
+Route::post('/admin-validate', [AdminDataDetailsController::class, 'login']);
+Route::post('/admin-logout', [AdminDataDetailsController::class, 'logout'])->name('logout');
 
 
 
                 //admin dashboard
-Route::get('dashboard', [DashboardController::class, 'index'])->middleware('auth');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
+
+
+                //Forgot Password Routess
+Route::get('/admin-forgot-password', [PasswordResetController::class, 'index'])->name('forgot-password-view');
+Route::post('/forgot-password', [PasswordResetController::class, 'sendResetMail'])->name('admin.forgot.password');
+Route::get('/admin-password-reset/{token}', [PasswordResetController::class, 'showNewPasswordForm'])->name('password.reset');
+Route::post('/admin-password-reset', [PasswordResetController::class, 'submitNewPasswordForm']);
+Route::post('/submit-new-password', [PasswordResetController::class, 'submitResetPasswordForm'])->name('admin.new.password');
 
 
 

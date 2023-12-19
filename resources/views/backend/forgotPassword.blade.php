@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-    <title>Dashboard-Login</title>
-    
-    @vite(['resources/css/admin-login.css'])
 
+    <title>Forgot Password</title>
+    @vite(['resources/css/admin-login.css'])
 </head>
 <body>
     <section class="main-section">
@@ -17,24 +16,14 @@
                 <img class="image" src="{{ URL('images/authenticate.jpg') }}" alt="Authenticate" srcset="">
             </div>
             <div class="form-place">
-                <span class="login-dashboard-text">Login to Dashboard</span>
-                <form action="/admin-validate" method="POST" autocomplete="off">
+                <span class="login-dashboard-text">Forgot Password</span>
+                <form action={{ route('admin.forgot.password') }} method="POST" autocomplete="off">
                     @csrf
-                    <label for="username">Username</label><br>
-                    <input type="text" name="username" id="" placeholder="Enter Username">
+                    <label for="email">Email</label><br>
+                    <input type="text" name="email" id="" placeholder="Enter Email">
                     <br>
-                    <label for="password">Password</label><br>
-                    <input type="password" name="password" id="" placeholder="Enter Password"><br>
-                    <input type="submit" value="Login">
+                    <input type="submit" value="Send Reset Link">
                 </form>
-                <a href="#" onclick="event.preventDefault(); document.getElementById('forgot-password').submit();">
-                    <span class="forgot-password">Forgot Password?</span>
-                </a>
-
-                <form id="forgot-password" action="{{ route('forgot-password-view') }}" method="GET" style="display: none;">
-                    @csrf
-                </form>
-
                 <span class="error-message">
                 @if(session('message'))
                     {{ session('message') }}
@@ -50,5 +39,6 @@
             </div>
         </div>
     </section>
+
 </body>
 </html>
