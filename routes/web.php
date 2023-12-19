@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\AdminDataDetailsController;
+use App\Http\Controllers\CategoryAndSubCategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PasswordResetController;
+use App\Models\CategoryAndSubCategory;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -31,7 +33,8 @@ Route::post('/admin-logout', [AdminDataDetailsController::class, 'logout'])->nam
 
 
                 //admin dashboard
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('admin.dashboard');
+Route::get('/admin-category', [CategoryAndSubCategoryController::class, 'index'])->middleware('auth')->name('category.and.subcategory');
 
 
                 //Forgot Password Routess

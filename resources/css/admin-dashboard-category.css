@@ -1,0 +1,47 @@
+.add-button-container{
+    padding: 10px;
+}
+
+.add-button-container>a>button{
+    padding: 10px;
+    width: 20%;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: rgb(61,81,181);
+    color: linear-gradient(313deg, rgba(61,81,181,1) 0%, rgba(77,103,255,1) 52%, rgba(92,137,180,1) 100%);
+    border: 1px solid rgb(61,81,181);;
+}
+
+.add-button-container>a>button:hover{
+    background: rgb(61,81,181);
+    background: linear-gradient(313deg, rgba(61,81,181,1) 0%, rgba(77,103,255,1) 52%, rgba(92,137,180,1) 100%);
+    color: white;
+}
+
+.display-data-container{
+    padding: 10px;
+}
+
+.display-data-container>span{
+    font-size: 24px;
+}
+
+.table-container{
+    padding: 10px;
+}
+
+.table-container>table, th, td{
+    border: 1px solid;
+    border-collapse: collapse;
+    text-align: center;
+    padding: 10px;
+    font-size: 18px;
+}
+
+.table-container>table{
+    width: 100%;
+    font-size: 18px;
+    margin: 0 auto;
+}
+
