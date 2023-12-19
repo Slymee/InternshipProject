@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ForgotPasswordMailValidator;
 use App\Http\Requests\ResetPasswordValidator;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+
+use function PHPUnit\Framework\returnSelf;
 
 class PasswordResetController extends Controller
 {
@@ -58,7 +62,20 @@ class PasswordResetController extends Controller
 
 
     public function submitResetPasswordForm(ResetPasswordValidator $request){
+        $tokenData = DB::table('password_reset_tokens')->where('token', $request->validated()['token'])->first();
 
+        if(!$tokenData):
+            return back()->with(['message' => 'Invalid token id!!']);
+        endif;
+        
+
+        User::where('email', $tokenData->email)->first()->update([
+            'password' => Hash::make($request->validated()['new-password']),
+        ]);
+
+        DB::table('password_reset_tokens')->where('email', $tokenData->email)->delete();
+
+        return redirect()->route('login')->with('message', 'Password successfully updated!!');
     }
 
 

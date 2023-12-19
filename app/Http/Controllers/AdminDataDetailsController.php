@@ -44,7 +44,7 @@ class AdminDataDetailsController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
                     
-        return redirect()->back()->with('error', 'Credentials do not match!');
+        return redirect()->back()->with('message', 'Credentials do not match!');
     }
 
 

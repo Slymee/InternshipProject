@@ -24,7 +24,7 @@ Route::get('/', function () {
 
 //admin routes
                 //admin login
-Route::get('/admin-login', [AdminDataDetailsController::class, 'showLoginForm'])->name('admin-login');
+Route::get('/admin-login', [AdminDataDetailsController::class, 'showLoginForm'])->name('login');
 Route::post('/admin-validate', [AdminDataDetailsController::class, 'login']);
 Route::post('/admin-logout', [AdminDataDetailsController::class, 'logout'])->name('logout');
 
@@ -39,6 +39,7 @@ Route::get('/admin-forgot-password', [PasswordResetController::class, 'index'])-
 Route::post('/forgot-password', [PasswordResetController::class, 'sendResetMail']);
 Route::get('/admin-password-reset/{token}', [PasswordResetController::class, 'showNewPasswordForm'])->name('password.reset');
 Route::post('/admin-password-reset', [PasswordResetController::class, 'submitNewPasswordForm']);
+Route::post('/submit-new-password', [PasswordResetController::class, 'submitResetPasswordForm']);
 
 
 

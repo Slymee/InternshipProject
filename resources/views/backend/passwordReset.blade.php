@@ -17,19 +17,23 @@
             </div>
             <div class="form-place">
                 <span class="login-dashboard-text">Reset Password</span>
-                <form action="/forgot-password" method="POST" autocomplete="off">
+                <form action="/submit-new-password" method="POST" autocomplete="off">
                     @csrf
                     <label for="new-password">New Password</label><br>
                     <input type="password" name="new-password" id="" placeholder="Enter New Password">
                     <br>
                     <label for="confirm-password">Confirm Password</label><br>
                     <input type="password" name="confirm-password" id="" placeholder="Confirm New Password">
+
+                    <input type="hidden" name="token" value="{{ $token }}">
                     
                     <input type="submit" value="Confirm Password">
+
+                    
                 </form>
                 <span class="error-message">
-                @if(session('error'))
-                    {{ session('error') }}
+                @if(session('message'))
+                    {{ session('message') }}
                 @endif
 
                 @if($errors->any())

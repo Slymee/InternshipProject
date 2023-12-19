@@ -23,7 +23,8 @@ class ResetPasswordValidator extends FormRequest
     {
             return [
                 'new-password' => ['bail','required'],
-                'confirm-password' => ['required'],
+                'confirm-password' => ['required', 'same:new-password'],
+                'token' => ['required'],
             ];
     }
 }

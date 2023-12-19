@@ -25,8 +25,8 @@
                     <input type="submit" value="Send Reset Link">
                 </form>
                 <span class="error-message">
-                @if(session('error'))
-                    {{ session('error') }}
+                @if(session('message'))
+                    {{ session('message') }}
                 @endif
 
                 @if($errors->any())
