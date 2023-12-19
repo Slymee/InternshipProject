@@ -51,7 +51,7 @@ class PasswordResetController extends Controller
             
     
         }catch(\Exception $e){
-            dd($e);
+            // dd($e);
         }
     }
 
@@ -62,7 +62,8 @@ class PasswordResetController extends Controller
 
 
     public function submitResetPasswordForm(ResetPasswordValidator $request){
-        $tokenData = DB::table('password_reset_tokens')->where('token', $request->validated()['token'])->first();
+        try{
+            $tokenData = DB::table('password_reset_tokens')->where('token', $request->validated()['token'])->first();
 
         if(!$tokenData):
             return back()->with(['message' => 'Invalid token id!!']);
@@ -76,6 +77,9 @@ class PasswordResetController extends Controller
         DB::table('password_reset_tokens')->where('email', $tokenData->email)->delete();
 
         return redirect()->route('login')->with('message', 'Password successfully updated!!');
+        }catch(\Exception $e){
+            // dd($e);
+        }
     }
 
 
