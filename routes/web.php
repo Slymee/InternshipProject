@@ -35,6 +35,7 @@ Route::post('/admin-logout', [AdminDataDetailsController::class, 'logout'])->nam
                 //admin dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('admin.dashboard');
 Route::get('/admin-category', [CategoryAndSubCategoryController::class, 'index'])->middleware('auth')->name('category.and.subcategory');
+Route::get('admin-category-add', [CategoryAndSubCategoryController::class, 'addCategoryFormDisplay'])->name('add.category.form');
 
 
                 //Forgot Password Routess

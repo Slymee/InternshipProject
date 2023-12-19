@@ -37,6 +37,7 @@
     text-align: center;
     padding: 10px;
     font-size: 18px;
+    background-color: whitesmoke;
 }
 
 .table-container>table{
@@ -45,3 +46,49 @@
     margin: 0 auto;
 }
 
+.form-container{
+    padding: 10px;
+    width: 40%;
+    height: 30%;
+    background: white;
+    position: absolute;
+    top: 50%;
+    transform: translate(50%, -50%);
+}
+
+.form-container>span{
+    letter-spacing: 1px;
+    font-size: 30px;
+    font-weight: bold;
+    color: rgb(61,81,181);
+}
+
+.form-container>form{
+    margin-top: 5%;
+    font-size: 24px;
+    padding: 10px;
+}
+
+.form-container>form>input{
+    padding: 10px;
+    font-size: 18px;
+    margin-top: 10px;
+    width: 100%; 
+    border: 1px solid rgb(61,81,181);
+    background: white;
+    color: rgb(61,81,181);
+}
+
+input[type=submit]:hover{
+    cursor: pointer;
+    background: rgb(61,81,181);
+    color: white;
+}
+
+input[type=text]:focus{
+    border-color: rgb(61,81,181);
+}
+
+::placeholder{
+    color: rgb(61,81,181);
+}

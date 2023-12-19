@@ -15,12 +15,9 @@ class CategoryAndSubCategoryController extends Controller
         return view('backend.adminCategory');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+    //Add Category Form
+    public function addCategoryFormDisplay(){
+        return view('modals.adminAddCategory');
     }
 
     /**
