@@ -28,7 +28,7 @@
                         <table>
                             <tr>
                                 <th>SN</th>
-                                <th>Name</th>
+                                <th>Category Name</th>
                                 <th colspan="2">Utilities</th>
                             </tr>
 
@@ -38,7 +38,7 @@
                                 <td><button>Edit</button></td>
                                 <td><button>Delete</button></td>
                             </tr>
-                            
+
                         </table>
                     </div>
                 </div>
