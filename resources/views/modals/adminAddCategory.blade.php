@@ -20,10 +20,26 @@
             <div class="content-container">
                 <div class="form-container">
                     <span>Add a Category</span>
-                    <form action="" autocomplete="off">
-                        <label for="category-name">Category Name </label><br>
-                        <input type="text" name="category-name" placeholder="Enter Category Name"><br>
+                    <form action={{ route('admin.insert.category') }} autocomplete="off" method="POST">
+                        @csrf
+                        <label for="category_name">Category Name </label><br>
+                        <input type="text" name="category_name" placeholder="Enter Category Name"><br>
+                        <select name="parent_id" id="">
+                            <option value="" selected disabled>-- Select Sub-category --</option>
+                            @if ($datas)
+                                @foreach ($datas as $data)
+                                    @if(!($data->parent_id))
+                                        <option value={{ $data->id }}>{{ $data->category_name }}</option>
+                                    @endif
+                                @endforeach
+                            @endif
+                        </select>
                         <input type="submit" name="" id="" value="Create New Category">
+                        
+                        @if (session('message'))
+                        <span class="message">Category Inserted</span>
+                        @endif
+
                     </form>
                 </div>
             </div>

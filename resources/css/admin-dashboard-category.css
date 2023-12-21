@@ -49,7 +49,7 @@
 .form-container{
     padding: 10px;
     width: 40%;
-    height: 30%;
+    height: 37%;
     background: white;
     position: absolute;
     top: 50%;
@@ -90,5 +90,20 @@ input[type=text]:focus{
 }
 
 ::placeholder{
+    color: rgb(61,81,181);
+}
+
+
+
+.message{
+    color: red;
+    font-size: 18px;
+}
+
+select{
+    padding: 10px;
+    width: 100%;
+    font-size: 18px;
+    margin-top: 10px;
     color: rgb(61,81,181);
 }

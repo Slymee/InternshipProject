@@ -29,12 +29,13 @@
                             <tr>
                                 <th>SN</th>
                                 <th>Category Name</th>
-                                <th colspan="2">Utilities</th>
+                                <th colspan="3">Utilities</th>
                             </tr>
 
                             <tr>
                                 <td>1</td>
                                 <td>Fruit</td>
+                                <td><button>Sub-categories</button></td>
                                 <td><button>Edit</button></td>
                                 <td><button>Delete</button></td>
                             </tr>

@@ -17,15 +17,31 @@ class CategoryAndSubCategoryController extends Controller
 
     //Add Category Form
     public function addCategoryFormDisplay(){
-        return view('modals.adminAddCategory');
+        $datas = CategoryAndSubCategory::all();
+        return view('modals.adminAddCategory', ['datas' => $datas]);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Insert new category.
      */
-    public function store(Request $request)
+    public function insertCategory(Request $request)
     {
-        //
+        try{
+            $request->validate([
+                'category_name' => ['bail', 'required'],
+                'parent_id' => ['nullable', 'exists:category_and_sub_categories,id'],
+            ]);
+
+    
+            CategoryAndSubCategory::create([
+                'category_name' => $request->category_name,
+                'parent_id' => $request->parent_id,
+            ]);
+    
+            return redirect()->back()->with('message', 'Insert Success.');
+        }catch(\Exception $e){
+            return redirect()->back()->with('message', $e->getMessage());
+        }
     }
 
     /**
