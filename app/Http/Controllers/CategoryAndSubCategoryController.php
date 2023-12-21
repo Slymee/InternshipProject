@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CategoryAndSubCategory;
+use App\Rules\ValidParentCategory;
 use Illuminate\Http\Request;
 
 class CategoryAndSubCategoryController extends Controller
