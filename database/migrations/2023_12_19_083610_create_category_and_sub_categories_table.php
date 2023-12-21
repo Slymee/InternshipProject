@@ -19,7 +19,7 @@ return new class extends Migration
         });
 
         Schema::table('category_and_sub_categories', function (Blueprint $table) {
-            $table->foreign('parent_id')->references('id')->on('category_and_sub_categories');
+            $table->foreign('parent_id')->references('id')->on('category_and_sub_categories')->onDelete('cascade');
         });
     }
 

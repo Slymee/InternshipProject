@@ -32,13 +32,13 @@ class CategoryAndSubCategoryController extends Controller
                 'parent_id' => ['nullable', 'exists:category_and_sub_categories,id'],
             ]);
 
-    
             CategoryAndSubCategory::create([
                 'category_name' => $request->category_name,
                 'parent_id' => $request->parent_id,
             ]);
-    
+
             return redirect()->back()->with('message', 'Insert Success.');
+
         }catch(\Exception $e){
             return redirect()->back()->with('message', $e->getMessage());
         }
