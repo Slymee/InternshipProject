@@ -1,10 +1,9 @@
 <?php
 
 use App\Http\Controllers\AdminDataDetailsController;
-use App\Http\Controllers\CategoryAndSubCategoryController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PasswordResetController;
-use App\Models\CategoryAndSubCategory;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -34,9 +33,9 @@ Route::post('/admin-logout', [AdminDataDetailsController::class, 'logout'])->nam
 
                 //admin dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('admin.dashboard');
-Route::get('/admin-category', [CategoryAndSubCategoryController::class, 'index'])->middleware('auth')->name('category.and.subcategory');
-Route::get('/admin-category-add', [CategoryAndSubCategoryController::class, 'addCategoryFormDisplay'])->middleware('auth')->name('add.category.form');
-Route::post('/admin-category-add/insert', [CategoryAndSubCategoryController::class, 'insertCategory'])->middleware('auth')->name('admin.insert.category');
+Route::get('/admin-category', [CategoryController::class, 'index'])->middleware('auth')->name('category.and.subcategory');
+Route::get('/admin-category-add', [CategoryController::class, 'addCategoryFormDisplay'])->middleware('auth')->name('add.category.form');
+Route::post('/admin-category-add/insert', [CategoryController::class, 'insertCategory'])->middleware('auth')->name('admin.insert.category');
 
 
                 //Forgot Password Routess

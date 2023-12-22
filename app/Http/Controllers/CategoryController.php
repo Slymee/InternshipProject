@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CategoryAndSubCategory;
-use App\Rules\ValidParentCategory;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
-class CategoryAndSubCategoryController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +17,10 @@ class CategoryAndSubCategoryController extends Controller
 
     //Add Category Form
     public function addCategoryFormDisplay(){
-        $datas = CategoryAndSubCategory::all();
+        $datas = Category::whereNull('parent_id')
+        ->orWhereHas('parent', fn ($query) => $query->whereNull('parent_id'))
+        ->get();
+        
         return view('modals.adminAddCategory', ['datas' => $datas]);
     }
 
@@ -30,10 +32,10 @@ class CategoryAndSubCategoryController extends Controller
         try{
             $request->validate([
                 'category_name' => ['bail', 'required'],
-                'parent_id' => ['nullable', 'exists:category_and_sub_categories,id'],
+                'parent_id' => ['nullable', 'exists:categories,id'],
             ]);
 
-            CategoryAndSubCategory::create([
+            Category::create([
                 'category_name' => $request->category_name,
                 'parent_id' => $request->parent_id,
             ]);
@@ -48,7 +50,7 @@ class CategoryAndSubCategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(CategoryAndSubCategory $categoryAndSubCategory)
+    public function show(Category $categoryAndSubCategory)
     {
         //
     }
@@ -56,7 +58,7 @@ class CategoryAndSubCategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(CategoryAndSubCategory $categoryAndSubCategory)
+    public function edit(Category $categoryAndSubCategory)
     {
         //
     }
@@ -64,7 +66,7 @@ class CategoryAndSubCategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, CategoryAndSubCategory $categoryAndSubCategory)
+    public function update(Request $request, Category $categoryAndSubCategory)
     {
         //
     }
@@ -72,7 +74,7 @@ class CategoryAndSubCategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CategoryAndSubCategory $categoryAndSubCategory)
+    public function destroy(Category $categoryAndSubCategory)
     {
         //
     }

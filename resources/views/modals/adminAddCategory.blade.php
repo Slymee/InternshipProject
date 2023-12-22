@@ -24,15 +24,14 @@
                         @csrf
                         <label for="category_name">Category Name </label><br>
                         <input type="text" name="category_name" placeholder="Enter Category Name"><br>
+
                         <select name="parent_id" id="">
                             <option value="" selected>-- Select Parent Category --</option>
-                            @if ($datas)
-                                @foreach ($datas as $data)
-                                    @if(($data->parent_id))
+                                @if($datas)
+                                    @foreach ($datas as $data)
                                         <option value={{ $data->id }}>{{ $data->category_name }}</option>
-                                    @endif
-                                @endforeach
-                            @endif
+                                    @endforeach
+                                @endif
                         </select>
 
                         <input type="submit" name="" id="" value="Create New Category">
