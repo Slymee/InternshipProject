@@ -12,7 +12,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('backend.adminCategory');
+        $datas = Category::whereNull('parent_id')->get();
+        return view('backend.adminCategory', ['datas' => $datas]);
     }
 
     //Add Category Form
