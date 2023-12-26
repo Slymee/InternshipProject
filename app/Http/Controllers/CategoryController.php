@@ -22,7 +22,7 @@ class CategoryController extends Controller
         ->orWhereHas('parent', fn ($query) => $query->whereNull('parent_id'))
         ->get();
         
-        return view('modals.adminAddCategory', ['datas' => $datas]);
+        return view('backend.modals.adminAddCategory', ['datas' => $datas]);
     }
 
     /**
@@ -59,9 +59,14 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Category $categoryAndSubCategory)
+    public function edit($category_id)
     {
-        //
+        $editableData = Category::select('category_name','parent_id')->findOrFail($category_id);
+        $datas = Category::whereNull('parent_id')
+        ->orWhereHas('parent', fn ($query) => $query->whereNull('parent_id'))
+        ->get();
+        return view('backend.modals.adminEditCategory', ['editableData' => $editableData],
+                                                        ['datas' => $datas]);
     }
 
     /**

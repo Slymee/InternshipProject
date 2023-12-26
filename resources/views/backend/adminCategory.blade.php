@@ -22,7 +22,7 @@
         <div class="table-container">
             <table>
                 <tr>
-                    <th>SN</th>
+                    <th>ID</th>
                     <th>Category Name</th>
                     <th colspan="3">Utilities</th>
                 </tr>
@@ -32,7 +32,7 @@
                     <td>{{ $data->id }}</td>
                     <td>{{ $data->category_name }}</td>
                     <td><button>Sub-categories</button></td>
-                    <td><button>Edit</button></td>
+                    <td><a href={{ route('admin.edit.category.form', $data->id) }}><button>Edit</button></a></td>
                     <td><button>Delete</button></td>
                 </tr>
                 @endforeach

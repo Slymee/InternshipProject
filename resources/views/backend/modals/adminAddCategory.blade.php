@@ -9,7 +9,7 @@
 @endsection
 
 @section('bread-crumb')
-    Dashboard/Category/AddCategory
+    Dashboard/Category/Add
 @endsection
 
 @section('content')
@@ -21,10 +21,10 @@
         <input type="text" name="category_name" placeholder="Enter Category Name"><br>
 
         <select name="parent_id" id="">
-            <option value="" selected>-- Select Parent Category --</option>
+            <option value="">-- Select Parent Category --</option>
                 @if($datas)
                     @foreach ($datas as $data)
-                        <option value={{ $data->id }}>{{ $data->category_name }}</option>
+                        <option value={{ $data->id }} {{  }}>{{ $data->category_name }}</option>
                     @endforeach
                 @endif
         </select>
@@ -32,7 +32,7 @@
         <input type="submit" name="" id="" value="Create New Category">
         
         @if (session('message'))
-        <span class="message">Category Inserted</span>
+        <span class="message">{{ session('message') }}</span>
         @endif
 
     </form>
