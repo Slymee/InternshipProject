@@ -19,7 +19,9 @@
         @csrf
         <label for="category_name">New Category Name </label><br>
         <input type="text" name="category_name" placeholder="Enter New Category Name" value="{{ $editableData['category_name'] }}"><br>
+        <input type="hidden" name="category_id" value="{{ $editableData['id'] }}">
 
+        @if($editableData['parent_id']!=null)
         <select name="parent_id" id="">
             <option value="" selected>-- Select Parent Category --</option>
                 @if($datas)
@@ -28,6 +30,7 @@
                     @endforeach
                 @endif
         </select>
+        @endif
 
         <input type="submit" name="" id="" value="Edit Category">
         

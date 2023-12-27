@@ -38,7 +38,7 @@ Route::get('/admin-category/subcategory/{id}', [CategoryController::class, ''])-
 Route::get('/admin-category-add', [CategoryController::class, 'addCategoryFormDisplay'])->middleware('auth')->name('add.category.form');
 Route::post('/admin-category-add/insert', [CategoryController::class, 'insertCategory'])->middleware('auth')->name('admin.insert.category');
 Route::get('/admin-category-edit/{category_id}', [CategoryController::class, 'edit'])->middleware('auth')->name('admin.edit.category.form');
-Route::post('/admin-category-edit/update', [CategoryController::class])->middleware('auth')->name('admin.edit.category');
+Route::post('/admin-category-edit/update', [CategoryController::class, 'update'])->middleware('auth')->name('admin.edit.category');
 
 
                 //Forgot Password Routess

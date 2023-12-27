@@ -61,7 +61,7 @@ class CategoryController extends Controller
      */
     public function edit($category_id)
     {
-        $editableData = Category::select('category_name','parent_id')->findOrFail($category_id);
+        $editableData = Category::select('id', 'category_name','parent_id')->findOrFail($category_id);
         $datas = Category::whereNull('parent_id')
         ->orWhereHas('parent', fn ($query) => $query->whereNull('parent_id'))
         ->get();
@@ -72,9 +72,26 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $categoryAndSubCategory)
+    public function update(Request $request)
     {
-        //
+        try{
+            $request->validate([
+                'category_name' => ['bail', 'required'],
+                'category_id' => ['required'],
+                'parent_id' => ['nullable', 'exists:categories,id'],
+            ]);
+
+
+    
+            $category = Category::find($request->input('category_id'));
+            $category->update($request->all());
+            $category->save();
+            return redirect()->back()->with('message', 'Edit Successful');
+    
+        }catch(\Exception $e){
+            return redirect()->back()->with('message', $e->getMessage());
+        }
+
     }
 
     /**
@@ -82,6 +99,6 @@ class CategoryController extends Controller
      */
     public function destroy(Category $categoryAndSubCategory)
     {
-        //
+        
     }
 }
