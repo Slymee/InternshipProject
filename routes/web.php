@@ -34,7 +34,7 @@ Route::post('/admin-logout', [AdminDataDetailsController::class, 'logout'])->nam
                 //admin dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('admin.dashboard');
 Route::get('/admin-category', [CategoryController::class, 'index'])->middleware('auth')->name('category.and.subcategory');
-Route::get('/admin-category/subcategory/{id}', [CategoryController::class, ''])->middleware('auth')->name('admin.subcategory');
+Route::get('/admin-category/subcategory/{id}', [CategoryController::class, 'subCategoryIndex'])->middleware('auth')->name('admin.subcategory');
 Route::get('/admin-category-add', [CategoryController::class, 'addCategoryFormDisplay'])->middleware('auth')->name('add.category.form');
 Route::post('/admin-category-add/insert', [CategoryController::class, 'insertCategory'])->middleware('auth')->name('admin.insert.category');
 Route::get('/admin-category-edit/{category_id}', [CategoryController::class, 'edit'])->middleware('auth')->name('admin.edit.category.form');

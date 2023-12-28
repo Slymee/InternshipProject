@@ -32,7 +32,7 @@
                 <tr>
                     <td>{{ $data->id }}</td>
                     <td>{{ $data->category_name }}</td>
-                    <td><button>Sub-categories</button></td>
+                    <td><a href="{{ route('admin.subcategory', $data->id) }}"><button>Sub-categories</button></a></td>
                     <td><a href={{ route('admin.edit.category.form', $data->id) }}><button>Edit</button></a></td>
                     <td><button onclick="confirmDelete({{ $data->id }})">Delete</button></td>
                 </tr>

@@ -51,9 +51,12 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Category $categoryAndSubCategory)
+    public function subCategoryIndex($id)
     {
-        //
+
+        return view('backend.adminSubCategory', ['parentName' => Category::select('category_name')->findOrFail($id)->toArray()],
+                                                
+    );
     }
 
     /**
