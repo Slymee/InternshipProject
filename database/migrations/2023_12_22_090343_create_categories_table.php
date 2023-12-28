@@ -16,11 +16,12 @@ return new class extends Migration
             $table->string('category_name');
             $table->integer('parent_id')->nullable();
             $table->timestamps();
+            $table->foreign('parent_id')->references('id')->on('categories')->onDelete('cascade')->onUpdate('cascade');
         });
 
-        Schema::table('categories', function (Blueprint $table) {
-            $table->foreign('parent_id')->references('id')->on('categories')->onDelete('cascade');
-        });
+        // Schema::table('categories', function (Blueprint $table) {
+        //     $table->foreign('parent_id')->references('id')->on('categories')->onDelete('cascade')->onUpdate('cascade');
+        // });
     }
 
     /**

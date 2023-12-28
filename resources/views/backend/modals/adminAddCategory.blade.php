@@ -24,7 +24,7 @@
             <option value="">-- Select Parent Category --</option>
                 @if($datas)
                     @foreach ($datas as $data)
-                        <option value={{ $data->id }} {{  }}>{{ $data->category_name }}</option>
+                        <option value={{ $data->id }}>{{ $data->category_name }}</option>
                     @endforeach
                 @endif
         </select>
