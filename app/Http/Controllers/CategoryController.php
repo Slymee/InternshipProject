@@ -100,7 +100,7 @@ class CategoryController extends Controller
     public function destroy($category_id)
     {
         try{
-            Category::find($category_id)->delete();
+            Category::find($category_id)->recursiveDelete();
             return redirect()->back()->with('message', 'Category Deleted');
         }catch(\Exception $e){
             return redirect()->back()->with('message', $e->getMessage());
