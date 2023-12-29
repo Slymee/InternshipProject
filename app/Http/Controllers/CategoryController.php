@@ -53,10 +53,16 @@ class CategoryController extends Controller
      */
     public function subCategoryIndex($id)
     {
+        $parentCategory = Category::find($id);
+        $immediateChildren = $parentCategory->children;
+        $subSubCategories = [];
 
-        return view('backend.adminSubCategory', ['parentName' => Category::select('category_name')->findOrFail($id)->toArray()],
-                                                
-    );
+        foreach ($immediateChildren as $child) {
+            $subSubCategories[$child->id] = $child->children;
+        }
+        
+        
+        return view('backend.adminSubCategory', compact('parentCategory', 'immediateChildren', 'subSubCategories'));
     }
 
     /**

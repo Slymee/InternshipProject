@@ -33,4 +33,5 @@ class Category extends Model
         $this->delete();
 
     }
+
 }
