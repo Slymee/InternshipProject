@@ -33,6 +33,13 @@ Route::post('/admin-logout', [AdminDataDetailsController::class, 'logout'])->nam
 
                 //admin dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('admin.dashboard');
+
+/**
+ * Instead of writing middleware auth in every routes, Group the route. "Search Route Grouping"
+ * 
+ * For CRUD operation instead of writing individual routes, use laravel ResourceController " Search ResourceController in laravel "
+ *  
+ */
 Route::get('/admin-category', [CategoryController::class, 'index'])->middleware('auth')->name('category.and.subcategory');
 Route::get('/admin-category/subcategory/{id}', [CategoryController::class, 'subCategoryIndex'])->middleware('auth')->name('admin.subcategory');
 Route::get('/admin-category-add', [CategoryController::class, 'addCategoryFormDisplay'])->middleware('auth')->name('add.category.form');

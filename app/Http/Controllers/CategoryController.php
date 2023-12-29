@@ -17,6 +17,14 @@ class CategoryController extends Controller
     }
 
     //Add Category Form
+
+    /**
+     * @Aashish
+     * 
+     * instead of wrting custom function like this, try to use laravel resource controller defined functions
+     * resource controller provides predefiend functions like "index, store, update, edit, destroy"
+     * 
+     */
     public function addCategoryFormDisplay(){
         $datas = Category::whereNull('parent_id')
         ->orWhereHas('parent', fn ($query) => $query->whereNull('parent_id'))
@@ -31,6 +39,11 @@ class CategoryController extends Controller
     public function insertCategory(Request $request)
     {
         try{
+            /**
+             * @Aashish
+             * 
+             * Use form request here. Use controller to handle request only.
+             */
             $request->validate([
                 'category_name' => ['bail', 'required'],
                 'parent_id' => ['nullable', 'exists:categories,id'],
@@ -51,9 +64,18 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
+    
     public function subCategoryIndex($id)
     {
         $parentCategory = Category::find($id);
+        /**
+         * @Aashish
+         * in sub category view if you want to display child as well 
+         * instead of loading child and passing variable try to use relationship in the view file
+         * 
+         * Remove this below code 
+         * 
+         */
         $immediateChildren = $parentCategory->children;
         $subSubCategories = [];
 
@@ -84,6 +106,12 @@ class CategoryController extends Controller
     public function update(Request $request)
     {
         try{
+            /**
+             * @Aashish
+             * 
+             * Use form request 
+             * remove below validation code
+             */
             $request->validate([
                 'category_name' => ['bail', 'required'],
                 'category_id' => ['required'],
@@ -91,8 +119,21 @@ class CategoryController extends Controller
             ]);
 
 
-    
+            /**
+             * @Aashish
+             * 
+             * Instead of quering or find here use route model binding. "Search for route model binding in laravel"
+             * 
+             */
             $category = Category::find($request->input('category_id'));
+
+            /**
+             * @Aashish
+             * 
+             * why use update and save both? 
+             * 
+             * either use update or save. 
+             */
             $category->update($request->all());
             $category->save();
             return redirect()->back()->with('message', 'Edit Successful');
@@ -109,6 +150,13 @@ class CategoryController extends Controller
     public function destroy($category_id)
     {
         try{
+            /**
+             * @Aashish
+             * 
+             * RecursiveDelete deletes its related childs
+             * 
+             * but remove this instead try to delete using relationship defined in model
+             */
             Category::find($category_id)->recursiveDelete();
             return redirect()->back()->with('message', 'Category Deleted');
         }catch(\Exception $e){
