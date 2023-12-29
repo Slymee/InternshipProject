@@ -34,4 +34,14 @@ class Category extends Model
 
     }
 
+    public function ancestors()
+    {
+        return $this->parent ? $this->parent->ancestors()->concat([$this->parent]) : collect([]);
+    }
+
+    public function getLevelAttribute()
+    {
+        return $this->ancestors()->count();
+    }
+
 }

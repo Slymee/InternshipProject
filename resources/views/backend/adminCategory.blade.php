@@ -28,7 +28,7 @@
                     <th colspan="3">Utilities</th>
                 </tr>
 
-                @foreach ($datas as $data)
+                {{-- @foreach ($datas as $data)
                 <tr>
                     <td>{{ $data->id }}</td>
                     <td>{{ $data->category_name }}</td>
@@ -36,12 +36,17 @@
                     <td><a href={{ route('admin.edit.category.form', $data->id) }}><button>Edit</button></a></td>
                     <td><button onclick="confirmDelete({{ $data->id }})">Delete</button></td>
                 </tr>
+                @endforeach --}}
+
+                @foreach ($mainParent as $parentCategory)
+                    @include('commonComponents.admin-category', ['category' => $parentCategory])
                 @endforeach
 
             </table>
+            
         </div>
 
-
+        {{ $mainParent->links() }}
     </div>
 
     <script>
