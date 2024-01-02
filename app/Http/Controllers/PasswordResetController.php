@@ -32,9 +32,6 @@ class PasswordResetController extends Controller
     {
         $token = Str::random(64);
 
-        // dd($request->validated()['email']);
-
-
         try{
             DB::table('password_reset_tokens')->insert([
                 'email' => $request->validated()['email'],
@@ -51,7 +48,7 @@ class PasswordResetController extends Controller
             
     
         }catch(\Exception $e){
-            // dd($e);
+            
         }
     }
 

@@ -35,6 +35,12 @@
         <span class="message">{{ session('message') }}</span>
         @endif
 
+        @if($errors->any())
+        @foreach ($errors->all() as $error)
+            <span class="message">{{ $error }}</span><br>
+        @endforeach                    
+        @endif
+
     </form>
 </div>
 @endsection

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryFormValidator;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -36,22 +37,20 @@ class CategoryController extends Controller
     /**
      * Insert new category.
      */
-    public function insertCategory(Request $request)
+    public function insertCategory(CategoryFormValidator $request)
     {
         try{
             /**
              * @Aashish
              * 
              * Use form request here. Use controller to handle request only.
+             * ---------------fixed--------------
              */
-            $request->validate([
-                'category_name' => ['bail', 'required'],
-                'parent_id' => ['nullable', 'exists:categories,id'],
-            ]);
+            $request->validate();
 
             Category::create([
-                'category_name' => $request->category_name,
-                'parent_id' => $request->parent_id,
+                'category_name' => $request->validated()['category_name'],
+                'parent_id' => $request->validated()['parent_id'],
             ]);
 
             return redirect()->back()->with('message', 'Insert Success.');
@@ -65,45 +64,28 @@ class CategoryController extends Controller
      * Display the specified resource.
      */
     
-    public function subCategoryIndex($id)
-    {
-        $parentCategory = Category::find($id);
-        /**
-         * @Aashish
-         * in sub category view if you want to display child as well 
-         * instead of loading child and passing variable try to use relationship in the view file
-         * 
-         * Remove this below code 
-         * 
-         */
-        $immediateChildren = $parentCategory->children;
-        $subSubCategories = [];
-
-        foreach ($immediateChildren as $child) {
-            $subSubCategories[$child->id] = $child->children;
-        }
-        
-        
-        return view('backend.adminSubCategory', compact('parentCategory', 'immediateChildren', 'subSubCategories'));
-    }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit($category_id)
     {
-        $editableData = Category::select('id', 'category_name','parent_id')->findOrFail($category_id);
-        $datas = Category::whereNull('parent_id')
-        ->orWhereHas('parent', fn ($query) => $query->whereNull('parent_id'))
-        ->get();
-        return view('backend.modals.adminEditCategory', ['editableData' => $editableData],
-                                                        ['datas' => $datas]);
+        try{
+            $editableData = Category::select('id', 'category_name','parent_id')->findOrFail($category_id);
+            $datas = Category::whereNull('parent_id')
+            ->orWhereHas('parent', fn ($query) => $query->whereNull('parent_id'))
+            ->get();
+            return view('backend.modals.adminEditCategory', ['editableData' => $editableData],
+                                                            ['datas' => $datas]);
+        }catch(\Exception $e){
+
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(CategoryFormValidator $request)
     {
         try{
             /**
@@ -111,12 +93,8 @@ class CategoryController extends Controller
              * 
              * Use form request 
              * remove below validation code
+             * ------------fixed------------
              */
-            $request->validate([
-                'category_name' => ['bail', 'required'],
-                'category_id' => ['required'],
-                'parent_id' => ['nullable', 'exists:categories,id'],
-            ]);
 
 
             /**
@@ -133,9 +111,9 @@ class CategoryController extends Controller
              * why use update and save both? 
              * 
              * either use update or save. 
+             * ---------------fixed-------------------
              */
-            $category->update($request->all());
-            $category->save();
+            $category->update($request->validated());
             return redirect()->back()->with('message', 'Edit Successful');
     
         }catch(\Exception $e){

@@ -1,9 +1,9 @@
 <tr>
     <td>{{ $category->id }}</td>
-    <td style="text-align: left">{{ str_repeat('-', $category->level) }} {{ $category->category_name }}</td>
-    <td><button>Edit</button></td>
-    <td><button>Delete</button></td>
-</tr>
+    <td style="text-align: left">
+        {{ str_repeat('-', $category->level) }} {{ $category->category_name }}</td>
+    <td><a href={{ route('admin.edit.category.form', ['category_id' => $category->id]) }}><button>Edit</button></a></td>
+    <td><button onclick="confirmDelete({{ $category->id }})">Delete</button></td></tr>
 
 
 
