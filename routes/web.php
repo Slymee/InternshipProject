@@ -41,9 +41,8 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('aut
  *  
  */
 Route::get('/admin-category', [CategoryController::class, 'index'])->middleware('auth')->name('category.and.subcategory');
-Route::get('/admin-category/subcategory/{id}', [CategoryController::class, 'subCategoryIndex'])->middleware('auth')->name('admin.subcategory');
-Route::get('/admin-category-add', [CategoryController::class, 'addCategoryFormDisplay'])->middleware('auth')->name('add.category.form');
-Route::post('/admin-category-add/insert', [CategoryController::class, 'insertCategory'])->middleware('auth')->name('admin.insert.category');
+Route::get('/admin-category-add', [CategoryController::class, 'show'])->middleware('auth')->name('add.category.form');
+Route::post('/admin-category-add/insert', [CategoryController::class, 'insert'])->middleware('auth')->name('admin.insert.category');
 Route::get('/admin-category-edit/{category_id}', [CategoryController::class, 'edit'])->middleware('auth')->name('admin.edit.category.form');
 Route::post('/admin-category-edit/update', [CategoryController::class, 'update'])->middleware('auth')->name('admin.edit.category');
 Route::get('/admin-delete-category/{category_id}', [CategoryController::class, 'destroy'])->middleware('auth')->name('admin.delete.category');

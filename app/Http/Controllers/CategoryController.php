@@ -37,7 +37,7 @@ class CategoryController extends Controller
     /**
      * Insert new category.
      */
-    public function insertCategory(CategoryFormValidator $request)
+    public function insert(CategoryFormValidator $request)
     {
         try{
             /**
