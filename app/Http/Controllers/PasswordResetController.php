@@ -23,7 +23,7 @@ class PasswordResetController extends Controller
     public function index()
     {
         //
-        return view('backend.forgotPassword');
+        return view('backend.forgot-password');
     }
 
 

@@ -14,7 +14,7 @@ class CategoryController extends Controller
     public function index()
     {
         $mainParent = Category::whereNull('parent_id')->paginate(10);
-        return view('backend.adminCategory', compact('mainParent'));
+        return view('backend.admin-category', compact('mainParent'));
     }
 
     //Add Category Form
@@ -31,7 +31,7 @@ class CategoryController extends Controller
         ->orWhereHas('parent', fn ($query) => $query->whereNull('parent_id'))
         ->get();
         
-        return view('backend.modals.adminAddCategory', ['datas' => $datas]);
+        return view('backend.modals.admin-add-category', ['datas' => $datas]);
     }
 
     /**
@@ -75,7 +75,7 @@ class CategoryController extends Controller
             $datas = Category::whereNull('parent_id')
             ->orWhereHas('parent', fn ($query) => $query->whereNull('parent_id'))
             ->get();
-            return view('backend.modals.adminEditCategory', ['editableData' => $editableData],
+            return view('backend.modals.admin-edit-category', ['editableData' => $editableData],
                                                             ['datas' => $datas]);
         }catch(\Exception $e){
 
