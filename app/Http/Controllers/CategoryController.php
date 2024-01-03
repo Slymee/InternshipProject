@@ -84,7 +84,7 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(CategoryFormValidator $request)
+    public function update(CategoryFormValidator $request, Category $category)
     {
         try{
             /**
@@ -102,8 +102,6 @@ class CategoryController extends Controller
              * Instead of quering or find here use route model binding. "Search for route model binding in laravel"
              * 
              */
-            $category = Category::find($request->input('category_id'));
-
             /**
              * @Aashish
              * 
