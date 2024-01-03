@@ -87,7 +87,6 @@ class CategoryController extends Controller
     public function update(CategoryFormValidator $request, Category $category)
     {
         try{
-            dd($request->all());
             /**
              * @Aashish
              * 
@@ -95,7 +94,6 @@ class CategoryController extends Controller
              * remove below validation code
              * ------------fixed------------
              */
-
 
             /**
              * @Aashish
@@ -111,12 +109,14 @@ class CategoryController extends Controller
              * either use update or save. 
              * ---------------fixed-------------------
              */
-            if($category->update(['category_name' => $request->category_name,
-                                'parent_id' => $request->parent_id])):
-                return redirect()->back()->with('message', 'Edit Successful');
-            endif;
-            return redirect()->back()->with('message', 'Edit Failed');
 
+            if($category->where('id', $request->category_id)->update([
+                'category_name' => $request->category_name,
+                'parent_id' => $request->parent_id,
+            ])):
+                return redirect()->back()->with('message', 'Edit Success!');
+            endif;
+            return redirect()->back()->with('message', 'Edit Failed!');
         }catch(\Exception $e){
             return redirect()->back()->with('message', $e->getMessage());
         }

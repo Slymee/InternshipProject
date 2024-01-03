@@ -22,7 +22,7 @@
         <input type="hidden" name="category_id" value="{{ $editableData['id'] }}">
 
         @if($editableData['parent_id']!=null)
-        <select name="parent_id" id="">
+        <select name="parent_id">
             <option value="" selected>-- Select Parent Category --</option>
                 @if($datas)
                     @foreach ($datas as $data)
@@ -32,7 +32,7 @@
         </select>
         @endif
 
-        <input type="submit" name="" id="" value="Edit Category">
+        <input type="submit" value="Edit Category">
         
         @if (session('message'))
         <span class="message">{{ session('message') }}</span>
