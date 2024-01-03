@@ -26,14 +26,6 @@ class Category extends Model
         return $this->belongsTo(Category::class, 'parent_id');
     }
 
-    public function recursiveDelete(){       
-        foreach ($this->children as $child) {
-            $child->recursiveDelete();
-        }
-        $this->delete();
-
-    }
-
     public function ancestors()
     {
         return $this->parent ? $this->parent->ancestors()->concat([$this->parent]) : collect([]);

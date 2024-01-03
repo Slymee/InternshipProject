@@ -26,7 +26,7 @@ class CategoryController extends Controller
      * resource controller provides predefiend functions like "index, store, update, edit, destroy"
      * 
      */
-    public function addCategoryFormDisplay(){
+    public function show(){
         $datas = Category::whereNull('parent_id')
         ->orWhereHas('parent', fn ($query) => $query->whereNull('parent_id'))
         ->get();
@@ -46,11 +46,10 @@ class CategoryController extends Controller
              * Use form request here. Use controller to handle request only.
              * ---------------fixed--------------
              */
-            $request->validate();
 
             Category::create([
-                'category_name' => $request->validated()['category_name'],
-                'parent_id' => $request->validated()['parent_id'],
+                'category_name' => $request->category_name,
+                'parent_id' => $request->parent_id,
             ]);
 
             return redirect()->back()->with('message', 'Insert Success.');
@@ -135,7 +134,7 @@ class CategoryController extends Controller
              * 
              * but remove this instead try to delete using relationship defined in model
              */
-            Category::find($category_id)->recursiveDelete();
+            Category::find($category_id)->delete();
             return redirect()->back()->with('message', 'Category Deleted');
         }catch(\Exception $e){
             return redirect()->back()->with('message', $e->getMessage());

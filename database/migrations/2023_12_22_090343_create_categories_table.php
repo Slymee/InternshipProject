@@ -14,14 +14,10 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('category_name');
-            $table->integer('parent_id')->nullable();
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->timestamps();
-            $table->foreign('parent_id')->references('id')->on('categories')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('parent_id')->references('id')->on('categories')->onUpdate('cascade')->onDelete('cascade');
         });
-
-        // Schema::table('categories', function (Blueprint $table) {
-        //     $table->foreign('parent_id')->references('id')->on('categories')->onDelete('cascade')->onUpdate('cascade');
-        // });
     }
 
     /**
