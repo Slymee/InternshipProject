@@ -38,14 +38,11 @@
 
         {{ $mainParent->links() }}
     </div>
-
     <script>
-        function confirmDelete(categoryID, routeURL){
-            var result = window.confirm('Are you sure you want to delete this category');
-
-            if(result){
-                window.location.href = routeURL+"/"+categoryID+"/destroy";
-            }
+            function confirmDelete(categoryId) {
+        if (confirm('Are you sure you want to delete this category?')) {
+            window.location.href = '/admin-category/' + categoryId + '/destroy';
         }
+    }
     </script>
 @endsection

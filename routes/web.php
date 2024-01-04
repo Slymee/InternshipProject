@@ -41,7 +41,8 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('/admin-category-edit/{category_id}', [CategoryController::class, 'edit'])->name('admin.edit.category.form');
     // Route::post('/admin-category-edit/update/{category_id}', [CategoryController::class, 'update'])->name('admin.edit.category');
     // Route::get('/admin-delete-category/{category_id}', [CategoryController::class, 'destroy'])->name('admin.delete.category');
-    Route::resource('admin-category', CategoryController::class);
+    Route::resource('admin-category', CategoryController::class, ['except' => ['destroy']]);
+    Route::get('admin-category/{id}/destroy', [CategoryController::class, 'destroy'])->name('admin-category.destroy');
 });
 
 
