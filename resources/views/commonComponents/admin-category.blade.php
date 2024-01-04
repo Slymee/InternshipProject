@@ -3,7 +3,7 @@
     <td style="text-align: left">
         {{ str_repeat('-', $category->level) }} {{ $category->category_name }}</td>
     <td><a href={{ route('admin-category.edit', ['admin_category' => $category->id]) }}><button>Edit</button></a></td>
-    <td><button onclick="confirmDelete({{ $category->id }}, {{ route('admin-category.index') }})">Delete</button></td></tr>
+    <td><button onclick="confirmDelete({{ $category->id }}, '{{ route('admin-category.index') }}')">Delete</button></td></tr>
 
 
 

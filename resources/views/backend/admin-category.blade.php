@@ -40,11 +40,11 @@
     </div>
 
     <script>
-        function confirmDelete(categoryID, route-url){
+        function confirmDelete(categoryID, routeURL){
             var result = window.confirm('Are you sure you want to delete this category');
 
             if(result){
-                window.location.href = route-url+"/"+categoryID;
+                window.location.href = routeURL+"/"+categoryID+"/destroy";
             }
         }
     </script>

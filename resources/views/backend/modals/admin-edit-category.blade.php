@@ -15,8 +15,9 @@
 @section('content')
 <div class="form-container">
     <span>Edit Category</span>
-    <form action={{ route('admin-category.update', ['admin_category' => $editableData['id']]) }} autocomplete="off" method="PUT">
+    <form action={{ route('admin-category.update', ['admin_category' => $editableData['id']]) }} autocomplete="off" method="POST">
         @csrf
+        @method('PUT')
         <label for="category_name">New Category Name </label><br>
         <input type="text" name="category_name" placeholder="Enter New Category Name" value="{{ $editableData['category_name'] }}"><br>
         <input type="hidden" name="category_id" value="{{ $editableData['id'] }}">
