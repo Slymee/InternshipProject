@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Http\Requests\CategoryFormValidator;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -11,49 +12,35 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Category $category)
     {
-        $mainParent = Category::whereNull('parent_id')->paginate(10);
+        $mainParent = $category->whereNull('parent_id')->paginate(10);
         return view('backend.admin-category', compact('mainParent'));
     }
 
-    //Add Category Form
-
     /**
-     * @Aashish
-     * 
-     * instead of wrting custom function like this, try to use laravel resource controller defined functions
-     * resource controller provides predefiend functions like "index, store, update, edit, destroy"
-     * 
+     * Show the form for creating a new resource.
      */
-    public function show(){
-        $datas = Category::whereNull('parent_id')
+    public function create(Category $category)
+    {
+        return view('backend.modals.admin-add-category', ['datas' => $category->whereNull('parent_id')
         ->orWhereHas('parent', fn ($query) => $query->whereNull('parent_id'))
-        ->get();
-        
-        return view('backend.modals.admin-add-category', ['datas' => $datas]);
+        ->get()
+        ]);
     }
 
     /**
-     * Insert new category.
+     * Store a newly created resource in storage.
      */
-    public function insert(CategoryFormValidator $request)
+    public function store(CategoryFormValidator $request)
     {
         try{
-            /**
-             * @Aashish
-             * 
-             * Use form request here. Use controller to handle request only.
-             * ---------------fixed--------------
-             */
-
             Category::create([
                 'category_name' => $request->category_name,
                 'parent_id' => $request->parent_id,
             ]);
 
-            return redirect()->back()->with('message', 'Insert Success.');
-
+            return redirect()->back()->with('message', 'Category Inserted.');
         }catch(\Exception $e){
             return redirect()->back()->with('message', $e->getMessage());
         }
@@ -62,15 +49,18 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    
+    public function show(Category $category)
+    {
+        
+    }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($category_id)
+    public function edit(string $id)
     {
         try{
-            $editableData = Category::select('id', 'category_name','parent_id')->findOrFail($category_id);
+            $editableData = Category::select('id', 'category_name','parent_id')->findOrFail($id);
             $datas = Category::whereNull('parent_id')
             ->orWhereHas('parent', fn ($query) => $query->whereNull('parent_id'))
             ->get();
@@ -79,44 +69,23 @@ class CategoryController extends Controller
         }catch(\Exception $e){
 
         }
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(CategoryFormValidator $request, Category $category)
+    public function update(CategoryFormValidator $request)
     {
         try{
-            /**
-             * @Aashish
-             * 
-             * Use form request 
-             * remove below validation code
-             * ------------fixed------------
-             */
-
-            /**
-             * @Aashish
-             * 
-             * Instead of quering or find here use route model binding. "Search for route model binding in laravel"
-             * 
-             */
-            /**
-             * @Aashish
-             * 
-             * why use update and save both? 
-             * 
-             * either use update or save. 
-             * ---------------fixed-------------------
-             */
-
-            if($category->where('id', $request->category_id)->update([
+            Category::where('id', $request->category_id)->update([
                 'category_name' => $request->category_name,
                 'parent_id' => $request->parent_id,
-            ])):
-                return redirect()->back()->with('message', 'Edit Success!');
-            endif;
-            return redirect()->back()->with('message', 'Edit Failed!');
+            ]);
+            return redirect()->back()->with('message', 'Edit Success!');
+
+
+            // return redirect()->back()->with('message', 'Edit Failed!');
         }catch(\Exception $e){
             return redirect()->back()->with('message', $e->getMessage());
         }
@@ -126,20 +95,14 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($category_id)
+    public function destroy(string $id)
     {
         try{
-            /**
-             * @Aashish
-             * 
-             * RecursiveDelete deletes its related childs
-             * 
-             * but remove this instead try to delete using relationship defined in model
-             */
-            Category::find($category_id)->delete();
+            Category::find($id)->delete();
             return redirect()->back()->with('message', 'Category Deleted');
         }catch(\Exception $e){
             return redirect()->back()->with('message', $e->getMessage());
         }
+
     }
 }

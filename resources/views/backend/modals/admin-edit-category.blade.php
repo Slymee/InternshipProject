@@ -15,7 +15,7 @@
 @section('content')
 <div class="form-container">
     <span>Edit Category</span>
-    <form action={{ route('admin.edit.category', ['category', $editableData['id']]) }} autocomplete="off" method="POST">
+    <form action={{ route('admin-category.update', ['admin_category' => $editableData['id']]) }} autocomplete="off" method="PUT">
         @csrf
         <label for="category_name">New Category Name </label><br>
         <input type="text" name="category_name" placeholder="Enter New Category Name" value="{{ $editableData['category_name'] }}"><br>
@@ -35,13 +35,13 @@
         <input type="submit" value="Edit Category">
         
         @if (session('message'))
-        <span class="message">{{ session('message') }}</span>
+            <span class="message">{{ session('message') }}</span>
         @endif
         
         @if($errors->any())
-        @foreach ($errors->all() as $error)
-            <span class="message">{{ $error }}</span><br>
-        @endforeach                    
+            @foreach ($errors->all() as $error)
+                <span class="message">{{ $error }}</span><br>
+            @endforeach                    
         @endif
 
 

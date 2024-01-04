@@ -15,7 +15,7 @@
 @section('content')
 <div class="form-container">
     <span>Add a Category</span>
-    <form action={{ route('admin.insert.category') }} autocomplete="off" method="POST">
+    <form action={{ route('admin-category.store') }} autocomplete="off" method="POST">
         @csrf
         <label for="category_name">Category Name </label><br>
         <input type="text" name="category_name" placeholder="Enter Category Name"><br>

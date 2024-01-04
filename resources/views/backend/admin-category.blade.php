@@ -14,7 +14,7 @@
 
 @section('content')
     <div class="add-button-container">
-        <a href={{ route('add.category.form') }}><button>Add Category</button></a>
+        <a href={{ route('admin-category.create') }}><button>Add Category</button></a>
     </div>
     <div class="display-data-container">
         <span>Categories</span>
@@ -40,11 +40,11 @@
     </div>
 
     <script>
-        function confirmDelete(categoryID){
+        function confirmDelete(categoryID, route-url){
             var result = window.confirm('Are you sure you want to delete this category');
 
             if(result){
-                window.location.href = '/admin-delete-category/'+ categoryID;
+                window.location.href = route-url+"/"+categoryID;
             }
         }
     </script>
