@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class AdminDataDetails extends Seeder
+class UserSeeder extends Seeder
 
 {
     /**
@@ -17,13 +17,23 @@ class AdminDataDetails extends Seeder
      */
     public function run(): void
     {
-        DB::table('users')->insert([
+        DB::table('admins')->insert([
+            'name' => 'Slymee',
             'username' => 'slymee',
             'email' => 'slimismurf@gmail.com',
             'password' => Hash::make('slymee'),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
+        ]);
 
+        DB::table('users')->insert([
+            'name' => 'MeeMee',
+            'username' => 'meemee',
+            'email' => 'meemee@gmail.com',
+            'password' => Hash::make('meemee'),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+            
         ]);
     }
 }

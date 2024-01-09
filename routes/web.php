@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\AdminDataDetailsController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PasswordResetController;
@@ -16,7 +17,7 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/
+*/  
 
 Route::get('/', function () {
     return view('welcome');
@@ -25,25 +26,26 @@ Route::get('/', function () {
 
 //admin routes
                 //admin login
-Route::get('/admin-login', [AdminDataDetailsController::class, 'showLoginForm'])->name('login');
-Route::post('/admin-validate', [AdminDataDetailsController::class, 'login']);
-Route::post('/admin-logout', [AdminDataDetailsController::class, 'logout'])->name('logout');
+Route::get('/admin-login', [AdminController::class, 'index'])->name('admin.login');
+Route::post('/admin-validate', [AdminController::class, 'login'])->name('admin.validate');
+Route::post('/admin-logout', [AdminController::class, 'logout'])->name('admin.logout');
 
 
 
 
                 //Admin Dsahboard routes
-Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-    // Route::get('/admin-category', [CategoryController::class, 'index'])->name('category.and.subcategory');
-    // Route::get('/admin-category-add', [CategoryController::class, 'create'])->name('add.category.form');
-    // Route::post('/admin-category-add/insert', [CategoryController::class, 'store'])->name('admin.insert.category');
-    // Route::get('/admin-category-edit/{category_id}', [CategoryController::class, 'edit'])->name('admin.edit.category.form');
-    // Route::post('/admin-category-edit/update/{category_id}', [CategoryController::class, 'update'])->name('admin.edit.category');
-    // Route::get('/admin-delete-category/{category_id}', [CategoryController::class, 'destroy'])->name('admin.delete.category');
+Route::middleware(['auth:admin'])->group(function () {
+    Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::resource('admin-category', CategoryController::class, ['except' => ['destroy']]);
     Route::get('admin-category/{id}/destroy', [CategoryController::class, 'destroy'])->name('admin-category.destroy');
 });
+
+
+                //User Routes
+Route::get('user/login', [UserController::class, 'userLoginForm'])->name('user.login');
+Route::post('user/user-validate', [UserController::class, 'userLogin'])->name('user.validate');
+Route::get('user/register', [UserController::class, 'userRegisterForm'])->name('user.register');
+
 
 
 
