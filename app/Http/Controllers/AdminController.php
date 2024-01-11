@@ -15,6 +15,10 @@ class AdminController extends Controller
     }
 
     //login module
+    /**
+     * Rename LoginFormValidator to LoginRequest
+     * 
+     */
     public function login(LoginFormValidator $request){
         try{
             if(auth()->guard('admin')->attempt($request->only(['username', 'password']))):
@@ -22,6 +26,12 @@ class AdminController extends Controller
             else:
                 return redirect()->back()->with('message', 'Invalid Credentials');
             endif;
+
+             /**
+             * 
+             *  if there is already return function then no need to write else part.
+             * 
+             */
         }catch(\Exception $e){
             return redirect()->back()->with('message', $e->getMessage());
         }
@@ -31,6 +41,13 @@ class AdminController extends Controller
     //logout module
     public function logout(Request $request){
         Auth::guard('admin')->logout();
+
+        /**
+         * remove Unnecesary codes
+         * 
+         *   $request->session()->invalidate();
+         *   $request->session()->regenerateToken();
+         */
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect('/admin-login');
