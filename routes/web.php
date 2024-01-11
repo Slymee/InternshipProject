@@ -43,9 +43,11 @@ Route::middleware(['auth:admin'])->group(function () {
 
                 //User Routes
 Route::get('user/login', [UserController::class, 'userLoginForm'])->name('user.login');
-Route::post('user-validate', [UserController::class, 'loginUser'])->name('user.validate');
+Route::post('user/validate', [UserController::class, 'loginUser'])->name('user.validate');
 
-Route::post('user/register-user', [UserController::class,'registerUser'])->name('user.register');
+Route::post('/user/register-user', [UserController::class,'registerUser'])->name('user.register');
+
+Route::get('/user/home', [UserController::class, 'index'])->name('user.home');
 
 
 

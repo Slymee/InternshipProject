@@ -37,7 +37,7 @@
         <div class="form-content">
           <div class="login-form">
             <div class="title">Login</div>
-          <form action="{{ route('user.validate') }}" method="POST">
+          <form action="{{ route('user.validate') }}" method="POST" autocomplete="off">
             @csrf
             <div class="input-boxes">
               <div class="input-box">
@@ -71,7 +71,7 @@
       </div>
         <div class="signup-form">
           <div class="title">Signup</div>
-        <form action="{{ route('user.register') }}" method="POST">
+        <form action="{{ route('user.register') }}" method="POST" autocomplete="off">
             @csrf
             <div class="input-boxes">
               <div class="input-box">

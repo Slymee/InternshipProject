@@ -6,6 +6,8 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class UserController extends Controller
 {
@@ -14,7 +16,7 @@ class UserController extends Controller
     }
 
 
-    //User Registration
+    //User Registration module
     public function registerUser(RegisterUserRequest $request){
         try{
             User::create([
@@ -29,8 +31,20 @@ class UserController extends Controller
         }
     }
 
-    //User Login
+    //User Login module
     public function loginUser(LoginRequest $request){
-        // dd($request->validated());
+        try{
+            if(Auth::attempt(['username' => $request->username, 'password' => $request->password])):
+                return redirect()->intended('/user/home');
+            endif;
+            return redirect()->back()->with('message', 'Invalid Credentials');
+
+        }catch(\Exception $e){
+            return redirect()->back()->with('message', $e->getMessage());
+        }
+    }
+
+    public function index(){
+        return view('userend.index');
     }
 }
