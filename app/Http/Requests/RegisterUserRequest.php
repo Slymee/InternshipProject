@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ResetPasswordValidator extends FormRequest
+class RegisterUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,10 +21,12 @@ class ResetPasswordValidator extends FormRequest
      */
     public function rules(): array
     {
-            return [
-                'new-password' => ['bail','required'],
-                'confirm-password' => ['required', 'same:new-password'],
-                'token' => ['required'],
-            ];
+        return [
+            'name' => ['bail','required'],
+            'username' => ['required', 'unique:users'],
+            'email' => ['required', 'email', 'unique:users'],
+            'password' => ['required'],
+            'confirm_password' => ['required', 'same:password'],
+        ];
     }
 }

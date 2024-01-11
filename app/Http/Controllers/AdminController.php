@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginFormValidator;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,13 +15,23 @@ class AdminController extends Controller
     }
 
     //login module
-    public function login(LoginFormValidator $request){
+    /**
+     * Rename LoginFormValidator to LoginRequest
+     * 
+     */
+    public function login(LoginRequest $request){
         try{
             if(auth()->guard('admin')->attempt($request->only(['username', 'password']))):
                 return redirect()->intended('/admin/dashboard');
-            else:
-                return redirect()->back()->with('message', 'Invalid Credentials');
             endif;
+            return redirect()->back()->with('message', 'Invalid Credentials');
+
+
+             /**
+             * 
+             *  if there is already return function then no need to write else part.
+             * 
+             */
         }catch(\Exception $e){
             return redirect()->back()->with('message', $e->getMessage());
         }
@@ -31,8 +41,13 @@ class AdminController extends Controller
     //logout module
     public function logout(Request $request){
         Auth::guard('admin')->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+
+        /**
+         * remove Unnecesary codes
+         * 
+         *   $request->session()->invalidate();
+         *   $request->session()->regenerateToken();
+         */
         return redirect('/admin-login');
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 
-use App\Http\Requests\CategoryFormValidator;
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -23,6 +23,12 @@ class CategoryController extends Controller
      */
     public function create(Category $category)
     {
+       
+        /**
+         * Alwyas try to paginate 
+         * 
+         * Write query in avariable instead of directly passing
+         */
         return view('backend.modals.admin-add-category', ['datas' => $category->whereNull('parent_id')
         ->orWhereHas('parent', fn ($query) => $query->whereNull('parent_id'))
         ->get()
@@ -30,9 +36,12 @@ class CategoryController extends Controller
     }
 
     /**
+     * Rename CategoryFormValidator to CategoryFormRequest
+     * 
+     * 
      * Store a newly created resource in storage.
      */
-    public function store(CategoryFormValidator $request)
+    public function store(CategoryRequest $request)
     {
         try{
             Category::create([
@@ -60,6 +69,13 @@ class CategoryController extends Controller
     public function edit(string $id)
     {
         try{
+
+            /**
+             * Always try to paginate instead of get();
+             * rename datas to data
+             * 
+             * 
+             */
             $editableData = Category::select('id', 'category_name','parent_id')->findOrFail($id);
             $datas = Category::whereNull('parent_id')
             ->orWhereHas('parent', fn ($query) => $query->whereNull('parent_id'))
@@ -75,7 +91,7 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(CategoryFormValidator $request)
+    public function update(CategoryRequest $request)
     {
         try{
             Category::where('id', $request->category_id)->update([

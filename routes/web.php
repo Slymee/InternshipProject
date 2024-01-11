@@ -43,8 +43,9 @@ Route::middleware(['auth:admin'])->group(function () {
 
                 //User Routes
 Route::get('user/login', [UserController::class, 'userLoginForm'])->name('user.login');
-Route::post('user/user-validate', [UserController::class, 'userLogin'])->name('user.validate');
-Route::get('user/register', [UserController::class, 'userRegisterForm'])->name('user.register');
+Route::post('user-validate', [UserController::class, 'loginUser'])->name('user.validate');
+
+Route::post('user/register-user', [UserController::class,'registerUser'])->name('user.register');
 
 
 
@@ -57,7 +58,8 @@ Route::get('/admin-forgot-password', [PasswordResetController::class, 'index'])-
 Route::post('/forgot-password', [PasswordResetController::class, 'sendResetMail'])->name('admin.forgot.password');
 Route::get('/admin-password-reset/{token}', [PasswordResetController::class, 'showNewPasswordForm'])->name('password.reset');
 Route::post('/admin-password-reset', [PasswordResetController::class, 'submitNewPasswordForm']);
-Route::post('/submit-new-password', [PasswordResetController::class, 'submitResetPasswordForm'])->name('admin.new.password');
+Route::post('/submit-new-password', [PasswordResetController::class, 'submitAdminNewPassword'])->name('admin.new.password');
+
 
 
 
