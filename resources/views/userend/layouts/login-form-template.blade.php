@@ -1,23 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en" dir="ltr">
+  <head>
     <meta charset="UTF-8">
+    <title>@yield('page-title')</title>
+    @vite('resources/css/user-login.css')
+    <!-- Fontawesome CDN Link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-    <title>Dashboard-Login</title>
-    
-    @vite(['resources/css/admin-login.css'])
-
-</head>
+    <style>
+        .error-message{
+            color: red;
+        }
+    </style>
+   </head>
 <body>
-    <section class="main-section">
-        <div class="form-banner">
-            <div class="img-place">
-                <img class="image" src="{{ URL('images/authenticate.jpg') }}" alt="Authenticate" srcset="">
-            </div>
-            @yield('content')
-        </div>
-    </section>
+  @yield('content')
 </body>
 </html>
