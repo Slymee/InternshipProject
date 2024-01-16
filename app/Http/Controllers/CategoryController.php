@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 
-use App\Http\Requests\CategoryFormValidator;
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -23,23 +23,24 @@ class CategoryController extends Controller
      */
     public function create(Category $category)
     {
-        return view('backend.modals.admin-add-category', ['datas' => $category->whereNull('parent_id')
+        $data = $category->whereNull('parent_id')
         ->orWhereHas('parent', fn ($query) => $query->whereNull('parent_id'))
-        ->get()
-        ]);
+        ->paginate(10);
+        return view('backend.modals.admin-add-category', ['datas' => $data]);
     }
 
     /**
+     * 
+     * 
      * Store a newly created resource in storage.
      */
-    public function store(CategoryFormValidator $request)
+    public function store(CategoryRequest $request)
     {
         try{
             Category::create([
                 'category_name' => $request->category_name,
                 'parent_id' => $request->parent_id,
             ]);
-
             return redirect()->back()->with('message', 'Category Inserted.');
         }catch(\Exception $e){
             return redirect()->back()->with('message', $e->getMessage());
@@ -61,11 +62,11 @@ class CategoryController extends Controller
     {
         try{
             $editableData = Category::select('id', 'category_name','parent_id')->findOrFail($id);
-            $datas = Category::whereNull('parent_id')
+            $data = Category::whereNull('parent_id')
             ->orWhereHas('parent', fn ($query) => $query->whereNull('parent_id'))
-            ->get();
+            ->paginate(10);
             return view('backend.modals.admin-edit-category', ['editableData' => $editableData],
-                                                            ['datas' => $datas]);
+                                                            ['datas' => $data]);
         }catch(\Exception $e){
 
         }
@@ -75,7 +76,7 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(CategoryFormValidator $request)
+    public function update(CategoryRequest $request)
     {
         try{
             Category::where('id', $request->category_id)->update([
@@ -85,7 +86,6 @@ class CategoryController extends Controller
             return redirect()->back()->with('message', 'Edit Success!');
 
 
-            // return redirect()->back()->with('message', 'Edit Failed!');
         }catch(\Exception $e){
             return redirect()->back()->with('message', $e->getMessage());
         }

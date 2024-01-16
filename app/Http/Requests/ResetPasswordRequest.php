@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ForgotPasswordMailValidator extends FormRequest
+class ResetPasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,8 +21,10 @@ class ForgotPasswordMailValidator extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'email' => ['bail','required','email'],
-        ];
+            return [
+                'new-password' => ['bail','required'],
+                'confirm-password' => ['required', 'same:new-password'],
+                'token' => ['required'],
+            ];
     }
 }
