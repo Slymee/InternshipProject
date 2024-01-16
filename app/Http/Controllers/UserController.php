@@ -37,9 +37,9 @@ class UserController extends Controller
     //User Login module
     public function loginUser(LoginRequest $request){
         try{
-            if(Auth::guard('web')->attempt(['username' => $request->username, 'password' => $request->password])):
+            if(Auth::guard('web')->attempt(['username' => $request->username, 'password' => $request->password])){
                 return redirect()->intended();
-            endif;
+            }
             return redirect()->back()->with('message', 'Invalid Credentials');
 
         }catch(\Exception $e){

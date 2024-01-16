@@ -21,9 +21,9 @@ class AdminController extends Controller
      */
     public function login(LoginRequest $request){
         try{
-            if(auth()->guard('admin')->attempt($request->only(['username', 'password']))):
+            if(auth()->guard('admin')->attempt($request->only(['username', 'password']))){
                 return redirect(route('admin.dashboard'));
-            endif;
+            }
             return redirect()->back()->with('message', 'Invalid Credentials');
              /**
              * 

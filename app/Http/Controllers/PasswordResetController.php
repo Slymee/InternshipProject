@@ -54,9 +54,9 @@ class PasswordResetController extends Controller
     public function submitAdminNewPassword(ResetPasswordRequest $request){
         try{
             $tokenData = DB::table('password_reset_tokens')->where('token', $request->validated()['token'])->first();
-        if(!$tokenData):
+        if(!$tokenData){
             return back()->with(['message' => 'Invalid token id!!']);
-        endif;
+        }
         Admin::where('email', $tokenData->email)->first()->update([
             'password' => Hash::make($request->validated()['new-password']),
         ]);

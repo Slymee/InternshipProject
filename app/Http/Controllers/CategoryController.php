@@ -48,7 +48,6 @@ class CategoryController extends Controller
                 'category_name' => $request->category_name,
                 'parent_id' => $request->parent_id,
             ]);
-
             return redirect()->back()->with('message', 'Category Inserted.');
         }catch(\Exception $e){
             return redirect()->back()->with('message', $e->getMessage());
@@ -101,7 +100,6 @@ class CategoryController extends Controller
             return redirect()->back()->with('message', 'Edit Success!');
 
 
-            // return redirect()->back()->with('message', 'Edit Failed!');
         }catch(\Exception $e){
             return redirect()->back()->with('message', $e->getMessage());
         }

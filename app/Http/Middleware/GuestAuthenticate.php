@@ -17,9 +17,9 @@ class GuestAuthenticate
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!Auth::guard('web')->check()):
+        if(!Auth::guard('web')->check()){
             return redirect('/login');
-        endif;
+        }
         return $next($request);
     }
 }
