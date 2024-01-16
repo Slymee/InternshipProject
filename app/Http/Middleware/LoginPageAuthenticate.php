@@ -3,12 +3,11 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class GuestAuthenticate
+class LoginPageAuthenticate
 {
     /**
      * Handle an incoming request.
@@ -17,8 +16,8 @@ class GuestAuthenticate
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!Auth::guard('web')->check()):
-            return redirect('/login');
+        if(Auth::guard('web')->check()):
+            return redirect('/home');
         endif;
         return $next($request);
     }

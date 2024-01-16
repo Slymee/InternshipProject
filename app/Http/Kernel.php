@@ -68,6 +68,7 @@ class Kernel extends HttpKernel
 
     protected $routeMiddleware = [
         'guest.authenticate' => \App\Http\Middleware\GuestAuthenticate::class,
+        'loginPage.auth' => \App\Http\Middleware\LoginPageAuthenticate::class,
     ];
 
 

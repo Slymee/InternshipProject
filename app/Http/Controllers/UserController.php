@@ -9,11 +9,12 @@ use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\Session as LaravelSession;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Redirect;
 
 class UserController extends Controller
 {
     public function userLoginForm(){
+        Redirect::setIntendedUrl(url()->previous());
         return view('userend.login');
     }
 
@@ -36,9 +37,8 @@ class UserController extends Controller
     //User Login module
     public function loginUser(LoginRequest $request){
         try{
-            dd(LaravelSession::get('url.intended'));
-            if($url = LaravelSession::get('url.intended') && Auth::guard('web')->attempt(['username' => $request->username, 'password' => $request->password])):
-                return redirect($url);
+            if(Auth::guard('web')->attempt(['username' => $request->username, 'password' => $request->password])):
+                return redirect()->intended();
             endif;
             return redirect()->back()->with('message', 'Invalid Credentials');
 

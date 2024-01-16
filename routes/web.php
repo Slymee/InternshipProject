@@ -43,7 +43,7 @@ Route::middleware(['auth:admin'])->group(function () {
 
 
                 //User Routes
-Route::get('login', [UserController::class, 'userLoginForm'])->name('user.login');
+Route::get('login', [UserController::class, 'userLoginForm'])->middleware('loginPage.auth')->name('user.login');
 Route::post('validate', [UserController::class, 'loginUser'])->name('user.validate');
 Route::post('register-user', [UserController::class,'registerUser'])->name('user.register');
 Route::get('logout', [UserController::class, 'logoutUser'])->name('user.logout');
@@ -52,9 +52,11 @@ Route::get('home', [UserController::class, 'index'])->name('user.home');
 
 
                 //guest route protection
-// Route::middleware(['guest.authenticate'])->group(function () {
-//     Route::get('/protected-route', 'ProtectedController@index');
-// });
+Route::middleware(['guest.authenticate'])->group(function () {
+
+});
+
+
 
 
 
