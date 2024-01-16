@@ -36,7 +36,7 @@ Route::post('admin-logout', [AdminController::class, 'logout'])->name('admin.log
 
                 //Admin Dsahboard routes
 Route::middleware(['auth:admin'])->group(function () {
-    Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('admin-dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::resource('admin-category', CategoryController::class, ['except' => ['destroy']]);
     Route::get('admin-category/{id}/destroy', [CategoryController::class, 'destroy'])->name('admin-category.destroy');
 });
@@ -46,11 +46,12 @@ Route::middleware(['auth:admin'])->group(function () {
 Route::get('login', [UserController::class, 'userLoginForm'])->name('user.login');
 Route::post('validate', [UserController::class, 'loginUser'])->name('user.validate');
 Route::post('register-user', [UserController::class,'registerUser'])->name('user.register');
+Route::get('logout', [UserController::class, 'logoutUser'])->name('user.logout');
 
 Route::get('home', [UserController::class, 'index'])->name('user.home');
 
 
-                //guest toute protection
+                //guest route protection
 // Route::middleware(['guest.authenticate'])->group(function () {
 //     Route::get('/protected-route', 'ProtectedController@index');
 // });

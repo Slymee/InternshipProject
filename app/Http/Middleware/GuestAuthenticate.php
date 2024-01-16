@@ -3,6 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Contracts\Session\Session;
+use Illuminate\Support\Facades\Session as LaravelSession;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,6 +21,7 @@ class GuestAuthenticate
         if(!Auth::check()):
             return redirect('/login');
         endif;
+        LaravelSession::put('url.intended', url()->previous());
         return $next($request);
     }
 }

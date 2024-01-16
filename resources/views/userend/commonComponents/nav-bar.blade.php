@@ -10,7 +10,33 @@
        <li><a href="#">Home</a></li>
        <li><a href="#">About</a></li>
        <li><a href="#">Post an Ad</a></li>
-       <li><a href="#">Login</a></li>
+       @guest
+        <li><a href="{{ route('user.login') }}">Login</a></li>
+       @else
+        <li class="dropdown">
+            <button onclick="myFunction()" class="dropbtn">{{ auth()->user()->username }}</button>
+            <div id="myDropdown" class="dropdown-content">
+              <a href="{{ route('user.logout') }}">Logout</a>
+            </div>
+        </li>
+        <script>
+            function myFunction() {
+                document.getElementById("myDropdown").classList.toggle("show");
+            }
+
+            window.onclick = function(event) {
+                if (!event.target.matches('.dropbtn')) {
+                    var dropdowns = document.getElementsByClassName("dropdown-content");
+                    for (var i = 0; i < dropdowns.length; i++) {
+                        var openDropdown = dropdowns[i];
+                        if (openDropdown.classList.contains('show')) {
+                            openDropdown.classList.remove('show');
+                        }
+                    }
+                }
+            }
+        </script>
+       @endguest
     </div>
     {{-- <div class="search-icon">
        <span class="fas fa-search"></span>

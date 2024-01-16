@@ -22,7 +22,7 @@ class AdminController extends Controller
     public function login(LoginRequest $request){
         try{
             if(auth()->guard('admin')->attempt($request->only(['username', 'password']))):
-                return redirect()->intended('/admin/dashboard');
+                return redirect(route('admin.dashboard'));
             endif;
             return redirect()->back()->with('message', 'Invalid Credentials');
              /**
@@ -39,13 +39,6 @@ class AdminController extends Controller
     //logout module
     public function logout(Request $request){
         Auth::guard('admin')->logout();
-
-        /**
-         * remove Unnecesary codes
-         * 
-         *   $request->session()->invalidate();
-         *   $request->session()->regenerateToken();
-         */
         return redirect('/admin-login');
     }
 }
