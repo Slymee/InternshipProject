@@ -15,21 +15,12 @@ class AdminController extends Controller
     }
 
     //login module
-    /**
-     * Rename LoginFormValidator to LoginRequest
-     * 
-     */
     public function login(LoginRequest $request){
         try{
             if(auth()->guard('admin')->attempt($request->only(['username', 'password']))){
                 return redirect(route('admin.dashboard'));
             }
             return redirect()->back()->with('message', 'Invalid Credentials');
-             /**
-             * 
-             *  if there is already return function then no need to write else part.
-             * 
-             */
         }catch(\Exception $e){
             return redirect()->back()->with('message', $e->getMessage());
         }

@@ -23,20 +23,13 @@ class CategoryController extends Controller
      */
     public function create(Category $category)
     {
-       
-        /**
-         * Alwyas try to paginate 
-         * 
-         * Write query in avariable instead of directly passing
-         */
-        return view('backend.modals.admin-add-category', ['datas' => $category->whereNull('parent_id')
+        $data = $category->whereNull('parent_id')
         ->orWhereHas('parent', fn ($query) => $query->whereNull('parent_id'))
-        ->get()
-        ]);
+        ->paginate(10);
+        return view('backend.modals.admin-add-category', ['datas' => $data]);
     }
 
     /**
-     * Rename CategoryFormValidator to CategoryFormRequest
      * 
      * 
      * Store a newly created resource in storage.
@@ -68,19 +61,12 @@ class CategoryController extends Controller
     public function edit(string $id)
     {
         try{
-
-            /**
-             * Always try to paginate instead of get();
-             * rename datas to data
-             * 
-             * 
-             */
             $editableData = Category::select('id', 'category_name','parent_id')->findOrFail($id);
-            $datas = Category::whereNull('parent_id')
+            $data = Category::whereNull('parent_id')
             ->orWhereHas('parent', fn ($query) => $query->whereNull('parent_id'))
-            ->get();
+            ->paginate(10);
             return view('backend.modals.admin-edit-category', ['editableData' => $editableData],
-                                                            ['datas' => $datas]);
+                                                            ['datas' => $data]);
         }catch(\Exception $e){
 
         }
