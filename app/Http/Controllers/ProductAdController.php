@@ -32,8 +32,25 @@ class ProductAdController extends Controller
      */
     public function store(CreateProductAdRequest $request)
     {
-        $selectedCategories = $request->all('categories');
-        dd($selectedCategories);
+        try{
+            $imageName = 'solo' . time() . 'leveling' .'.'. $request->product_image->extension();
+
+            if($imagePath = $request->file('product_image')->storeAs('images', $imageName)){
+                ProductAd::create([
+                    'user_id' => $request->input('user_id'),
+                    'product_title' => $request->input('product_title'),
+                    'product_description' => $request->input('product_description'),
+                    'product_price' => $request->input('product_price'),
+                    'product_tag' => $request->input('product_tag'),
+                    'image_path' => $imagePath,
+                ]);
+                return redirect()->back()->with('message', 'Product Added.');
+            }
+            return redirect()->back()->with('message', 'Product Add Failed.');
+
+        }catch(\Exception $e){
+            return redirect()->back()->with('message', $e->getMessage());
+        }
     }
 
     /**

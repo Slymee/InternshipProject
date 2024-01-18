@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('product_title');
             $table->text('product_description');
-            $table->decimal('product_price', 10, 2);
+            $table->decimal('product_price', 10, 2)->default('0');
             $table->string('product_tag');
             $table->string('image_path')->nullable();
             $table->timestamps();

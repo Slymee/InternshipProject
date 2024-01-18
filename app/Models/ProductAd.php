@@ -16,6 +16,7 @@ class ProductAd extends Model
         'user_id',
         'product_title',
         'product_description',
+        'product_price',
         'product_tag',
         'image_path',
     ];
