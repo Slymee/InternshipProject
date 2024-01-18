@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PasswordResetController;
+use App\Http\Controllers\ProductAdController;
 use App\Http\Controllers\UserPasswordResetController;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -53,7 +54,7 @@ Route::get('home', [UserController::class, 'index'])->name('user.home');
 
                 //guest route protection
 Route::middleware(['guest.authenticate'])->group(function () {
-
+    Route::get('product-ad', [ProductAdController::class, 'index'])->name('product-ad-form');
 });
 
 
