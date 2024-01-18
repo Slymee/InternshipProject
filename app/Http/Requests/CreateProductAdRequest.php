@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class CreateProductAdRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return [
+            'user_id' => ['required', 'bail', 'exists:users,id'],
+            'product_title' => ['required', 'bail'],
+            'product_description' => ['required', 'bail'],
+            'product_price' => ['required', 'bail'],
+            'product_tag' => ['required', 'bail'],
+            'product_image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'categories' => ['required','array'],
+        ];
+    }
+}

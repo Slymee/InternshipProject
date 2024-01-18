@@ -15,7 +15,8 @@
     <section>
         <div class="form-container">
             <span>Create an Ad</span>
-            <form action="" method="post">
+            <form action="{{ route('product-ad-post') }}" method="post" enctype="multipart/form-data">
+              @csrf
                 <div class="mb-3">
                     <label for="product_title" class="form-label">Product Title</label>
                     <input type="text" class="form-control" name="product_title" id="exampleFormControlInput1" placeholder="Enter Product Title">
@@ -33,17 +34,18 @@
                     <input type="text" class="form-control" name="product_tag" id="exampleFormControlInput1" placeholder="Enter Product Tag">
                   </div>
                   <div class="mb-3">
-                    <label for="formFile" class="form-label">Upload Product Image</label>
-                    <input class="form-control" type="file" id="formFile">
+                    <label for="formFile" class="form-label">Upload Product Image (Max: 2MB)</label>
+                    <input class="form-control" type="file" id="formFile" name="product_image">
                   </div>
                   <div class="mb-3">
-                    <select class="form-select" size="3" aria-label="size 3 select example" id="categories">
-                        <option selected value="">Select Categories</option>
+                    <label for="formFile" class="form-label">Select Categories</label>
+                    <select class="form-select" size="3" aria-label="size 3 select example" id="categories" name="categories[]" multiple>
                         @foreach ($mainParent as $parentCategory)
                           @include('userend.commonComponents.create-product-category', ['category' => $parentCategory])
                         @endforeach
                       </select>
                   </div>
+                  <input type="hidden" name="user_id" value="{{ auth()->id() }}">
                   <input class="btn btn-primary" type="submit" value="Create Ad">
                   <span class="error-message">
                     @if(session('message'))
@@ -52,7 +54,7 @@
     
                     @if($errors->any())
                         @foreach ($errors->all() as $error)
-                            {{ $error}} <br>
+                            {{ $error }} <br>
                         @endforeach                    
                     @endif
                     </span>

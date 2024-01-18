@@ -19,4 +19,13 @@ class ProductAd extends Model
         'product_tag',
         'image_path',
     ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
 }
