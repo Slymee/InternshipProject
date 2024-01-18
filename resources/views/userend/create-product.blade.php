@@ -38,13 +38,24 @@
                   </div>
                   <div class="mb-3">
                     <select class="form-select" size="3" aria-label="size 3 select example" id="categories">
-                        <option selected>Select Categories</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        <option selected value="">Select Categories</option>
+                        @foreach ($mainParent as $parentCategory)
+                          @include('userend.commonComponents.create-product-category', ['category' => $parentCategory])
+                        @endforeach
                       </select>
                   </div>
                   <input class="btn btn-primary" type="submit" value="Create Ad">
+                  <span class="error-message">
+                    @if(session('message'))
+                        {{ session('message') }}
+                    @endif
+    
+                    @if($errors->any())
+                        @foreach ($errors->all() as $error)
+                            {{ $error}} <br>
+                        @endforeach                    
+                    @endif
+                    </span>
             </form>
         </div>
     </section>

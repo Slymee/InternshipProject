@@ -1,7 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\ProductAd;
 use Illuminate\Http\Request;
 
@@ -10,9 +12,10 @@ class ProductAdController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Category $category)
     {
-        return view('userend.create-product');
+        $mainParent = $category->whereNull('parent_id')->paginate(10);
+        return view('userend.create-product', compact('mainParent'));
     }
 
     /**
