@@ -16,6 +16,7 @@
         <li class="dropdown">
             <button onclick="myFunction()" class="dropbtn">{{ auth()->user()->username }}</button>
             <div id="myDropdown" class="dropdown-content">
+              <a href="{{ route('my-product-ads') }}">My Ads</a>
               <a href="{{ route('user.logout') }}">Logout</a>
             </div>
         </li>

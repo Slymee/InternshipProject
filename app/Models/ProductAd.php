@@ -17,8 +17,8 @@ class ProductAd extends Model
         'product_title',
         'product_description',
         'product_price',
-        'product_tag',
         'image_path',
+        'slug'
     ];
     public function user()
     {
@@ -27,6 +27,6 @@ class ProductAd extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class, 'product_category');    
     }
 }

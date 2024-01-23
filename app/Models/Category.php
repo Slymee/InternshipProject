@@ -36,4 +36,9 @@ class Category extends Model
         return $this->ancestors()->count();
     }
 
+    public function products()
+    {
+        return $this->belongsToMany(Category::class, 'product_category');
+    }
+
 }

@@ -31,6 +31,7 @@
                 @foreach ($mainParent as $parentCategory)
                     @include('commonComponents.admin-category', ['category' => $parentCategory])
                 @endforeach
+                {{ $mainParent->links() }}
 
             </table>
             

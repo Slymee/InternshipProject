@@ -54,8 +54,10 @@ Route::get('home', [UserController::class, 'index'])->name('user.home');
 
                 //guest route protection
 Route::middleware(['guest.authenticate'])->group(function () {
-    Route::get('product-ad', [ProductAdController::class, 'index'])->name('product-ad-form');
-    Route::post('product-ad',[ProductAdController::class, 'store'])->name('product-ad-post');
+    Route::get('my-product-ads', [ProductAdController::class, 'index'])->name('my-product-ads');
+    Route::get('product-ad', [ProductAdController::class, 'create'])->name('product-ad-form');
+    Route::post('product-ad', [ProductAdController::class, 'store'])->name('product-ad-post');
+    Route::get('get-child-option/{parentId}', [ProductAdController::class, 'displayChildCategory'])->name('get-child-option');
 });
 
 

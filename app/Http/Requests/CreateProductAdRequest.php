@@ -26,9 +26,10 @@ class CreateProductAdRequest extends FormRequest
             'product_title' => ['required', 'bail'],
             'product_description' => ['required', 'bail'],
             'product_price' => ['required', 'bail'],
-            'product_tag' => ['required', 'bail'],
             'product_image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
-            'categories' => ['required','array'],
+            'parent_category' => ['required', 'bail'],
+            'sub_category' => ['required', 'bail'],
+            'sub_sub_category' => ['required', 'bail'],
         ];
     }
 }

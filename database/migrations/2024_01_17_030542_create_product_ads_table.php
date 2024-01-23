@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('product_title');
             $table->text('product_description');
             $table->decimal('product_price', 10, 2)->default('0');
-            $table->string('product_tag');
             $table->string('image_path')->nullable();
+            $table->string('slug')->unique();
             $table->timestamps();
         });
     }
