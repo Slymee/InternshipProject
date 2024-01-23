@@ -12,6 +12,10 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<!-- Include Select2 CSS and JS files -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
     <section>
         <div class="form-container">
             <span>Create an Ad</span>
@@ -52,6 +56,13 @@
                   <label for="sub_sub_category" class="form-label">Select Sub Sub Category</label>
                   <select class="form-select" aria-label="Default select example" name="sub_sub_category" id="subSubCategory">
                     <option value="" selected>Select Sub Sub Category</option>
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label for="tags">Select Tags:</label>
+                  <select name="product_tags[]" class="form-select form-select-lg mb-3" id="tags" multiple>
+
                   </select>
                 </div>
                 <input type="hidden" name="user_id" value="{{ auth()->id() }}">
@@ -125,5 +136,14 @@ async function fetchSubCategory(){
   }
 
     </script>
+    <script>
+      $(document).ready(function() {
+          $('#tags').select2({
+              tags: true,
+              tokenSeparators: [',', ' '], // Define separators for multiple tags
+          });
+      });
+  </script>
+  
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 @endsection

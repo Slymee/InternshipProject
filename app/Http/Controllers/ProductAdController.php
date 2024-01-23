@@ -48,9 +48,9 @@ class ProductAdController extends Controller
                     'image_path' => $imagePath,
                     'slug' => $request['slug'],
                 ]);
-                $productAd->categories()->attach($request->input('parentCategory'));
-                $productAd->categories()->attach($request->input('subCategory'));
-                $productAd->categories()->attach($request->input('subSubCategory'));
+                $productAd->categories()->attach($request->input('parent_category'));
+                $productAd->categories()->attach($request->input('sub_category'));
+                $productAd->categories()->attach($request->input('sub_sub_category'));
                 return redirect()->back()->with('message', 'Product Added.');
             }
             return redirect()->back()->with('message', 'Product Add Failed.');
