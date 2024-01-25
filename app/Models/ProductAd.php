@@ -29,4 +29,9 @@ class ProductAd extends Model
     {
         return $this->belongsToMany(Category::class, 'product_category');    
     }
+
+    public function tags()
+    {
+        return $this->hasMany(Tag::class, 'product_id');
+    }
 }

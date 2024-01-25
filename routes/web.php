@@ -57,6 +57,7 @@ Route::middleware(['guest.authenticate'])->group(function () {
     Route::get('my-product-ads', [ProductAdController::class, 'index'])->name('my-product-ads');
     Route::get('product-ad', [ProductAdController::class, 'create'])->name('product-ad-form');
     Route::post('product-ad', [ProductAdController::class, 'store'])->name('product-ad-post');
+    Route::get('get-parent-category', [ProductAdController::class, 'getPaginatedCategory'])->name('paginated-category');
     Route::get('get-child-option/{parentId}', [ProductAdController::class, 'displayChildCategory'])->name('get-child-option');
 });
 

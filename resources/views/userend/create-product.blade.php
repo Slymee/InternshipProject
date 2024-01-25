@@ -15,7 +15,6 @@
 <!-- Include Select2 CSS and JS files -->
 <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
-
     <section>
         <div class="form-container">
             <span>Create an Ad</span>
@@ -46,21 +45,21 @@
                     @endforeach
                   </select>
                 </div>
-                <div class="mb-3">
+                <div class="mb-3" id="subCategoryDiv">
                   <label for="subCategory" class="form-label">Select Sub Category</label>
-                  <select class="form-select" aria-label="Default select example" name="sub_category" id="subCategory" onchange="fetchSubSubCategory()">
+                  <select class="form-select" aria-label="Default select example" name="sub_category" id="subCategory">
                     <option value="" selected>Select Sub Category</option>
                   </select>
                 </div>
-                <div class="mb-3">
+                <div class="mb-3" id="subSubCategoryDiv">
                   <label for="sub_sub_category" class="form-label">Select Sub Sub Category</label>
-                  <select class="form-select" aria-label="Default select example" name="sub_sub_category" id="subSubCategory">
+                  <select class="form-select" aria-label="Default select example" name="sub_sub_category" id="subSubCategory" onchange="tagEnterDiv()">
                     <option value="" selected>Select Sub Sub Category</option>
                   </select>
                 </div>
 
-                <div class="mb-3">
-                  <label for="tags">Select Tags:</label>
+                <div class="mb-3" id="tagDiv">
+                  <label for="tags">Enter Tags:</label>
                   <select name="product_tags[]" class="form-select form-select-lg mb-3" id="tags" multiple>
 
                   </select>
@@ -74,32 +73,101 @@
     
                     @if($errors->any())
                         @foreach ($errors->all() as $error)
-                            {{ $error }} <br>
+                          <br> {{ $error }} 
                         @endforeach                    
                     @endif
                     </span>
             </form>
         </div>
     </section>
+    
     <script>
       /**
- * Level 2 Category
- */
+      * Level 2 Category
+      */
 
-async function fetchSubCategory(){
-    document.querySelector('#subCategory').innerHTML = '<option selected>Select Sub Category</option>';
-    // document.querySelector('#subCategory').innerHTML = '';
+      // async function fetchSubCategory(){
+      //   $('#subCategoryDiv').show();
+      //   document.querySelector('#subCategory').innerHTML = '<option selected>Select Sub Category</option>';
+      //   // document.querySelector('#subCategory').innerHTML = '';
 
-    var parentID = document.querySelector('#parentCategory').value;
-    const URL = 'get-child-option/'+parentID;
-    let response = await axios.get(URL);
-    if(response.status===200){
-      paginatedData = response.data;
-      console.log(paginatedData);
-      paginatedData.data.forEach(function (category) {
-        $('#subCategory').append('<option value="' + category.id + '">' + category.category_name + '</option>');
+      //   var parentID = document.querySelector('#parentCategory').value;
+      //   const URL = 'get-child-option/'+parentID;
+      //   let response = await axios.get(URL);
+      //   if(response.status===200){
+      //     paginatedData = response.data;
+      //     console.log(paginatedData);
+      //     paginatedData.data.forEach(function (category) {
+      //       $('#subCategory').append('<option value="' + category.id + '">' + category.category_name + '</option>');
+      //     });
+      //    }
+      // }
+      $(document).ready(function() {
+        $('#subCategoryDiv').hide();
+        $('#subSubCategoryDiv').hide();
+
+        $('#parentCategory').change(async function() {
+          $('#subCategoryDiv').show();
+          $('#subCategory').html('<option selected>Select Sub Category</option>');
+
+          var parentID = $(this).val();
+            const URL = 'get-child-option/' + parentID;
+
+          try {
+            let response = await axios.get(URL);
+
+            if (response.status === 200) {
+                let paginatedData = response.data;
+                console.log(paginatedData);
+
+                if (paginatedData && paginatedData.data) {
+                    paginatedData.data.forEach(function (category) {
+                        $('#subCategory').append('<option value="' + category.id + '">' + category.category_name + '</option>');
+                    });
+                } else {
+                    console.error('Invalid data structure:', paginatedData);
+                }
+
+            }
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
       });
-    }
+
+
+      /**
+      * Level 3 Category
+      */
+      $('#subCategory').change(async function() {
+          $('#subSubCategoryDiv').show();
+          $('#subSubCategory').html('<option selected>Select Sub Sub Category</option>');
+
+          var parentID = $(this).val();
+            const URL = 'get-child-option/' + parentID;
+
+          try {
+            let response = await axios.get(URL);
+
+            if (response.status === 200) {
+                let paginatedData = response.data;
+                console.log(paginatedData);
+
+                if (paginatedData && paginatedData.data) {
+                    paginatedData.data.forEach(function (category) {
+                        $('#subSubCategory').append('<option value="' + category.id + '">' + category.category_name + '</option>');
+                    });
+                } else {
+                    console.error('Invalid data structure:', paginatedData);
+                }
+
+            }
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
+      });v
+    });
+
+    //---------------------------------------------------------------------------------------------------
     // request.open("GET", "get-child-option/"+parentID, true);
     // request.send();
     // request.onreadystatechange = function(){
@@ -112,35 +180,14 @@ async function fetchSubCategory(){
     //     });
     //   }
     // }
-  }
-
-
-/**
- * Level 3 Category
- */
-
-  async function fetchSubSubCategory(){
-    document.querySelector('#subSubCategory').innerHTML = '<option selected>Select Sub Sub Category</option>';
-    // document.querySelector('#subCategory').innerHTML = '';
-
-    var parentID = document.querySelector('#subCategory').value;
-    const URL = 'get-child-option/'+parentID;
-    let response = await axios.get(URL);
-    if(response.status===200){
-      paginatedData = response.data;
-      console.log(paginatedData);
-      paginatedData.data.forEach(function (category) {
-        $('#subSubCategory').append('<option value="' + category.id + '">' + category.category_name + '</option>');
-      });
-    }
-  }
-
+    //----------------------------------------------------------------------------------------------------
     </script>
+    {{-- @vite(['resources/js/app.js']) --}}
     <script>
       $(document).ready(function() {
           $('#tags').select2({
               tags: true,
-              tokenSeparators: [',', ' '], // Define separators for multiple tags
+              tokenSeparators: [',', ' '],
           });
       });
   </script>

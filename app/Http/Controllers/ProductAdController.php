@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateProductAdRequest;
 use App\Models\Category;
 use App\Models\ProductAd;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -31,6 +32,14 @@ class ProductAdController extends Controller
     }
 
     /**
+     * Getting paginated parent category
+     */
+    public function getPaginatedCategory(Category $category){
+        $mainParent = $category->whereNull('parent_id')->get();
+        return response()->json(['items' => $mainParent->items()]);
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(CreateProductAdRequest $request)
@@ -51,7 +60,14 @@ class ProductAdController extends Controller
                 $productAd->categories()->attach($request->input('parent_category'));
                 $productAd->categories()->attach($request->input('sub_category'));
                 $productAd->categories()->attach($request->input('sub_sub_category'));
-                return redirect()->back()->with('message', 'Product Added.');
+                $tagNames = $request->input('product_tags', []); // Assuming 'product_tags' is an array in the request
+                $productAd->tags()->saveMany(
+                    array_map(function ($tagName) {
+                        return new Tag(['tag_name' => $tagName]);
+                    }, $tagNames)
+                );
+                return redirect()->back()->with('message', 'Product Add Success.');
+
             }
             return redirect()->back()->with('message', 'Product Add Failed.');
 
@@ -61,11 +77,12 @@ class ProductAdController extends Controller
     }
 
     /**
-     * Select child category
+     * Select child category for selecting multilevel category
      */
     public function displayChildCategory(string $parentId){
         $data = Category::where('parent_id', $parentId)->paginate(10);
         return response()->json($data);
+        // return response()->json(['items' => $data->items()]);
     }
 
     /**
