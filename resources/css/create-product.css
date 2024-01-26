@@ -34,3 +34,11 @@ input::-webkit-inner-spin-button {
 .error-message{
     color: red;
 }
+
+#scrollingSelectContainer {
+    max-height: 300px; /* Adjust the maximum height as needed */
+    overflow-y: auto; /* Enable vertical scrolling if the content exceeds the container height */
+    border: 1px solid #ccc; /* Add a border for visual separation */
+    border-radius: 4px; /* Add border-radius for rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow for a lifted effect */
+}

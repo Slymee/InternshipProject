@@ -81,7 +81,7 @@
         </div>
     </section>
     
-    <script>
+    {{-- <script>
       /**
       * Level 2 Category
       */
@@ -164,7 +164,7 @@
           } catch (error) {
             console.error('Error fetching data:', error);
           }
-      });v
+      });
     });
 
     //---------------------------------------------------------------------------------------------------
@@ -181,8 +181,8 @@
     //   }
     // }
     //----------------------------------------------------------------------------------------------------
-    </script>
-    {{-- @vite(['resources/js/app.js']) --}}
+    </script> --}}
+    @vite(['resources/js/app.js'])
     <script>
       $(document).ready(function() {
           $('#tags').select2({

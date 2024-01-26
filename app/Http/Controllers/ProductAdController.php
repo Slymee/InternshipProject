@@ -9,13 +9,14 @@ use App\Models\ProductAd;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Input;
 
 class ProductAdController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
         $user = auth()->user();
         $products = ProductAd::where('user_id', $user->id)->paginate(10);
@@ -25,7 +26,7 @@ class ProductAdController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Category $category)
+    public function create(Category $category): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
         $mainParent = $category->whereNull('parent_id')->paginate(10);
         return view('userend.create-product', compact('mainParent'));
@@ -33,16 +34,22 @@ class ProductAdController extends Controller
 
     /**
      * Getting paginated parent category
+     * @param Category $category
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function getPaginatedCategory(Category $category){
-        $mainParent = $category->whereNull('parent_id')->get();
+    public function getPaginatedCategory(Category $category, Request $request): \Illuminate\Http\JsonResponse
+    {
+        // dd($request->all());
+        $term = $request->term;
+        $mainParent = $category->where('category_name','like','%'.$term.'%')->whereNull('parent_id')->paginate(2);
         return response()->json(['items' => $mainParent->items()]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CreateProductAdRequest $request)
+    public function store(CreateProductAdRequest $request): \Illuminate\Http\RedirectResponse
     {
         try{
             $request['slug'] = Str::slug($request->input('product_title'));
@@ -60,7 +67,7 @@ class ProductAdController extends Controller
                 $productAd->categories()->attach($request->input('parent_category'));
                 $productAd->categories()->attach($request->input('sub_category'));
                 $productAd->categories()->attach($request->input('sub_sub_category'));
-                $tagNames = $request->input('product_tags', []); // Assuming 'product_tags' is an array in the request
+                $tagNames = $request->input('product_tags', []);
                 $productAd->tags()->saveMany(
                     array_map(function ($tagName) {
                         return new Tag(['tag_name' => $tagName]);
@@ -77,11 +84,16 @@ class ProductAdController extends Controller
     }
 
     /**
-     * Select child category for selecting multilevel category
+     * Getting paginated child category
+     *
+     * @param string $parentId
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function displayChildCategory(string $parentId){
-        $data = Category::where('parent_id', $parentId)->paginate(10);
-        return response()->json($data);
+    public function displayChildCategory(string $parentId, Request $request): \Illuminate\Http\JsonResponse
+    {
+        $term = $request->term;
+        $data = Category::where('category_name', 'like', '%'.$term.'%')->where('parent_id', $parentId)->paginate(2);
+        return response()->json(['items' => $data->items()]);
         // return response()->json(['items' => $data->items()]);
     }
 
