@@ -15,6 +15,6 @@ class Tag extends Model
     ];
 
     public function productAds(){
-        return $this->belongsTo(ProductAd::class, 'product_ads');
+        return $this->belongsTo(Product::class, 'product_ads');
     }
 }

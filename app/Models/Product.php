@@ -6,11 +6,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProductAd extends Model
+class Product extends Model
 {
     use HasFactory;
 
-    protected $table='product_ads';
+    protected $table='products';
 
     protected $fillable=[
         'user_id',
@@ -20,17 +20,17 @@ class ProductAd extends Model
         'image_path',
         'slug'
     ];
-    public function user()
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function categories()
+    public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Category::class, 'product_category');    
+        return $this->belongsToMany(Category::class, 'product_categories');
     }
 
-    public function tags()
+    public function tags(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Tag::class, 'product_id');
     }

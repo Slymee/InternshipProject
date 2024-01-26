@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateProductAdRequest;
 use App\Models\Category;
-use App\Models\ProductAd;
+use App\Models\Product;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Input;
 
-class ProductAdController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +19,7 @@ class ProductAdController extends Controller
     public function index(): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
         $user = auth()->user();
-        $products = ProductAd::where('user_id', $user->id)->paginate(10);
+        $products = Product::where('user_id', $user->id)->paginate(10);
         return view('userend.my-products', compact('products'));
     }
 
@@ -56,7 +56,7 @@ class ProductAdController extends Controller
             $imageName = 'solo' . time() . 'leveling' .'.'. $request->product_image->extension();
 
             if($imagePath = $request->file('product_image')->storeAs('images', $imageName, 'public')){
-                $productAd=ProductAd::create([
+                $productAd=Product::create([
                     'user_id' => $request->input('user_id'),
                     'product_title' => $request->input('product_title'),
                     'product_description' => $request->input('product_description'),
@@ -100,7 +100,7 @@ class ProductAdController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ProductAd $productAd)
+    public function show(Product $productAd)
     {
 
     }
@@ -108,7 +108,7 @@ class ProductAdController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ProductAd $productAd)
+    public function edit(Product $productAd)
     {
         //
     }
@@ -116,7 +116,7 @@ class ProductAdController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ProductAd $productAd)
+    public function update(Request $request, Product $productAd)
     {
         //
     }
@@ -124,7 +124,7 @@ class ProductAdController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ProductAd $productAd)
+    public function destroy(Product $productAd)
     {
         //
     }

@@ -1,0 +1,35 @@
+section{
+    display: flex;
+}
+
+.side-bar{
+    padding: 10px;
+    width: 250px;
+    height: 100vh;
+    background: #2d3748;
+    color: white;
+}
+
+.main-container{
+    padding: 10px;
+}
+
+.main-container>span{
+    padding: 10px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.table-container{
+    padding: 10px;
+    width: 100%;
+}
+
+td,th{
+    padding: 10px;
+    width: 700px;
+    text-align: center;
+}
+td>a>button{
+    width: 50%;
+}

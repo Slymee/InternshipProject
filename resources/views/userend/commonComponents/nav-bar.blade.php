@@ -16,7 +16,7 @@
         <li class="dropdown">
             <button onclick="myFunction()" class="dropbtn">{{ auth()->user()->username }}</button>
             <div id="myDropdown" class="dropdown-content">
-              <a href="{{ route('my-product-ads') }}">My Ads</a>
+              <a href="{{ route('my-product-ads') }}">Dashboard</a>
               <a href="{{ route('user.logout') }}">Logout</a>
             </div>
         </li>
@@ -46,7 +46,7 @@
        <span class="fas fa-times"></span>
     </div> --}}
     <form action="#">
-       <input type="search" class="search-data" placeholder="Search" required>
+       <input type="search" class="search-data" placeholder="Search Products" required>
        <button type="submit" class="fas fa-search"></button>
     </form>
  </nav>

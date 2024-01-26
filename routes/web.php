@@ -5,7 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PasswordResetController;
-use App\Http\Controllers\ProductAdController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserPasswordResetController;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -19,7 +19,7 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/  
+*/
 
 Route::get('/', function () {
     return view('welcome');
@@ -54,11 +54,11 @@ Route::get('home', [UserController::class, 'index'])->name('user.home');
 
                 //guest route protection
 Route::middleware(['guest.authenticate'])->group(function () {
-    Route::get('my-product-ads', [ProductAdController::class, 'index'])->name('my-product-ads');
-    Route::get('product-ad', [ProductAdController::class, 'create'])->name('product-ad-form');
-    Route::post('product-ad', [ProductAdController::class, 'store'])->name('product-ad-post');
-    Route::get('get-parent-category', [ProductAdController::class, 'getPaginatedCategory'])->name('paginated-category');
-    Route::get('get-child-option/{parentId}', [ProductAdController::class, 'displayChildCategory'])->name('get-child-option');
+    Route::get('product-dashboard', [ProductController::class, 'index'])->name('my-product-ads');
+    Route::get('product-ad', [ProductController::class, 'create'])->name('product-ad-form');
+    Route::post('product-ad', [ProductController::class, 'store'])->name('product-ad-post');
+    Route::get('get-parent-category', [ProductController::class, 'getPaginatedCategory'])->name('paginated-category');
+    Route::get('get-child-option/{parentId}', [ProductController::class, 'displayChildCategory'])->name('get-child-option');
 });
 
 

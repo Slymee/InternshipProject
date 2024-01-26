@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    $('#subCategoryDiv').hide();
+    $('#subSubCategoryDiv').hide();
+
     // Initialize Select2
     $("#parentCategory").select2({
         placeholder: 'Search...',
@@ -46,6 +49,7 @@ $(document).ready(function() {
      * Getting first child category in select
      */
     $('#parentCategory').on('change', function (){
+        $('#subCategoryDiv').show();
         var mainParentId = document.querySelector('#parentCategory').value;
         $("#subCategory").select2({
             placeholder: 'Search...',
@@ -77,7 +81,6 @@ $(document).ready(function() {
                 },
                 cache: true
             },
-            // dropdownParent: $('#scrollingSelectContainer'),  // Specify the container for the dropdown
         });
 
     });
@@ -87,6 +90,7 @@ $(document).ready(function() {
      * Getting first child category
      */
     $('#subCategory').on('change', function (){
+        $('#subSubCategoryDiv').show();
         var firstChildId = document.querySelector('#subCategory').value;
         $("#subSubCategory").select2({
             placeholder: 'Search...',
@@ -118,7 +122,6 @@ $(document).ready(function() {
                 },
                 cache: true
             },
-            // dropdownParent: $('#scrollingSelectContainer'),  // Specify the container for the dropdown
         });
 
     });
