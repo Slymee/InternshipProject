@@ -46,82 +46,72 @@ $(document).ready(function() {
     /**
      * Getting first child category in select
      */
-    $('#parentCategoryDiv').on('click', function (){
-        var mainParentId = document.querySelector('#parentCategory').value;
-        $("#subCategory").select2({
-            placeholder: 'Search...',
-            width: '100%',
-            allowClear: true,
-            ajax: {
-                url: '/get-child-option/' + mainParentId,
-                dataType: 'json',
-                data: function(params) {
-                    return {
-                        term: params.term || '',
-                        page: params.page || 1
-                    }
-                },
-                processResults: function(data, params) {
-
-                    params.page = params.page || 1;
-                    return {
-                        results: $.map(data.items, function(val, i) {
-                            return {
-                                id: val.id,
-                                text: val.category_name
-                            }
-                        }),
-                        pagination: {
-                            more: (params.page * 5) < data.total_count
-                        }
-                    };
-                },
-                cache: true
+    var mainParentId = document.querySelector('#parentCategory').value;
+    $("#subCategory").select2({
+        placeholder: 'Search...',
+        width: '100%',
+        allowClear: true,
+        ajax: {
+            url: '/get-child-option/' + mainParentId,
+            dataType: 'json',
+            data: function(params) {
+                return {
+                    term: params.term || '',
+                    page: params.page || 1
+                }
             },
-        });
+            processResults: function(data, params) {
 
+                params.page = params.page || 1;
+                return {
+                    results: $.map(data.items, function(val, i) {
+                        return {
+                            id: val.id,
+                            text: val.category_name
+                        }
+                    }),
+                    pagination: {
+                        more: (params.page * 5) < data.total_count
+                    }
+                };
+            },
+            cache: true
+        },
     });
-
 
     /**
      * Getting first child category
      */
-    $('#subCategoryDiv').on('click', function (){
-        $('#subSubCategoryDiv').show();
-        var firstChildId = document.querySelector('#subCategory').value;
-        $("#subSubCategory").select2({
-            placeholder: 'Search...',
-            width: '100%',
-            allowClear: true,
-            ajax: {
-                url: '/get-child-option/' + firstChildId,
-                dataType: 'json',
-                data: function(params) {
-                    return {
-                        term: params.term || '',
-                        page: params.page || 1
-                    }
-                },
-                processResults: function(data, params) {
-
-                    params.page = params.page || 1;
-                    return {
-                        results: $.map(data.items, function(val, i) {
-                            return {
-                                id: val.id,
-                                text: val.category_name
-                            }
-                        }),
-                        pagination: {
-                            more: (params.page * 5) < data.total_count
-                        }
-                    };
-                },
-                cache: true
+    var firstChildId = document.querySelector('#subCategory').value;
+    $("#subSubCategory").select2({
+        placeholder: 'Search...',
+        width: '100%',
+        allowClear: true,
+        ajax: {
+            url: '/get-child-option/' + firstChildId,
+            dataType: 'json',
+            data: function(params) {
+                return {
+                    term: params.term || '',
+                    page: params.page || 1
+                }
             },
-        });
+            processResults: function(data, params) {
 
+                params.page = params.page || 1;
+                return {
+                    results: $.map(data.items, function(val, i) {
+                        return {
+                            id: val.id,
+                            text: val.category_name
+                        }
+                    }),
+                    pagination: {
+                        more: (params.page * 5) < data.total_count
+                    }
+                };
+            },
+            cache: true
+        },
     });
-
-
 });
