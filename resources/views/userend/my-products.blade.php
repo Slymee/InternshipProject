@@ -32,7 +32,7 @@
                                 <td>{{ $product->product_price }}</td>
                                 <td>{{ $product->image_path }}</td>
                                 <td><img src="{{ asset('storage/'.$product->image_path) }}" alt="no image" style="height: 50px;width:100px;"></td>
-                                <td><a href=""><button type="button" class="btn btn-dark">Edit</button></a> </td>
+                                <td><a href="{{ route('product-edit', ['productId' => $product->id]) }}"><button type="button" class="btn btn-dark">Edit</button></a> </td>
                                 <td><a href=""><button type="button" class="btn btn-danger" onclick="confirmDelete({{ $product->id }})">Delete</button></a> </td>
                             </tr>
                         @endforeach

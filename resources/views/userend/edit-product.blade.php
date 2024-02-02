@@ -16,44 +16,47 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <section>
         <div class="form-container">
-            <span>Create an Ad</span>
+            <span>Edit Product</span>
+{{--            @dd($productDetails->categories)--}}
             <form action="{{ route('product-ad-post') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
                     <label for="product_title" class="form-label">Product Title</label>
-                    <input type="text" class="form-control" name="product_title" id="exampleFormControlInput1" placeholder="Enter Product Title">
+                    <input type="text" class="form-control" name="product_title" id="exampleFormControlInput1" placeholder="Enter Product Title" value="{{ $productDetails->product_title }}">
                 </div>
                 <div class="mb-3">
                     <label for="product_description" class="form-label">Product Description</label>
-                    <textarea class="form-control" name="product_description" id="exampleFormControlTextarea1" rows="3" placeholder="Enter Product Description"></textarea>
+                    <textarea class="form-control" name="product_description" id="exampleFormControlTextarea1" rows="3" placeholder="Enter Product Description">{{ $productDetails->product_description }}</textarea>
                 </div>
                 <div class="mb-3">
                     <label for="product_price" class="form-label">Product Price</label>
-                    <input type="number" class="form-control" name="product_price" id="exampleFormControlInput1" placeholder="Enter Product Price">
+                    <input type="number" class="form-control" name="product_price" id="exampleFormControlInput1" placeholder="Enter Product Price" value="{{ $productDetails->product_price }}">
                 </div>
                 <div class="mb-3">
                     <label for="formFile" class="form-label">Upload Product Image (Max: 2MB)</label>
                     <input class="form-control" type="file" id="formFile" name="product_image">
                 </div>
-                <div class="mb-3">
+                <div class="mb-3" id="parentCategoryDiv">
                     <label for="parentCategory" class="form-label">Select Category</label>
                     <select class="form-select" aria-label="Default select example" name="parent_category" id="parentCategory" onchange="fetchSubCategory()">
-                        <option value="" selected>Select Category</option>
-                        @foreach ($mainParent as $category)
-                            <option value="{{ $category->id }}">{{ $category->category_name }}</option>
-                        @endforeach
+                        <option value="{{ $productDetails->categories[0]['id'] }}" selected>{{ $productDetails->categories[0]['category_name'] }}</option>
+{{--                        --}}
+{{--                        @foreach ($mainParent as $category)--}}
+{{--                            <option value="{{ $category->id }}" >{{ $category->category_name }}</option>--}}
+{{--                        @endforeach--}}
                     </select>
                 </div>
                 <div class="mb-3" id="subCategoryDiv">
                     <label for="subCategory" class="form-label">Select Sub Category</label>
                     <select class="form-select" aria-label="Default select example" name="sub_category" id="subCategory">
-                        <option value="" selected>Select Sub Category</option>
+                        <option value="{{ $productDetails->categories[1]['id'] }}" selected>{{ $productDetails->categories[1]['category_name'] }}</option>
+
                     </select>
                 </div>
                 <div class="mb-3" id="subSubCategoryDiv">
                     <label for="sub_sub_category" class="form-label">Select Sub Sub Category</label>
                     <select class="form-select" aria-label="Default select example" name="sub_sub_category" id="subSubCategory" onchange="tagEnterDiv()">
-                        <option value="" selected>Select Sub Sub Category</option>
+                        <option value="{{ $productDetails->categories[2]['id'] }}" selected>{{ $productDetails->categories[2]['category_name'] }}</option>
                     </select>
                 </div>
 
@@ -64,7 +67,7 @@
                     </select>
                 </div>
                 <input type="hidden" name="user_id" value="{{ auth()->id() }}">
-                <input class="btn btn-primary" type="submit" value="Create Ad">
+                <input class="btn btn-primary" type="submit" value="Edit">
                 <span class="error-message">
                     @if(session('message'))
                         {{ session('message') }}
@@ -181,7 +184,7 @@
     // }
     //----------------------------------------------------------------------------------------------------
     </script> --}}
-    @vite(['resources/js/app.js'])
+    @vite(['resources/js/product-edit.js'])
     <script>
         $(document).ready(function() {
             $('#tags').select2({

@@ -20,7 +20,6 @@ class ProductController extends Controller
     {
         $user = auth()->user();
         $products = Product::where('user_id', $user->id)->paginate(10);
-//        dd($products);
         return view('userend.my-products', compact('products'));
     }
 
@@ -109,9 +108,11 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $productAd)
+    public function edit(Product $productAd, string $productId): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
-        //
+        $mainParent = Category::whereNull('parent_id')->paginate(10);
+        $productDetails = $productAd->with('categories')->find($productId);
+        return view('userend.edit-product', compact('mainParent', 'productDetails'));
     }
 
     /**

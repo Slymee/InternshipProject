@@ -181,7 +181,7 @@
     // }
     //----------------------------------------------------------------------------------------------------
     </script> --}}
-    @vite(['resources/js/app.js'])
+    @vite(['resources/js/product-ad.js'])
     <script>
       $(document).ready(function() {
           $('#tags').select2({

@@ -1,5 +1,5 @@
 import './bootstrap';
 
-import './product-ad';
-
-import './product-edit'
+// import './product-ad';
+//
+// import './product-edit'
