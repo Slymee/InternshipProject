@@ -13,7 +13,7 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Category $category)
+    public function index(Category $category): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
         $mainParent = $category->whereNull('parent_id')->paginate(10);
         return view('backend.admin-category', compact('mainParent'));
@@ -22,7 +22,7 @@ class CategoryController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Category $category)
+    public function create(Category $category): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
         $data = $category->whereNull('parent_id')
         ->orWhereHas('parent', fn ($query) => $query->whereNull('parent_id'))
@@ -35,7 +35,7 @@ class CategoryController extends Controller
      *
      * Store a newly created resource in storage.
      */
-    public function store(CategoryRequest $request)
+    public function store(CategoryRequest $request): \Illuminate\Http\RedirectResponse
     {
         try{
             Category::create([
@@ -77,7 +77,7 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(CategoryRequest $request)
+    public function update(CategoryRequest $request): \Illuminate\Http\RedirectResponse
     {
         try{
             Category::where('id', $request->category_id)->update([

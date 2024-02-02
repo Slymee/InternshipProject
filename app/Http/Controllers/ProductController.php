@@ -110,9 +110,9 @@ class ProductController extends Controller
      */
     public function edit(Product $productAd, string $productId): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
-        $mainParent = Category::whereNull('parent_id')->paginate(10);
-        $productDetails = $productAd->with('categories')->find($productId);
-        return view('userend.edit-product', compact('mainParent', 'productDetails'));
+//        $mainParent = Category::whereNull('parent_id')->paginate(10);
+        $productDetails = $productAd->with('categories', 'tags')->find($productId);
+        return view('userend.edit-product', compact('productDetails'));
     }
 
     /**
