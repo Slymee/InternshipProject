@@ -57,6 +57,7 @@ Route::middleware(['guest.authenticate'])->group(function () {
     Route::get('product-dashboard', [ProductController::class, 'index'])->name('my-product-ads');
     Route::get('product-ad', [ProductController::class, 'create'])->name('product-ad-form');
     Route::post('product-ad', [ProductController::class, 'store'])->name('product-ad-post');
+    Route::get('product/{productId}/destroy', [ProductController::class, 'destroy'])->name('product-destroy');
     Route::get('get-parent-category', [ProductController::class, 'getPaginatedCategory'])->name('paginated-category');
     Route::get('get-child-option/{parentId}', [ProductController::class, 'displayChildCategory'])->name('get-child-option');
 });

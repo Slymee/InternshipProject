@@ -20,6 +20,7 @@ class ProductController extends Controller
     {
         $user = auth()->user();
         $products = Product::where('user_id', $user->id)->paginate(10);
+//        dd($products);
         return view('userend.my-products', compact('products'));
     }
 
@@ -124,8 +125,13 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $productAd)
+    public function destroy(string $productId): \Illuminate\Http\RedirectResponse
     {
-        //
+        try {
+            Product::find($productId)->delete();
+            return redirect()->back()->with('message', 'Product Deleted');
+        }catch (\Exception $e){
+            return redirect()->back()->with('message', $e->getMessage());
+        }
     }
 }

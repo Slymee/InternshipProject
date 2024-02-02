@@ -31,8 +31,8 @@ class CategoryController extends Controller
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * Store a newly created resource in storage.
      */
     public function store(CategoryRequest $request)
@@ -53,7 +53,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        
+
     }
 
     /**
@@ -96,7 +96,7 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): \Illuminate\Http\RedirectResponse
     {
         try{
             Category::find($id)->delete();
