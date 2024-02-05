@@ -38,22 +38,26 @@
                 <div class="mb-3">
                     <label for="parentCategory" class="form-label">Select Category</label>
                     <select class="form-select" aria-label="Default select example" name="parent_category" id="parentCategory" onchange="fetchSubCategory()">
-                        <option value="{{ $productDetails->categories[0]['id'] }}" selected>{{ $productDetails->categories[0]['category_name'] }}</option>
+                        <option value="{{ $productDetails->categories[0]->id }}" selected>{{ $productDetails->categories[0]['category_name'] }}</option>
                     </select>
                 </div>
                 <div class="mb-3">
                     <label for="subCategory" class="form-label">Select Sub Category</label>
                     <select class="form-select" aria-label="Default select example" name="sub_category" id="subCategory">
-                        <option value="{{ $productDetails->categories[1]['id'] }}" selected>{{ $productDetails->categories[1]['category_name'] }}</option>
+                        <option value="{{ $productDetails->categories[1]->id }}" selected>{{ $productDetails->categories[1]['category_name'] }}</option>
 
                     </select>
                 </div>
                 <div class="mb-3">
                     <label for="sub_sub_category" class="form-label">Select Sub Sub Category</label>
                     <select class="form-select" aria-label="Default select example" name="sub_sub_category" id="subSubCategory" onchange="tagEnterDiv()">
-                        <option value="{{ $productDetails->categories[2]['id'] }}" selected>{{ $productDetails->categories[2]['category_name'] }}</option>
+                        <option value="{{ $productDetails->categories[2]->id }}" selected>{{ $productDetails->categories[2]['category_name'] }}</option>
                     </select>
                 </div>
+
+
+
+
 
                 <div class="mb-3" id="tagDiv">
                     <label for="tags">Enter Tags:</label>

@@ -40,6 +40,8 @@ $(document).ready(function() {
      */
     $('#parentCategory').on('change', function (){
         $('#subCategory').val(null);
+        $('#subSubCategory').val(null);
+        $('#subSubCategory').select2();
         var mainParentId = document.querySelector('#parentCategory').value;
         $("#subCategory").select2({
             placeholder: 'Search...',
