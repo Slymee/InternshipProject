@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateProductAdRequest;
+use App\Http\Requests\ProductEditUpdateRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Tag;
@@ -118,7 +119,7 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $productAd)
+    public function update(ProductEditUpdateRequest $request, Product $product, string $productId)
     {
         //
     }

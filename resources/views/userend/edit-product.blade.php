@@ -17,8 +17,9 @@
     <section>
         <div class="form-container">
             <span>Edit Product</span>
-            <form action="{{ route('product-ad-post') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('product-update', $productDetails->id) }}" method="post" enctype="multipart/form-data">
                 @csrf
+                @method('PUT')
                 <div class="mb-3">
                     <label for="product_title" class="form-label">Product Title</label>
                     <input type="text" class="form-control" name="product_title" id="exampleFormControlInput1" placeholder="Enter Product Title" value="{{ $productDetails->product_title }}">
@@ -54,11 +55,6 @@
                         <option value="{{ $productDetails->categories[2]->id }}" selected>{{ $productDetails->categories[2]['category_name'] }}</option>
                     </select>
                 </div>
-
-
-
-
-
                 <div class="mb-3" id="tagDiv">
                     <label for="tags">Enter Tags:</label>
                     <select name="product_tags[]" class="form-select form-select-lg mb-3" id="tags" multiple>
