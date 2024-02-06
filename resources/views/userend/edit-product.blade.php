@@ -67,7 +67,7 @@
                 <input class="btn btn-primary" type="submit" value="Edit">
                 <span class="error-message">
                     @if(session('message'))
-                        {{ session('message') }}
+                        <br>{{ session('message') }}
                     @endif
 
                     @if($errors->any())
@@ -75,7 +75,7 @@
                             <br> {{ $error }}
                         @endforeach
                     @endif
-                    </span>
+                </span>
             </form>
         </div>
     </section>

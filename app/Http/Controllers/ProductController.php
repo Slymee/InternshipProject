@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateProductAdRequest;
+use App\Http\Requests\CreateProductRequest;
 use App\Http\Requests\ProductEditUpdateRequest;
 use App\Models\Category;
 use App\Models\Product;
@@ -52,7 +52,7 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CreateProductAdRequest $request): \Illuminate\Http\RedirectResponse
+    public function store(CreateProductRequest $request): \Illuminate\Http\RedirectResponse
     {
         try{
             $request['slug'] = Str::slug($request->input('product_title'));
@@ -121,7 +121,7 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ProductEditUpdateRequest $request, string $productId): \Illuminate\Http\RedirectResponse
+    public function update(CreateProductRequest $request, string $productId): \Illuminate\Http\RedirectResponse
     {
         try {
             $product = Product::findOrFail($productId);

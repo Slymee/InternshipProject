@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateProductAdRequest extends FormRequest
+class CreateProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,7 +21,7 @@ class CreateProductAdRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'user_id' => ['required', 'bail', 'exists:users,id'],
             'product_title' => ['required', 'bail'],
             'product_description' => ['required', 'bail'],
@@ -32,5 +32,10 @@ class CreateProductAdRequest extends FormRequest
             'sub_sub_category' => ['required', 'bail'],
             'product_tags' => ['required', 'bail'],
         ];
+
+        if ($this->route()->named('product-update')) {
+            $rules['product_image'] = ['image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'];
+        }
+        return $rules;
     }
 }

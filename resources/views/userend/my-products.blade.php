@@ -39,11 +39,8 @@
                     </tbody>
                 </table>
                 <span class="error-message">
-        @if(session('message'))
-                        {{ session('message') }}
-                    @endif
                     @if(session('message'))
-                        {{ session('message') }}
+                        <br>{{ session('message') }}
                     @endif
 
                     @if($errors->any())
@@ -51,7 +48,7 @@
                             <br> {{ $error }}
                         @endforeach
                     @endif
-    </span>
+                </span>
             </div>
         </div>
     </div>
