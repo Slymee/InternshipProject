@@ -18,7 +18,8 @@ class Product extends Model
         'product_description',
         'product_price',
         'image_path',
-        'slug'
+        'slug',
+        'category_id',
     ];
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

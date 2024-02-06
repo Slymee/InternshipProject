@@ -17,7 +17,7 @@
     <section>
         <div class="form-container">
             <span>Edit Product</span>
-            <form action="{{ route('product-update', $productDetails->id) }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('product-update', $productDetails->id ?? 0) }}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('put')
                 <div class="mb-3">

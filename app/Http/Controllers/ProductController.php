@@ -66,10 +66,9 @@ class ProductController extends Controller
                     'product_price' => $request->input('product_price'),
                     'image_path' => $imagePath,
                     'slug' => $request['slug'],
+                    'category_id' => $request->sub_sub_category,
                 ]);
-                $productAd->categories()->attach($request->input('parent_category'));
-                $productAd->categories()->attach($request->input('sub_category'));
-                $productAd->categories()->attach($request->input('sub_sub_category'));
+
                 $tagNames = $request->input('product_tags', []);
                 $productAd->tags()->saveMany(
                     array_map(function ($tagName) {
@@ -128,37 +127,41 @@ class ProductController extends Controller
             $imagePath = $product->image_path;
 //        dd($request->all());
 
-            if ($request->hasFile('product_image')){
-                if ($product->product_image){
-                    Storage::delete($product->product_image);
+            if ($product){
+                if ($request->hasFile('product_image')){
+                    if ($product->product_image){
+                        Storage::delete($product->product_image);
+                    }
+                    $imageName = 'solo' . time() . 'leveling' .'.'. $request->product_image->extension();
+                    $imagePath = $request->file('product_image')->storeAs('images', $imageName, 'public');
                 }
-                $imageName = 'solo' . time() . 'leveling' .'.'. $request->product_image->extension();
-                $imagePath = $request->file('product_image')->storeAs('images', $imageName, 'public');
-            }
 
-            $product->update([
-                'product_title' => $request->product_title,
-                'product_description' => $request->product_description,
-                'product_price' => $request->product_price,
-                'image_path' => $imagePath
-            ]);
+                $product->update([
+                    'product_title' => $request->product_title,
+                    'product_description' => $request->product_description,
+                    'product_price' => $request->product_price,
+                    'image_path' => $imagePath
+                ]);
 
-            $categories = [];
-            $categories = array_merge($categories, (array)$request->input('parent_category'));
-            $categories = array_merge($categories, (array)$request->sub_category);
-            $categories = array_merge($categories, (array)$request->sub_sub_category);
-            $product->categories()->sync($categories);
+                $categories = [];
+                $categories = array_merge($categories, (array)$request->input('parent_category'));
+                $categories = array_merge($categories, (array)$request->sub_category);
+                $categories = array_merge($categories, (array)$request->sub_sub_category);
+                $product->categories()->sync($categories);
 
 
-            if ($request->has('product_tags')) {
-                $product->tags()->delete();
+                if ($request->has('product_tags')) {
+                    $product->tags()->delete();
 //                dd($request->input('product_tags', []));
-                foreach ($request->input('product_tags', []) as $productTag){
-                    $tag = new Tag(['tag_name' => $productTag]);
-                    $product->tags()->save($tag);
+                    foreach ($request->input('product_tags', []) as $productTag){
+                        $tag = new Tag(['tag_name' => $productTag]);
+                        $product->tags()->save($tag);
+                    }
                 }
+                return redirect()->back()->with('message', 'Product Updated!');
+            }else{
+                return redirect(route('my-products-ads'))->with('message', "Product doesn't exist!");
             }
-            return redirect()->back()->with('message', 'Product Updated!');
         }catch (\Exception $e){
             return redirect()->back()->with('message', $e->getMessage());
         }
