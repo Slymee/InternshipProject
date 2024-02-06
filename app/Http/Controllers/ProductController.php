@@ -8,6 +8,7 @@ use App\Http\Requests\ProductEditUpdateRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Tag;
+use Faker\Core\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -169,7 +170,10 @@ class ProductController extends Controller
     public function destroy(string $productId): \Illuminate\Http\RedirectResponse
     {
         try {
-            Product::find($productId)->delete();
+            $product = Product::find($productId);
+//            $imagePath = public_path().'/'.$product->image_path;
+            Storage::disk('public')->delete($product->image_path);
+            $product->delete();
             return redirect()->back()->with('message', 'Product Deleted');
         }catch (\Exception $e){
             return redirect()->back()->with('message', $e->getMessage());

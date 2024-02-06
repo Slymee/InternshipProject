@@ -38,9 +38,24 @@
                         @endforeach
                     </tbody>
                 </table>
+                <span class="error-message">
+        @if(session('message'))
+                        {{ session('message') }}
+                    @endif
+                    @if(session('message'))
+                        {{ session('message') }}
+                    @endif
+
+                    @if($errors->any())
+                        @foreach ($errors->all() as $error)
+                            <br> {{ $error }}
+                        @endforeach
+                    @endif
+    </span>
             </div>
         </div>
     </div>
+
     <script>
         function confirmDelete(productId) {
             if (confirm('Are you sure you want to delete this product?')) {
