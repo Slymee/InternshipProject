@@ -19,7 +19,7 @@
             <span>Edit Product</span>
             <form action="{{ route('product-update', $productDetails->id) }}" method="post" enctype="multipart/form-data">
                 @csrf
-                @method('PUT')
+                @method('put')
                 <div class="mb-3">
                     <label for="product_title" class="form-label">Product Title</label>
                     <input type="text" class="form-control" name="product_title" id="exampleFormControlInput1" placeholder="Enter Product Title" value="{{ $productDetails->product_title }}">
@@ -59,7 +59,7 @@
                     <label for="tags">Enter Tags:</label>
                     <select name="product_tags[]" class="form-select form-select-lg mb-3" id="tags" multiple>
                         @foreach($productDetails->tags as $tag)
-                            <option value="{{ $tag->id }}" selected>{{ $tag->tag_name }}</option>
+                            <option value="{{ $tag->tag_name }}" selected>{{ $tag->tag_name }}</option>
                         @endforeach
                     </select>
                 </div>

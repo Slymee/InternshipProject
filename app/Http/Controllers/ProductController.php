@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Input;
 
@@ -119,9 +120,47 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ProductEditUpdateRequest $request, Product $product, string $productId)
+    public function update(ProductEditUpdateRequest $request, string $productId): \Illuminate\Http\RedirectResponse
     {
-        //
+        try {
+            $product = Product::findOrFail($productId);
+            $imagePath = $product->image_path;
+//        dd($request->all());
+
+            if ($request->hasFile('product_image')){
+                if ($product->product_image){
+                    Storage::delete($product->product_image);
+                }
+                $imageName = 'solo' . time() . 'leveling' .'.'. $request->product_image->extension();
+                $imagePath = $request->file('product_image')->storeAs('images', $imageName, 'public');
+            }
+
+            $product->update([
+                'product_title' => $request->product_title,
+                'product_description' => $request->product_description,
+                'product_price' => $request->product_price,
+                'image_path' => $imagePath
+            ]);
+
+            $categories = [];
+            $categories = array_merge($categories, (array)$request->input('parent_category'));
+            $categories = array_merge($categories, (array)$request->sub_category);
+            $categories = array_merge($categories, (array)$request->sub_sub_category);
+            $product->categories()->sync($categories);
+
+
+            if ($request->has('product_tags')) {
+                $product->tags()->delete();
+//                dd($request->input('product_tags', []));
+                foreach ($request->input('product_tags', []) as $productTag){
+                    $tag = new Tag(['tag_name' => $productTag]);
+                    $product->tags()->save($tag);
+                }
+            }
+            return redirect()->back()->with('message', 'Product Updated!');
+        }catch (\Exception $e){
+            return redirect()->back()->with('message', $e->getMessage());
+        }
     }
 
     /**
