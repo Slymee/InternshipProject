@@ -4,15 +4,12 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateProductRequest;
-use App\Http\Requests\ProductEditUpdateRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Tag;
-use Faker\Core\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Input;
 
 class ProductController extends Controller
 {
@@ -22,7 +19,7 @@ class ProductController extends Controller
     public function index(): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
         $user = auth()->user();
-        $products = Product::where('user_id', $user->id)->paginate(10);
+        $products = Product::with('category')->where('user_id', $user->id)->paginate(10);
         return view('userend.my-products', compact('products'));
     }
 
@@ -113,8 +110,11 @@ class ProductController extends Controller
     public function edit(Product $productAd, string $productId): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
 //        $mainParent = Category::whereNull('parent_id')->paginate(10);
-        $productDetails = $productAd->with('categories', 'tags')->find($productId);
-        return view('userend.edit-product', compact('productDetails'));
+        $productDetails = $productAd->with('tags')->find($productId);
+        $subSubCategory = $productDetails->category;
+        $subCategory = $productDetails->parentCategory;
+        $parentCategory = $productDetails->grandParentCategory;
+        return view('userend.edit-product', compact('productDetails', 'subSubCategory', 'subCategory', 'parentCategory'));
     }
 
     /**
@@ -140,6 +140,7 @@ class ProductController extends Controller
                     'product_title' => $request->product_title,
                     'product_description' => $request->product_description,
                     'product_price' => $request->product_price,
+                    'category_id' => $request->sub_sub_category,
                     'image_path' => $imagePath
                 ]);
 
@@ -159,9 +160,8 @@ class ProductController extends Controller
                     }
                 }
                 return redirect()->back()->with('message', 'Product Updated!');
-            }else{
-                return redirect(route('my-products-ads'))->with('message', "Product doesn't exist!");
             }
+            return redirect(route('my-products-ads'))->with('message', "Product doesn't exist!");
         }catch (\Exception $e){
             return redirect()->back()->with('message', $e->getMessage());
         }

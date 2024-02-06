@@ -26,9 +26,19 @@ class Product extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsToMany(Category::class, 'product_categories');
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function parentCategory()
+    {
+        return $this->category->parent();
+    }
+
+    public function grandParentCategory()
+    {
+        return $this->parentCategory->parent();
     }
 
     public function tags(): \Illuminate\Database\Eloquent\Relations\HasMany

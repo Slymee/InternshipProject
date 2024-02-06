@@ -18,6 +18,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
+                        <th>Category</th>
                         <th>Price</th>
                         <th>Image Path</th>
                         <th>Image</th>
@@ -29,6 +30,7 @@
                             <tr>
                                 <td>{{ $product->id }}</td>
                                 <td>{{ $product->product_title }}</td>
+                                <td>{{ $product->category->category_name }}</td>
                                 <td>{{ $product->product_price }}</td>
                                 <td>{{ $product->image_path }}</td>
                                 <td><img src="{{ asset('storage/'.$product->image_path) }}" alt="no image" style="height: 50px;width:100px;"></td>
