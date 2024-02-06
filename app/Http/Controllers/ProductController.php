@@ -66,12 +66,10 @@ class ProductController extends Controller
                     'category_id' => $request->sub_sub_category,
                 ]);
 
-                $tagNames = $request->input('product_tags', []);
-                $productAd->tags()->saveMany(
-                    array_map(function ($tagName) {
-                        return new Tag(['tag_name' => $tagName]);
-                    }, $tagNames)
-                );
+                $tagNames = $request->input('product_tags');
+                $tags = Tag::whereIn('tag_name', $tagNames)->get();
+                $productAd->tags()->sync($tags);
+
                 return redirect()->back()->with('message', 'Product Add Success.');
 
             }
@@ -91,7 +89,7 @@ class ProductController extends Controller
     public function displayChildCategory(string $parentId, Request $request): \Illuminate\Http\JsonResponse
     {
         $term = $request->term;
-        $data = Category::where('category_name', 'like', '%'.$term.'%')->where('parent_id', $parentId)->paginate(2);
+        $data = Category::where('category_name', 'like', '%'.$term.'%')->where('parent_id', $parentId)->paginate(10);
         return response()->json(['items' => $data->items()]);
         // return response()->json(['items' => $data->items()]);
     }
@@ -144,13 +142,6 @@ class ProductController extends Controller
                     'image_path' => $imagePath
                 ]);
 
-                $categories = [];
-                $categories = array_merge($categories, (array)$request->input('parent_category'));
-                $categories = array_merge($categories, (array)$request->sub_category);
-                $categories = array_merge($categories, (array)$request->sub_sub_category);
-                $product->categories()->sync($categories);
-
-
                 if ($request->has('product_tags')) {
                     $product->tags()->delete();
 //                dd($request->input('product_tags', []));
@@ -174,7 +165,6 @@ class ProductController extends Controller
     {
         try {
             $product = Product::find($productId);
-//            $imagePath = public_path().'/'.$product->image_path;
             Storage::disk('public')->delete($product->image_path);
             $product->delete();
             return redirect()->back()->with('message', 'Product Deleted');

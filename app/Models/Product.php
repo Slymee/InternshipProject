@@ -10,9 +10,9 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $table='products';
+    protected $table = 'products';
 
-    protected $fillable=[
+    protected $fillable = [
         'user_id',
         'product_title',
         'product_description',
@@ -21,6 +21,7 @@ class Product extends Model
         'slug',
         'category_id',
     ];
+
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -41,8 +42,8 @@ class Product extends Model
         return $this->parentCategory->parent();
     }
 
-    public function tags(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function tags(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->hasMany(Tag::class, 'product_id');
+        return $this->belongsToMany(Tag::class);
     }
 }

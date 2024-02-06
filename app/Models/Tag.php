@@ -14,7 +14,8 @@ class Tag extends Model
         'tag_name',
     ];
 
-    public function productAds(){
-        return $this->belongsTo(Product::class, 'product_ads');
+    public function product(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Product::class, 'product_id');
     }
 }
