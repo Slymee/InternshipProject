@@ -12,5 +12,3 @@
         @include('commonComponents.admin-category', ['category' => $child])
     @endforeach    
 @endif
-
-

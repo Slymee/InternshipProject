@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Models;
 
@@ -12,7 +13,6 @@ class Category extends Model
     protected $table = 'categories';
 
     protected $fillable = [
-
         'category_name',
         'parent_id',
     ];
@@ -34,6 +34,11 @@ class Category extends Model
     public function getLevelAttribute()
     {
         return $this->ancestors()->count();
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
     }
 
 }

@@ -9,13 +9,14 @@
     <div class="nav-items">
        <li><a href="#">Home</a></li>
        <li><a href="#">About</a></li>
-       <li><a href="#">Post an Ad</a></li>
+       <li><a href="{{ route('product-ad-form') }}">Post an Ad</a></li>
        @guest
         <li><a href="{{ route('user.login') }}">Login</a></li>
        @else
         <li class="dropdown">
             <button onclick="myFunction()" class="dropbtn">{{ auth()->user()->username }}</button>
             <div id="myDropdown" class="dropdown-content">
+              <a href="{{ route('my-product-ads') }}">Dashboard</a>
               <a href="{{ route('user.logout') }}">Logout</a>
             </div>
         </li>
@@ -45,7 +46,7 @@
        <span class="fas fa-times"></span>
     </div> --}}
     <form action="#">
-       <input type="search" class="search-data" placeholder="Search" required>
+       <input type="search" class="search-data" placeholder="Search Products" required>
        <button type="submit" class="fas fa-search"></button>
     </form>
  </nav>
