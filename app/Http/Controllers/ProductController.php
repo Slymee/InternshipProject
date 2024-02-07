@@ -145,14 +145,13 @@ class ProductController extends Controller
                     'image_path' => $imagePath
                 ]);
 
-                if ($request->has('product_tags')) {
-                    $product->tags()->delete();
-//                dd($request->input('product_tags', []));
-                    foreach ($request->input('product_tags', []) as $productTag){
-                        $tag = new Tag(['tag_name' => $productTag]);
-                        $product->tags()->save($tag);
-                    }
+                $tagIds = [];
+                foreach ($request->input('product_tags') as $tagName){
+                    $tag = Tag::firstOrCreate(['tag_name' => $tagName]);
+                    $tagIds[] = $tag->id;
                 }
+                $product->tags()->sync($tagIds);
+
                 return redirect()->back()->with('message', 'Product Updated!');
             }
             return redirect(route('my-products-ads'))->with('message', "Product doesn't exist!");
