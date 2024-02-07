@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,12 +11,11 @@ class Tag extends Model
     use HasFactory;
     protected $table = 'tags';
     protected $fillable = [
-        'product_id',
         'tag_name',
     ];
 
-    public function product(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function products(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsTo(Product::class, 'product_id');
+        return $this->belongsToMany(Product::class);
     }
 }

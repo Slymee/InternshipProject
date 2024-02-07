@@ -66,10 +66,13 @@ class ProductController extends Controller
                     'category_id' => $request->sub_sub_category,
                 ]);
 
-                $tagNames = $request->input('product_tags');
-                $tags = Tag::whereIn('tag_name', $tagNames)->get();
-                $productAd->tags()->sync($tags);
 
+                $tagIds = [];
+                foreach ($request->input('product_tags') as $tagName){
+                    $tag = Tag::firstOrCreate(['tag_name' => $tagName]);
+                    $tagIds[] = $tag->id;
+                }
+                $productAd->tags()->sync($tagIds);
                 return redirect()->back()->with('message', 'Product Add Success.');
 
             }
