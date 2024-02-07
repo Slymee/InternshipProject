@@ -21,9 +21,9 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
 
 
 //admin routes
@@ -49,7 +49,7 @@ Route::post('validate', [UserController::class, 'loginUser'])->name('user.valida
 Route::post('register-user', [UserController::class,'registerUser'])->name('user.register');
 Route::get('logout', [UserController::class, 'logoutUser'])->name('user.logout');
 
-Route::get('home', [UserController::class, 'index'])->name('user.home');
+Route::get('/', [UserController::class, 'index'])->name('user-home');
 
 
                 //guest route protection

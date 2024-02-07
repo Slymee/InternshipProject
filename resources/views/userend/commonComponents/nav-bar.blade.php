@@ -7,7 +7,7 @@
        BrandLogo
     </div>
     <div class="nav-items">
-       <li><a href="#">Home</a></li>
+       <li><a href="{{ route('user-home') }}">Home</a></li>
        <li><a href="#">About</a></li>
        <li><a href="{{ route('product-ad-form') }}">Post an Ad</a></li>
        @guest
