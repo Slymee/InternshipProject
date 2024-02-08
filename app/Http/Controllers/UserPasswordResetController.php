@@ -15,14 +15,14 @@ use Illuminate\Support\Facades\Mail;
 
 class UserPasswordResetController extends Controller
 {
-    public function index()
+    public function index(): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
         return view('userend.forgot-password');
     }
 
 
     //Send reset mail
-    public function sendResetMail(ForgotPasswordRequest $request)
+    public function sendResetMail(ForgotPasswordRequest $request): RedirectResponse
     {
         $token = Str::random(64);
         try{
@@ -41,12 +41,14 @@ class UserPasswordResetController extends Controller
         }
     }
 
-    public function showNewPasswordForm(string $token){
+    public function showNewPasswordForm(string $token): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    {
         return view('userend.password-reset', ['token'=> $token]);
     }
 
 
-    public function submitNewPassword(ResetPasswordRequest $request){
+    public function submitNewPassword(ResetPasswordRequest $request): string|RedirectResponse
+    {
         try{
             $tokenData = DB::table('password_reset_tokens')->where('token', $request->validated()['token'])->first();
         if(!$tokenData){
@@ -61,5 +63,4 @@ class UserPasswordResetController extends Controller
             return $e->getMessage();
         }
     }
-
 }

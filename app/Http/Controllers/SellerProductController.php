@@ -92,7 +92,6 @@ class SellerProductController extends Controller
      */
     public function edit(Product $product, string $productId): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
-//        $mainParent = Category::whereNull('parent_id')->paginate(10);
         $productDetails = $product->with('tags')->find($productId);
         $subSubCategory = $productDetails->category;
         $subCategory = $productDetails->parentCategory;
@@ -136,7 +135,7 @@ class SellerProductController extends Controller
                 }
                 $product->tags()->sync($tagIds);
 
-                return redirect()->back()->with('message', 'Product Updated!');
+                return redirect(route('my-product-ads'))->with('message', 'Product Updated!');
             }
             return redirect(route('my-products-ads'))->with('message', "Product doesn't exist!");
         }catch (\Exception $e){

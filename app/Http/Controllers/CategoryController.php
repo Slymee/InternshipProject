@@ -106,4 +106,32 @@ class CategoryController extends Controller
         }
 
     }
+
+    /**
+     * Getting paginated parent category
+     * @param Category $category
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getPaginatedCategory(Category $category, Request $request): \Illuminate\Http\JsonResponse
+    {
+        // dd($request->all());
+        $term = $request->term;
+        $mainParent = $category->where('category_name','like','%'.$term.'%')->whereNull('parent_id')->paginate(10);
+        return response()->json(['items' => $mainParent->items()]);
+    }
+
+    /**
+     * Getting paginated child category
+     *
+     * @param string $parentId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function displayChildCategory(string $parentId, Request $request): \Illuminate\Http\JsonResponse
+    {
+        $term = $request->term;
+        $data = Category::where('category_name', 'like', '%'.$term.'%')->where('parent_id', $parentId)->paginate(10);
+        return response()->json(['items' => $data->items()]);
+        // return response()->json(['items' => $data->items()]);
+    }
 }

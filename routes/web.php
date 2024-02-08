@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SellerProductController;
 use App\Http\Controllers\UserPasswordResetController;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -57,14 +58,14 @@ Route::get('/product/{productId}', [ProductController::class]);
 
                 //guest route protection
 Route::middleware(['guest.authenticate'])->group(function () {
-    Route::get('product-dashboard', [ProductController::class, 'index'])->name('my-product-ads');
-    Route::get('product-ad', [ProductController::class, 'create'])->name('product-ad-form');
-    Route::post('product-ad', [ProductController::class, 'store'])->name('product-ad-post');
-    Route::get('product/{productId}/edit', [ProductController::class, 'edit'])->name('product-edit');
-    Route::put('product/{productId}/update', [ProductController::class, 'update'])->name('product-update');
-    Route::get('product/{productId}/destroy', [ProductController::class, 'destroy'])->name('product-destroy');
-    Route::get('get-parent-category', [ProductController::class, 'getPaginatedCategory'])->name('paginated-category');
-    Route::get('get-child-option/{parentId}', [ProductController::class, 'displayChildCategory'])->name('get-child-option');
+    Route::get('product-dashboard', [SellerProductController::class, 'index'])->name('my-product-ads');
+    Route::get('product-ad', [SellerProductController::class, 'create'])->name('product-ad-form');
+    Route::post('product-ad', [SellerProductController::class, 'store'])->name('product-ad-post');
+    Route::get('product/{productId}/edit', [SellerProductController::class, 'edit'])->name('product-edit');
+    Route::put('product/{productId}/update', [SellerProductController::class, 'update'])->name('product-update');
+    Route::get('product/{productId}/destroy', [SellerProductController::class, 'destroy'])->name('product-destroy');
+    Route::get('get-parent-category', [CategoryController::class, 'getPaginatedCategory'])->name('paginated-category');
+    Route::get('get-child-option/{parentId}', [CategoryController::class, 'displayChildCategory'])->name('get-child-option');
 });
 
 

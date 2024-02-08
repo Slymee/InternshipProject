@@ -7,7 +7,7 @@ use App\Http\Requests\CreateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Tag;
-use Illuminate\Http\Request;
+//use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -32,20 +32,6 @@ class ProductController extends Controller
         $childCategories = $category->whereIn('parent_id', $parentCategory->pluck('id'))->get();
         $grandchildCategories = $category->whereIn('parent_id', $childCategories->pluck('id'))->get();
         return view('userend.create-product', compact('parentCategory', 'childCategories', 'grandchildCategories'));
-    }
-
-    /**
-     * Getting paginated parent category
-     * @param Category $category
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getPaginatedCategory(Category $category, Request $request): \Illuminate\Http\JsonResponse
-    {
-        // dd($request->all());
-        $term = $request->term;
-        $mainParent = $category->where('category_name','like','%'.$term.'%')->whereNull('parent_id')->paginate(2);
-        return response()->json(['items' => $mainParent->items()]);
     }
 
     /**
@@ -83,20 +69,6 @@ class ProductController extends Controller
         }catch(\Exception $e){
             return redirect()->back()->with('message', $e->getMessage());
         }
-    }
-
-    /**
-     * Getting paginated child category
-     *
-     * @param string $parentId
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function displayChildCategory(string $parentId, Request $request): \Illuminate\Http\JsonResponse
-    {
-        $term = $request->term;
-        $data = Category::where('category_name', 'like', '%'.$term.'%')->where('parent_id', $parentId)->paginate(10);
-        return response()->json(['items' => $data->items()]);
-        // return response()->json(['items' => $data->items()]);
     }
 
     /**
