@@ -49,15 +49,22 @@ section{
 .product-card{
     width: 18rem;
     margin-bottom: 3rem;
+    padding: 10px;
 }
 
 .product-card-image{
     width: 300px;
     height: 250px;
+    border-top: #0c0c0c 1px solid;
+    border-left: #0c0c0c 1px solid;
+    border-right: #0c0c0c 1px solid;
 }
 
 .product-card-body{
     padding: 10px;
     background: white;
     width: 300px;
+    border-left: #0c0c0c 1px solid;
+    border-right: #0c0c0c 1px solid;
+    border-bottom: #0c0c0c 1px solid;
 }

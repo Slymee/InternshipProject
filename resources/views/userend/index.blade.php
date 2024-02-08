@@ -8,6 +8,10 @@
     Brand - Home
 @endsection
 
+@section('side-bar')
+    @include('userend.commonComponents.user-sidebar')
+@endsection
+
 @section('content')
-     
+
 @endsection

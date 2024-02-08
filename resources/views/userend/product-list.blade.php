@@ -8,7 +8,11 @@
     Brand-Products-{{ $categoryName }}
 @endsection
 
-@section('content')
+@section('side-bar')
+    @include('userend.commonComponents.user-sidebar')
+@endsection
+
+    @section('content')
     <div class="product-container">
         <div class="category-title">Category: <span>{{ $categoryName }}</span></div>
         <div class="product-list-container">

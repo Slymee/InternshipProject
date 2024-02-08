@@ -12,8 +12,8 @@
     @include('userend.commonComponents.nav-bar')
 
     <section>
-
-        @include('userend.commonComponents.user-sidebar')
+        @yield('side-bar')
+{{--        @include('userend.commonComponents.user-sidebar')--}}
 
         @yield('content')
 

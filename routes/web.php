@@ -53,7 +53,7 @@ Route::get('logout', [UserController::class, 'logoutUser'])->name('user.logout')
 
 Route::get('/', [ProductController::class, 'homePageIndex'])->name('user-home');
 Route::get('/{categoryId}/products', [ProductController::class, 'categoryProductList'])->name('product-listing');
-
+Route::get('/product/{productId}', [ProductController::class]);
 
                 //guest route protection
 Route::middleware(['guest.authenticate'])->group(function () {

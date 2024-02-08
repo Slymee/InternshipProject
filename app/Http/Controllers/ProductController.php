@@ -197,7 +197,7 @@ class ProductController extends Controller
     /**
      * List products acording to category
      */
-    public function categoryProductList(string $categoryId)
+    public function categoryProductList(string $categoryId): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
         $parentCategory = Category::whereNull('parent_id')->get();
         $childCategories = Category::whereIn('parent_id', $parentCategory->pluck('id'))->get();
@@ -205,5 +205,14 @@ class ProductController extends Controller
         $products = Product::where('category_id', $categoryId)->paginate(10);
         $categoryName = $grandchildCategories->find($categoryId)->category_name;
         return view('userend.product-list', compact('parentCategory', 'childCategories', 'grandchildCategories','categoryName' , 'products'));
+    }
+
+    /**
+     * Display product page
+     */
+
+    public function displayProduct(string $productId)
+    {
+
     }
 }
