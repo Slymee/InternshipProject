@@ -174,4 +174,20 @@ class ProductController extends Controller
             return redirect()->back()->with('message', $e->getMessage());
         }
     }
+
+    /**
+     *
+     */
+
+    public function homePageIndex()
+    {
+        try {
+            $parentCategory = Category::whereNull('parent_id')->get();
+            $childCategories = Category::whereIn('parent_id', $parentCategory->pluck('id'))->get();
+            $grandchildCategories = Category::whereIn('parent_id', $childCategories->pluck('id'))->get();
+            return view('userend.index', compact('parentCategory', 'childCategories', 'grandchildCategories'));
+        }catch(\Exception $e){
+            dd($e->getMessage());
+        }
+    }
 }

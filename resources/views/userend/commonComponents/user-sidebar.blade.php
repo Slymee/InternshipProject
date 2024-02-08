@@ -1,47 +1,24 @@
 <div class="side-bar">
-    <span class="category-heading-place">Categories</span>
-    <div class="categories-nav">
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
-                    data-mdb-toggle="dropdown" aria-expanded="false">
-                Dropdown button
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li>
-                    <a class="dropdown-item" href="#">Another action</a>
-                </li>
-                <li>
-                    <a class="dropdown-item" href="#">
-                        Submenu &raquo;
-                    </a>
-                    <ul class="dropdown-menu dropdown-submenu">
-                        <li>
-                            <a class="dropdown-item" href="#">Submenu item 1</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#">Submenu item 2</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#">Submenu item 3 &raquo; </a>
-                            <ul class="dropdown-menu dropdown-submenu">
-                                <li>
-                                    <a class="dropdown-item" href="#">Multi level 1</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="#">Multi level 2</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#">Submenu item 4</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#">Submenu item 5</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
+    <span class="sidebar-heading">Categories</span>
+    <div class="category-container">
+        @foreach($parentCategory as $category)
+            <div class="parent-category-container">
+                <span>{{ $category->category_name }}</span>
+                @foreach($childCategories->where('parent_id', $category->id) as $children)
+                    <div class="sub-category-container">
+                        <span>{{ $children->category_name }}</span>
+                        @foreach($grandchildCategories->where('parent_id', $children->id) as $grandchildren)
+                            <div class="grandchild-anchor">
+                                <a href="#">
+                                    <div class="sub-sub-category-container">
+                                        <span>{{ $grandchildren->category_name }}</span>
+                                    </div>
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                @endforeach
+            </div>
+        @endforeach
     </div>
 </div>
