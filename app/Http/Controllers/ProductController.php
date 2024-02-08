@@ -28,8 +28,11 @@ class ProductController extends Controller
      */
     public function create(Category $category): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
-        $mainParent = $category->whereNull('parent_id')->paginate(10);
-        return view('userend.create-product', compact('mainParent'));
+        $parentCategory = $category->whereNull('parent_id')->paginate(10);
+        $childCategories = $category->whereIn('parent_id', $parentCategory->pluck('id'))->get();
+        $grandchildCategories = $category->whereIn('parent_id', $childCategories->pluck('id'))->get();
+
+        return view('userend.create-product', compact('parentCategory', 'childCategories', 'grandchildCategories'));
     }
 
     /**
@@ -199,7 +202,7 @@ class ProductController extends Controller
         $parentCategory = Category::whereNull('parent_id')->get();
         $childCategories = Category::whereIn('parent_id', $parentCategory->pluck('id'))->get();
         $grandchildCategories = Category::whereIn('parent_id', $childCategories->pluck('id'))->get();
-        $products = Product::where('category_id', $categoryId);
+        $products = Product::where('category_id', $categoryId)->paginate(10);
         $categoryName = $grandchildCategories->find($categoryId)->category_name;
         return view('userend.product-list', compact('parentCategory', 'childCategories', 'grandchildCategories','categoryName' , 'products'));
     }
