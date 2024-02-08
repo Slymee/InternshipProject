@@ -7,14 +7,15 @@ use App\Http\Requests\CreateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Tag;
-use Illuminate\Http\Request;
+//use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class ProductController extends Controller
+class SellerProductController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
      */
     public function index(): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
@@ -25,6 +26,8 @@ class ProductController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     * @param Category $category
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
      */
     public function create(Category $category): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
@@ -35,21 +38,9 @@ class ProductController extends Controller
     }
 
     /**
-     * Getting paginated parent category
-     * @param Category $category
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getPaginatedCategory(Category $category, Request $request): \Illuminate\Http\JsonResponse
-    {
-        // dd($request->all());
-        $term = $request->term;
-        $mainParent = $category->where('category_name','like','%'.$term.'%')->whereNull('parent_id')->paginate(2);
-        return response()->json(['items' => $mainParent->items()]);
-    }
-
-    /**
      * Store a newly created resource in storage.
+     * @param CreateProductRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(CreateProductRequest $request): \Illuminate\Http\RedirectResponse
     {
@@ -86,34 +77,23 @@ class ProductController extends Controller
     }
 
     /**
-     * Getting paginated child category
-     *
-     * @param string $parentId
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function displayChildCategory(string $parentId, Request $request): \Illuminate\Http\JsonResponse
-    {
-        $term = $request->term;
-        $data = Category::where('category_name', 'like', '%'.$term.'%')->where('parent_id', $parentId)->paginate(10);
-        return response()->json(['items' => $data->items()]);
-        // return response()->json(['items' => $data->items()]);
-    }
-
-    /**
      * Display the specified resource.
      */
-    public function show(Product $productAd)
+    public function show(string $id)
     {
-
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
+     * @param Product $productAd
+     * @param string $productId
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
      */
-    public function edit(Product $productAd, string $productId): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    public function edit(Product $product, string $productId): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
 //        $mainParent = Category::whereNull('parent_id')->paginate(10);
-        $productDetails = $productAd->with('tags')->find($productId);
+        $productDetails = $product->with('tags')->find($productId);
         $subSubCategory = $productDetails->category;
         $subCategory = $productDetails->parentCategory;
         $parentCategory = $productDetails->grandParentCategory;
@@ -122,13 +102,15 @@ class ProductController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * @param CreateProductRequest $request
+     * @param string $productId
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(CreateProductRequest $request, string $productId): \Illuminate\Http\RedirectResponse
     {
         try {
             $product = Product::findOrFail($productId);
             $imagePath = $product->image_path;
-//        dd($request->all());
 
             if ($product){
                 if ($request->hasFile('product_image')){
@@ -164,6 +146,8 @@ class ProductController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * @param string $productId
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(string $productId): \Illuminate\Http\RedirectResponse
     {
@@ -175,43 +159,5 @@ class ProductController extends Controller
         }catch (\Exception $e){
             return redirect()->back()->with('message', $e->getMessage());
         }
-    }
-
-    /**
-     * Display main index page
-     */
-
-    public function homePageIndex()
-    {
-        try {
-            $parentCategory = Category::whereNull('parent_id')->get();
-            $childCategories = Category::whereIn('parent_id', $parentCategory->pluck('id'))->get();
-            $grandchildCategories = Category::whereIn('parent_id', $childCategories->pluck('id'))->get();
-            return view('userend.index', compact('parentCategory', 'childCategories', 'grandchildCategories'));
-        }catch(\Exception $e){
-            dd($e->getMessage());
-        }
-    }
-
-    /**
-     * List products acording to category
-     */
-    public function categoryProductList(string $categoryId): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
-    {
-        $parentCategory = Category::whereNull('parent_id')->get();
-        $childCategories = Category::whereIn('parent_id', $parentCategory->pluck('id'))->get();
-        $grandchildCategories = Category::whereIn('parent_id', $childCategories->pluck('id'))->get();
-        $products = Product::where('category_id', $categoryId)->paginate(10);
-        $categoryName = $grandchildCategories->find($categoryId)->category_name;
-        return view('userend.product-list', compact('parentCategory', 'childCategories', 'grandchildCategories','categoryName' , 'products'));
-    }
-
-    /**
-     * Display product page
-     */
-
-    public function displayProduct(string $productId)
-    {
-
     }
 }
