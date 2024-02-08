@@ -176,7 +176,7 @@ class ProductController extends Controller
     }
 
     /**
-     *
+     * Display main index page
      */
 
     public function homePageIndex()
@@ -189,5 +189,18 @@ class ProductController extends Controller
         }catch(\Exception $e){
             dd($e->getMessage());
         }
+    }
+
+    /**
+     * List products acording to category
+     */
+    public function categoryProductList(string $categoryId)
+    {
+        $parentCategory = Category::whereNull('parent_id')->get();
+        $childCategories = Category::whereIn('parent_id', $parentCategory->pluck('id'))->get();
+        $grandchildCategories = Category::whereIn('parent_id', $childCategories->pluck('id'))->get();
+        $products = Product::where('category_id', $categoryId);
+        $categoryName = $grandchildCategories->find($categoryId)->category_name;
+        return view('userend.product-list', compact('parentCategory', 'childCategories', 'grandchildCategories','categoryName' , 'products'));
     }
 }

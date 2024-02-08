@@ -5,9 +5,9 @@
 @endsection
 
 @section('page-title')
-    Brand - Home
+    Brand-Products-{{ $categoryName }}
 @endsection
 
 @section('content')
-     
+    {{ $categoryName }}
 @endsection

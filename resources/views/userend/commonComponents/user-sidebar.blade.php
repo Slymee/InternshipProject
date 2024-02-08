@@ -9,7 +9,7 @@
                         <span>{{ $children->category_name }}</span>
                         @foreach($grandchildCategories->where('parent_id', $children->id) as $grandchildren)
                             <div class="grandchild-anchor">
-                                <a href="#">
+                                <a href="{{ route('product-listing', ['categoryId' => $grandchildren->id]) }}">
                                     <div class="sub-sub-category-container">
                                         <span>{{ $grandchildren->category_name }}</span>
                                     </div>
