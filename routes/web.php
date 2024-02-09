@@ -58,9 +58,9 @@ Route::get('logout', [UserController::class, 'logoutUser'])->name('user.logout')
 /**
  * Product related routes
  */
-Route::get('/', [ProductController::class, 'homePageIndex'])->name('user-home');
+Route::get('/', [ProductController::class, 'index'])->name('user-home');
 Route::get('/{categoryId}/products', [ProductController::class, 'categoryProductList'])->name('product-listing');
-Route::get('/product/{productId}', [ProductController::class]);
+Route::get('/product/{productId}', [ProductController::class, 'show'])->name('product-display');
 
 
 /**
