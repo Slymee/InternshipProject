@@ -9,7 +9,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SellerProductController;
 use App\Http\Controllers\UserPasswordResetController;
 use Illuminate\Support\Facades\Route;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+//use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,15 +28,17 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 
 //admin routes
-                //admin login
+/**
+ * Admin authentication routes
+ */
 Route::get('admin-login', [AdminController::class, 'index'])->name('admin.login');
 Route::post('admin-validate', [AdminController::class, 'login'])->name('admin.validate');
 Route::post('admin-logout', [AdminController::class, 'logout'])->name('admin.logout');
 
 
-
-
-                //Admin Dsahboard routes
+/**
+ * Admin dashboard routes
+ */
 Route::middleware(['auth:admin'])->group(function () {
     Route::get('admin-dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::resource('admin-category', CategoryController::class, ['except' => ['destroy']]);
@@ -44,19 +46,26 @@ Route::middleware(['auth:admin'])->group(function () {
 });
 
 
-                //User Routes
+/**
+ * User authentication routes
+ */
 Route::get('login', [UserController::class, 'userLoginForm'])->middleware('loginPage.auth')->name('user.login');
 Route::post('validate', [UserController::class, 'loginUser'])->name('user.validate');
 Route::post('register-user', [UserController::class,'registerUser'])->name('user.register');
 Route::get('logout', [UserController::class, 'logoutUser'])->name('user.logout');
 
 
-
+/**
+ * Product related routes
+ */
 Route::get('/', [ProductController::class, 'homePageIndex'])->name('user-home');
 Route::get('/{categoryId}/products', [ProductController::class, 'categoryProductList'])->name('product-listing');
 Route::get('/product/{productId}', [ProductController::class]);
 
-                //guest route protection
+
+/**
+ * Guest route protection for seller user
+ */
 Route::middleware(['guest.authenticate'])->group(function () {
     Route::get('product-dashboard', [SellerProductController::class, 'index'])->name('my-product-ads');
     Route::get('product-ad', [SellerProductController::class, 'create'])->name('product-ad-form');
@@ -64,17 +73,15 @@ Route::middleware(['guest.authenticate'])->group(function () {
     Route::get('product/{productId}/edit', [SellerProductController::class, 'edit'])->name('product-edit');
     Route::put('product/{productId}/update', [SellerProductController::class, 'update'])->name('product-update');
     Route::get('product/{productId}/destroy', [SellerProductController::class, 'destroy'])->name('product-destroy');
+
     Route::get('get-parent-category', [CategoryController::class, 'getPaginatedCategory'])->name('paginated-category');
     Route::get('get-child-option/{parentId}', [CategoryController::class, 'displayChildCategory'])->name('get-child-option');
 });
 
 
-
-
-
-
-
-                //Forgot Password Routess
+/**
+ * Forgot password routes: Admin
+ */
 Route::get('admin-forgot-password', [PasswordResetController::class, 'index'])->name('forgot-password-view');
 Route::post('admin-forgot-password', [PasswordResetController::class, 'sendResetMail'])->name('admin.forgot.password');
 Route::get('admin-password-reset/{token}', [PasswordResetController::class, 'showNewPasswordForm'])->name('password.reset');
@@ -82,7 +89,9 @@ Route::post('admin-password-reset', [PasswordResetController::class, 'submitNewP
 Route::post('submit-new-password', [PasswordResetController::class, 'submitAdminNewPassword'])->name('admin.new.password');
 
 
-                //Forgot Password Routes: User
+/**
+ * Forgot password routes: User
+ */
 Route::get('forgot-password', [UserPasswordResetController::class,'index'])->name('user-forgot-password-view');
 Route::post('forgot-password', [UserPasswordResetController::class,'sendResetMail'])->name('user-forgot-password');
 Route::get('password-reset/{token}', [UserPasswordResetController::class, 'showNewPasswordForm'])->name('password-reset');
