@@ -8,21 +8,21 @@ use Illuminate\Support\Facades\Route;
 
 
 /**
-* Admin authentication routes
-*/
+ * Admin authentication routes
+ */
 Route::get('admin-login', [AdminController::class, 'index'])->name('admin.login');
 Route::post('admin-validate', [AdminController::class, 'login'])->name('admin.validate');
 Route::post('admin-logout', [AdminController::class, 'logout'])->name('admin.logout');
 
 
 /**
-* Admin dashboard routes
-*/
+ * Admin dashboard routes
+ */
 Route::middleware(['auth:admin'])->group(function () {
-Route::get('admin-dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('admin-dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
-Route::resource('admin-category', CategoryController::class, ['except' => ['destroy']]);
-Route::get('admin-category/{id}/destroy', [CategoryController::class, 'destroy'])->name('admin-category.destroy');
+    Route::resource('admin-category', CategoryController::class, ['except' => ['destroy']]);
+    Route::get('admin-category/{id}/destroy', [CategoryController::class, 'destroy'])->name('admin-category.destroy');
 });
 
 
