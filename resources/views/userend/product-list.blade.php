@@ -23,7 +23,7 @@
                         <h5 class="card-title">{{ $product->product_title }}</h5>
                         <p class="card-text">Price: {{ $product->product_price }}</p>
                         <p class="card-text">Seller: </p>
-                        <a href="#" class="btn btn-primary">View Product</a>
+                        <a href="{{ route('product-display', ['productId' => $product->id]) }}" class="btn btn-primary">View Product</a>
                     </div>
                 </div>
             @endforeach

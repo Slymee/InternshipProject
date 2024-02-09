@@ -16,8 +16,8 @@ class ProductController extends Controller
     {
         try {
             $parentCategory = Category::whereNull('parent_id')->get();
-            $childCategories = Category::whereIn('parent_id', $parentCategory->pluck('id'))->get();
-            $grandchildCategories = Category::whereIn('parent_id', $childCategories->pluck('id'))->get();
+            $childCategories = Category::whereIn('parent_id', $parentCategory->pluck('id'))->paginate(10);
+            $grandchildCategories = Category::whereIn('parent_id', $childCategories->pluck('id'))->paginate(10);
             return view('userend.index', compact('parentCategory', 'childCategories', 'grandchildCategories'));
         }catch(\Exception $e){
             dd($e->getMessage());
@@ -45,7 +45,8 @@ class ProductController extends Controller
      */
     public function show(Product $products, string $productID)
     {
-
+        $product = $products->find($productID)->load('category');
+        return view('userend.product-page', compact('product'));
     }
 
     /**
@@ -74,6 +75,8 @@ class ProductController extends Controller
 
     /**
      * List products acording to category
+     * @param string $categoryId
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
      */
     public function categoryProductList(string $categoryId): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
