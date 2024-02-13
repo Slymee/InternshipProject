@@ -5,7 +5,6 @@ body{
 section{
     width: 100%;
     height: auto;
-    display: flex;
     justify-content: center;
     padding: 10px;
 }
@@ -13,7 +12,8 @@ section{
 .product-banner{
     margin: auto;
     margin-top: 20px;
-    width: 70%;
+    margin-bottom: 30px;
+    width: 90%;
     height: auto;
     padding: 10px;
     text-align: left;
@@ -25,7 +25,7 @@ section{
 }
 
 .image-container{
-    width: 45%;
+    width: 400px;
     height: 400px;
     padding: 10px;
     border: #5b13b9 1px solid;
@@ -38,13 +38,13 @@ section{
 }
 
 .details-container{
-    border: #0c0c0c 1px solid;
+    /*border: #0c0c0c 1px solid;*/
     width: 45%;
     padding: 10px;
 }
 
 .details-container>div{
-    margin-bottom: 5px;
+    margin-bottom: 20px;
     font-size: 18px;
     font-weight: bold;
 }
@@ -57,6 +57,27 @@ section{
     font-weight: normal;
 }
 
-.price-container{
+.details-container>.price-container{
+    padding: 10px;
     color: red;
+    font-size: 150%;
+    margin-bottom: 20px;
+}
+
+.button-container{
+    padding: 10px;
+}
+
+.button-container>a{
+    text-decoration: none;
+}
+
+.button-container>a>button{
+    padding: 10px;
+    width: 30%;
+}
+
+
+.comment-section{
+    padding: 10px;
 }
