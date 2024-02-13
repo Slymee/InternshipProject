@@ -10,7 +10,14 @@
 
 @section('content')
     <div class="product-banner">
-        <div class="image-container">asjdkaskd</div>
-        <div class="details-container">kasdjkas</div>
+        <div class="image-container">
+            <img src="{{ asset('storage/'.$product->image_path) }}" alt="not found" class="image"/>
+        </div>
+        <div class="details-container">
+            <div>Title: <span>{{ $product->product_title }}</span></div>
+            <div>Category: <span>{{ $product->category->category_name }}</span></div>
+            <div>Description: <span class="description-span">{{ $product->product_description }}</span></div>
+            <div>Price: <span class="price-container">{{ $product->product_price }}</span> </div>
+        </div>
     </div>
 @endsection
