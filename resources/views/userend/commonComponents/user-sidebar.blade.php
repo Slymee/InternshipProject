@@ -1,17 +1,17 @@
 <div class="side-bar">
     <span class="sidebar-heading">Categories</span>
     <div class="category-container">
-        @foreach($parentCategory as $category)
+        @foreach($mainCategory as $category)
             <div class="parent-category-container">
                 <span>{{ $category->category_name }}</span>
-                @foreach($childCategories->where('parent_id', $category->id) as $children)
+                @foreach($category->children as $child)
                     <div class="sub-category-container">
-                        <span>{{ $children->category_name }}</span>
-                        @foreach($grandchildCategories->where('parent_id', $children->id) as $grandchildren)
+                        <span>{{ $child->category_name }}</span>
+                        @foreach($child->children as $grandchild)
                             <div class="grandchild-anchor">
-                                <a href="{{ route('product-listing', ['categoryId' => $grandchildren->id]) }}">
+                                <a href="{{ route('product-listing', ['categoryId' => $grandchild->id]) }}">
                                     <div class="sub-sub-category-container">
-                                        <span>{{ $grandchildren->category_name }}</span>
+                                        <span>{{ $grandchild->category_name }}</span>
                                     </div>
                                 </a>
                             </div>

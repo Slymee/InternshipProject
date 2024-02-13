@@ -13,7 +13,6 @@
 
     <section>
         @yield('side-bar')
-{{--        @include('userend.commonComponents.user-sidebar')--}}
 
         @yield('content')
 

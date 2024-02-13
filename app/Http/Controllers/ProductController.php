@@ -15,10 +15,7 @@ class ProductController extends Controller
     public function index()
     {
         try {
-            $parentCategory = Category::whereNull('parent_id')->get();
-            $childCategories = Category::whereIn('parent_id', $parentCategory->pluck('id'))->paginate(10);
-            $grandchildCategories = Category::whereIn('parent_id', $childCategories->pluck('id'))->paginate(10);
-            return view('userend.index', compact('parentCategory', 'childCategories', 'grandchildCategories'));
+            return view('userend.index');
         }catch(\Exception $e){
             dd($e->getMessage());
         }
@@ -80,11 +77,9 @@ class ProductController extends Controller
      */
     public function categoryProductList(string $categoryId): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
-        $parentCategory = Category::whereNull('parent_id')->get();
-        $childCategories = Category::whereIn('parent_id', $parentCategory->pluck('id'))->get();
-        $grandchildCategories = Category::whereIn('parent_id', $childCategories->pluck('id'))->get();
+
         $products = Product::where('category_id', $categoryId)->paginate(10);
-        $categoryName = $grandchildCategories->find($categoryId)->category_name;
-        return view('userend.product-list', compact('parentCategory', 'childCategories', 'grandchildCategories','categoryName' , 'products'));
+        $categoryName = Category::find($categoryId)->category_name;
+        return view('userend.product-list', compact('categoryName' , 'products'));
     }
 }
