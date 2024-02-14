@@ -1,7 +1,7 @@
 @extends('userend.layouts.index-template')
 
 @section('vite-resource')
-    @vite(['resources/css/nav-bar.css', 'resources/css/create-product.css'])
+    @vite(['resources/css/nav-bar.css', 'resources/css/create-product.css',    'resources/css/user-side-bar.css'])
 @endsection
 
 @section('page-title')
@@ -39,7 +39,7 @@
                   <label for="parentCategory" class="form-label">Select Category</label>
                   <select class="form-select" aria-label="Default select example" name="parent_category" id="parentCategory" onchange="fetchSubCategory()">
                     <option value="" selected>Select Category</option>
-                    @foreach ($mainParent as $category)
+                    @foreach ($parentCategory as $category)
                         <option value="{{ $category->id }}">{{ $category->category_name }}</option>
                     @endforeach
                   </select>

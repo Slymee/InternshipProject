@@ -1,0 +1,7 @@
+section{
+    display: flex;
+}
+
+.main-container{
+    padding: 10px;
+}

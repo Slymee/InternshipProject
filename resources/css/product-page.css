@@ -1,0 +1,83 @@
+body{
+    overflow: hidden;
+}
+
+section{
+    width: 100%;
+    height: auto;
+    justify-content: center;
+    padding: 10px;
+}
+
+.product-banner{
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    width: 90%;
+    height: auto;
+    padding: 10px;
+    text-align: left;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+}
+
+.image-container{
+    width: 400px;
+    height: 400px;
+    padding: 10px;
+    border: #5b13b9 1px solid;
+    border-radius: 5px  ;
+}
+
+.image{
+    width: 100%;
+    height: 100%;
+}
+
+.details-container{
+    /*border: #0c0c0c 1px solid;*/
+    width: 45%;
+    padding: 10px;
+}
+
+.details-container>div{
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.details-container>div>span{
+    color: #5b13b9;
+}
+
+.description-span{
+    font-weight: normal;
+}
+
+.details-container>.price-container{
+    padding: 10px;
+    color: red;
+    font-size: 150%;
+    margin-bottom: 20px;
+}
+
+.button-container{
+    padding: 10px;
+}
+
+.button-container>a{
+    text-decoration: none;
+}
+
+.button-container>a>button{
+    padding: 10px;
+    width: 30%;
+}
+
+
+.comment-section{
+    padding: 10px;
+}
