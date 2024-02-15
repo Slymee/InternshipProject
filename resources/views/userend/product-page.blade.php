@@ -9,6 +9,7 @@
 @endsection
 
 @section('content')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <div class="product-banner">
         <div class="image-container">
             <img src="{{ asset('storage/'.$product->image_path) }}" alt="not found" class="image"/>
@@ -24,7 +25,35 @@
         </div>
     </div>
 
-    <div class="comment-section">
-        asjd
+    <div class="comments-container">
+        <div class="comment-section-title">Feedback/Queries</div>
+        <div class="comment">
+            <div class="comment-author">User1</div>
+            <div class="comment-content">This is the main comment.</div>
+            @if(auth()->id() == $product->user_id)
+                <div class="utilities"><span>Reply</span></div>
+            @endif
+            <div class="reply">
+                <div class="comment-author">User2</div>
+                <div class="comment-content">Replying to User1's comment.</div>
+{{--                <div class="utilities"><span>Reply</span></div>--}}
+                <!-- Nested reply -->
+{{--                <div class="reply">--}}
+{{--                    <div class="comment-author">User1</div>--}}
+{{--                    <div class="comment-content">Replying to User2's reply.</div>--}}
+{{--                </div>--}}
+            </div>
+        </div>
+    </div>
+
+    <div class="comment-form">
+        <h2>Add a Comment</h2>
+        <form id="commentForm">
+
+            <label for="comment">Your Comment:</label>
+            <textarea id="comment" name="comment" rows="4" required></textarea>
+
+            <button type="submit">Post Comment</button>
+        </form>
     </div>
 @endsection

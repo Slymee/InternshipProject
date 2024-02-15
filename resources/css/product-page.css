@@ -1,11 +1,8 @@
-body{
-    overflow: hidden;
-}
-
 section{
     width: 100%;
     height: auto;
     justify-content: center;
+
     padding: 10px;
 }
 
@@ -78,6 +75,58 @@ section{
 }
 
 
-.comment-section{
+/*Comments section css*/
+.comments-container {
+    max-width: 600px;
+    margin: 20px auto;
+    height: 300px;
+    overflow-y: auto;
+}
+
+.comment {
+    border: 1px solid #ddd;
+    margin: 10px;
     padding: 10px;
+}
+
+.comment-author {
+    font-weight: bold;
+}
+
+.comment-content {
+    margin-top: 5px;
+}
+
+.reply {
+    margin-left: 20px; /* Indent replies for visual hierarchy */
+}
+
+
+.comment-form {
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+.comment-form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.comment-form label {
+    margin-top: 10px;
+}
+
+.comment-form textarea {
+    margin-bottom: 10px;
+}
+
+.utilities>span{
+    cursor: pointer;
+    font-size: 90%;
+    color: #e72fd0;
+}
+
+.comment-section-title{
+    font-size: 150%;
+    font-weight: bold;
 }

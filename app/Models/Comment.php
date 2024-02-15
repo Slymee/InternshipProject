@@ -17,4 +17,16 @@ class Comment extends Model
         'parent_id',
         'comment',
     ];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    public  function replies()
+    {
+        return $this->hasMany(Comment::class, 'parent_id');
+    }
 }
+
+

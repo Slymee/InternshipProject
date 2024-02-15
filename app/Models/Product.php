@@ -46,4 +46,9 @@ class Product extends Model
     {
         return $this->belongsToMany(Tag::class, 'product_tags');
     }
+
+    public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Comment::class)->whereNull('parent_id');
+    }
 }
