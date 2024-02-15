@@ -124,6 +124,7 @@ section{
     cursor: pointer;
     font-size: 90%;
     color: #e72fd0;
+    text-decoration: underline;
 }
 
 .comment-section-title{

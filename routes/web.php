@@ -26,3 +26,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
 
 
+Route::post('post-comment', [\App\Http\Controllers\CommentController::class, 'store'])->name('post-comment');
+
+
