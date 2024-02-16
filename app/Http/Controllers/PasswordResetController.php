@@ -7,6 +7,7 @@ use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Models\Admin;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -19,15 +20,22 @@ class PasswordResetController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * @throws \Exception
      */
-    public function index()
+    public function index(): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
-        return view('backend.forgot-password');
+        try {
+            return view('backend.forgot-password');
+        }catch (\Exception $e){
+            Log::error('Caught Exception: ' . $e->getMessage());
+            Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
+            throw $e;
+        }
     }
 
 
     //send reset mail to the user
-    public function sendResetMail(ForgotPasswordRequest $request)
+    public function sendResetMail(ForgotPasswordRequest $request): RedirectResponse
     {
         $token = Str::random(64);
         try{
@@ -42,17 +50,35 @@ class PasswordResetController extends Controller
             });
             return back()->with('message', 'Your password reset link has been sent to your email.');
         }catch(\Exception $e){
+            Log::error('Caught Exception: ' . $e->getMessage());
+            Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
             return back()->with('message', $e->getMessage());
         }
     }
 
 
-    public function showNewPasswordForm(string $token){
-        return view('backend.password-reset', ['token'=> $token]);
+    /**
+     * @throws \Exception
+     */
+    public function showNewPasswordForm(string $token): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    {
+        try {
+            return view('backend.password-reset', ['token'=> $token]);
+        }catch (\Exception $e){
+            Log::error('Caught Exception: ' . $e->getMessage());
+            Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
+            throw $e;
+        }
     }
 
 
-    public function submitAdminNewPassword(ResetPasswordRequest $request){
+    /**
+     * @param ResetPasswordRequest $request
+     * @return string|RedirectResponse
+     * @throws \Exception
+     */
+    public function submitAdminNewPassword(ResetPasswordRequest $request): string|RedirectResponse
+    {
         try{
             $tokenData = DB::table('password_reset_tokens')->where('token', $request->validated()['token'])->first();
         if(!$tokenData){
@@ -64,7 +90,9 @@ class PasswordResetController extends Controller
         DB::table('password_reset_tokens')->where('email', $tokenData->email)->delete();
         return redirect()->route('admin.login')->with('message', 'Password successfully updated!!');
         }catch(\Exception $e){
-            return $e->getMessage();
+            Log::error('Caught Exception: ' . $e->getMessage());
+            Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
+            throw $e;
         }
     }
 }

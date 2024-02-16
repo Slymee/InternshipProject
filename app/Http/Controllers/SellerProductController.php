@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Tag;
 //use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -16,25 +17,39 @@ class SellerProductController extends Controller
     /**
      * Display a listing of the resource.
      * @return \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+     * @throws \Exception
      */
     public function index(): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
-        $user = auth()->user();
-        $products = Product::with('category')->where('user_id', $user->id)->paginate(10);
-        return view('userend.my-products', compact('products'));
+        try {
+            $user = auth()->user();
+            $products = Product::with('category')->where('user_id', $user->id)->paginate(10);
+            return view('userend.my-products', compact('products'));
+        }catch (\Exception $e){
+            Log::error('Caught Exception: ' . $e->getMessage());
+            Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
+            throw $e;
+        }
     }
 
     /**
      * Show the form for creating a new resource.
      * @param Category $category
      * @return \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+     * @throws \Exception
      */
     public function create(Category $category): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
-        $parentCategory = $category->whereNull('parent_id')->paginate(10);
-        $childCategories = $category->whereIn('parent_id', $parentCategory->pluck('id'))->get();
-        $grandchildCategories = $category->whereIn('parent_id', $childCategories->pluck('id'))->get();
-        return view('userend.create-product', compact('parentCategory', 'childCategories', 'grandchildCategories'));
+        try {
+            $parentCategory = $category->whereNull('parent_id')->paginate(10);
+            $childCategories = $category->whereIn('parent_id', $parentCategory->pluck('id'))->get();
+            $grandchildCategories = $category->whereIn('parent_id', $childCategories->pluck('id'))->get();
+            return view('userend.create-product', compact('parentCategory', 'childCategories', 'grandchildCategories'));
+        }catch (\Exception $e){
+            Log::error('Caught Exception: ' . $e->getMessage());
+            Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
+            throw $e;
+        }
     }
 
     /**
@@ -72,6 +87,8 @@ class SellerProductController extends Controller
             return redirect()->back()->with('message', 'Product Add Failed.');
 
         }catch(\Exception $e){
+            Log::error('Caught Exception: ' . $e->getMessage());
+            Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
             return redirect()->back()->with('message', $e->getMessage());
         }
     }
@@ -89,14 +106,21 @@ class SellerProductController extends Controller
      * @param Product $productAd
      * @param string $productId
      * @return \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+     * @throws \Exception
      */
     public function edit(Product $product, string $productId): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
-        $productDetails = $product->with('tags')->find($productId);
-        $subSubCategory = $productDetails->category;
-        $subCategory = $productDetails->parentCategory;
-        $parentCategory = $productDetails->grandParentCategory;
-        return view('userend.edit-product', compact('productDetails', 'subSubCategory', 'subCategory', 'parentCategory'));
+        try {
+            $productDetails = $product->with('tags')->find($productId);
+            $subSubCategory = $productDetails->category;
+            $subCategory = $productDetails->parentCategory;
+            $parentCategory = $productDetails->grandParentCategory;
+            return view('userend.edit-product', compact('productDetails', 'subSubCategory', 'subCategory', 'parentCategory'));
+        }catch (\Exception $e){
+            Log::error('Caught Exception: ' . $e->getMessage());
+            Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
+            throw $e;
+        }
     }
 
     /**
@@ -139,6 +163,8 @@ class SellerProductController extends Controller
             }
             return redirect(route('my-products-ads'))->with('message', "Product doesn't exist!");
         }catch (\Exception $e){
+            Log::error('Caught Exception: ' . $e->getMessage());
+            Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
             return redirect()->back()->with('message', $e->getMessage());
         }
     }
@@ -156,6 +182,8 @@ class SellerProductController extends Controller
             $product->delete();
             return redirect()->back()->with('message', 'Product Deleted');
         }catch (\Exception $e){
+            Log::error('Caught Exception: ' . $e->getMessage());
+            Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
             return redirect()->back()->with('message', $e->getMessage());
         }
     }

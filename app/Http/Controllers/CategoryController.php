@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CategoryController extends Controller
 {
@@ -88,6 +89,8 @@ class CategoryController extends Controller
 
 
         }catch(\Exception $e){
+            Log::error('Caught Exception: ' . $e->getMessage());
+            Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
             return redirect()->back()->with('message', $e->getMessage());
         }
 
@@ -102,6 +105,8 @@ class CategoryController extends Controller
             Category::find($id)->delete();
             return redirect()->back()->with('message', 'Category Deleted');
         }catch(\Exception $e){
+            Log::error('Caught Exception: ' . $e->getMessage());
+            Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
             return redirect()->back()->with('message', $e->getMessage());
         }
 
