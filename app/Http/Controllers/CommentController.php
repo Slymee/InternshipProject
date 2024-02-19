@@ -34,9 +34,17 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ProductCommentRequest $request)
+    public function store(ProductCommentRequest $request): \Illuminate\Http\RedirectResponse
     {
-        dd($request->validated());
+        $imageName = null;
+        $imagePath = null;
+        if ($request->has('comment_image')){
+            $imageName = 'comment'.time().'image'.'.'.$request->comment_image->extension();
+            $imagePath = $request->file('comment_image')->storeAs('images', $imageName, 'public');
+            $request->image_path = $imagePath;
+        }
+        $this->commentRepository->store($request->all());
+        return redirect()->back()->with('message', "Comment posted!!");
     }
 
     /**

@@ -22,8 +22,10 @@ class ProductCommentRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'product_id' => ['required', 'bail'],
+            'user_id' => ['required', 'bail'],
             'comment' => ['required', 'bail'],
-            'comment_image' => ['image', 'mimes:jpeg,jpg,png,gif,svg', 'max:2048'],
+            'comment_image' => ['image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
         ];
     }
 }

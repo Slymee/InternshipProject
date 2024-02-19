@@ -45,7 +45,22 @@
             <label for="image">Upload Image:</label>
             <input type="file" id="image" name="comment_image" accept="image/*"><br>
 
+            <input type="hidden" value="{{ auth()->id() }}" name="user_id">
+            <input type="hidden" value="{{ $product->id }}" name="product_id">
+
             <button type="submit">Post Comment</button>
+
+            <span class="error-message">
+                @if(session('message'))
+                    {{ session('message') }}
+                @endif
+
+                @if($errors->any())
+                    @foreach ($errors->all() as $error)
+                        <br> {{ $error }}
+                    @endforeach
+                @endif
+            </span>
         </form>
     </div>
 
