@@ -14,7 +14,6 @@ class CommentRepository implements CommentRepositoryInterface
 
     public function store($data)
     {
-        dd($data);
         $comment = Comment::create($data);
 
         if ($data['image_path']){
