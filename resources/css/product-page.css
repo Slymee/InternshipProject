@@ -6,6 +6,10 @@ section{
     padding: 10px;
 }
 
+.error-message{
+    color: red;
+}
+
 .product-banner{
     margin: auto;
     margin-top: 20px;
@@ -18,7 +22,6 @@ section{
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     display: flex;
     justify-content: space-between;
-    text-align: left;
 }
 
 .image-container{
@@ -77,9 +80,10 @@ section{
 
 /*Comments section css*/
 .comments-container {
-    max-width: 600px;
+    padding: 10px;
+    max-width: 100%;
     margin: 20px auto;
-    height: 300px;
+    height: 350px;
     overflow-y: auto;
 }
 

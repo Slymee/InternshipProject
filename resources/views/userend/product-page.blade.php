@@ -28,9 +28,9 @@
     <div class="comments-container">
         <div class="comment-section-title">Comments</div>
 
-{{--        @foreach ($comments as $comment)--}}
-{{--            @include('$commonComponents.comment', ['comment' => $comment])--}}
-{{--        @endforeach--}}
+        @foreach ($product->comments as $comment)
+            @include('userend.commonComponents.comment', ['comment' => $comment])
+        @endforeach
 
     </div>
 

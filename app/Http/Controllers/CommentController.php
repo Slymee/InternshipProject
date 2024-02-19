@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductCommentRequest;
 use App\Models\Comment;
 use App\Repositories\Interfaces\CommentRepositoryInterface;
+use Illuminate\Support\Facades\Log;
 
 class CommentController extends Controller
 {
@@ -36,17 +37,23 @@ class CommentController extends Controller
      */
     public function store(ProductCommentRequest $request): \Illuminate\Http\RedirectResponse
     {
-        $imageName = null;
-        $imagePath = null;
-        if ($request->has('comment_image')){
-            $imageName = 'comment'.time().'image'.'.'.$request->comment_image->extension();
-            $imagePath = $request->file('comment_image')->storeAs('images', $imageName, 'public');
+        try {
+            $imageName = null;
+            $imagePath = null;
+            if ($request->has('comment_image')){
+                $imageName = 'comment'.time().'image'.'.'.$request->comment_image->extension();
+                $imagePath = $request->file('comment_image')->storeAs('images', $imageName, 'public');
+            }
+            $request->merge(['image_path' => $imagePath]);
+
+            $this->commentRepository->store($request->all());
+
+            return redirect()->back()->with('message', "Comment posted!!");
+        }catch (\Exception $e){
+            Log::error('Caught Exception: ' . $e->getMessage());
+            Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
+            return redirect()->back()->with('message', $e->getMessage());
         }
-        $request->merge(['image_path' => $imagePath]);
-
-        $this->commentRepository->store($request->all());
-
-        return redirect()->back()->with('message', "Comment posted!!");
     }
 
     /**

@@ -7,11 +7,18 @@ use App\Repositories\Interfaces\CommentRepositoryInterface;
 
 class CommentRepository implements CommentRepositoryInterface
 {
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     public function all(): \Illuminate\Database\Eloquent\Collection
     {
         return Comment::all();
     }
 
+    /**
+     * @param $data
+     * @return mixed
+     */
     public function store($data)
     {
         $comment = Comment::create($data);
@@ -21,7 +28,6 @@ class CommentRepository implements CommentRepositoryInterface
                 'image_path' => $data['image_path'],
             ]);
         }
-
         return $comment;
     }
 
