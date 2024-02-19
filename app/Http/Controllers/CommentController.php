@@ -2,11 +2,19 @@
 declare(strict_types=1);
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductCommentRequest;
 use App\Models\Comment;
-use Illuminate\Http\Request;
+use App\Repositories\Interfaces\CommentRepositoryInterface;
 
 class CommentController extends Controller
 {
+    private $commentRepository;
+
+    public function __construct(CommentRepositoryInterface $commentRepository)
+    {
+        $this->commentRepository = $commentRepository;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -26,9 +34,9 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductCommentRequest $request)
     {
-        echo $request->comment;
+        dd($request->validated());
     }
 
     /**

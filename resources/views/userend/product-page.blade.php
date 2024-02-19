@@ -26,53 +26,29 @@
     </div>
 
     <div class="comments-container">
-        <div class="comment-section-title">Feedback/Queries</div>
-        <div class="comment">
-            <div class="comment-author">User1</div>
-            <div class="comment-content">This is the main comment.</div>
-            @if(auth()->id() == $product->user_id)
-                <div class="utilities"><span id="reply-comment">Reply</span></div>
-                <div class="reply-container" id="reply-container">
-                    <form>
-                        <label>Your Reply:</label>
-                        <input type="text" placeholder="Enter Reply"/>
-                        <input type="submit" value="Reply">
-                    </form>
-                </div>
-            @endif
-            <div class="reply">
-                <div class="comment-author">User2</div>
-                <div class="comment-content">Replying to User1's comment.</div>
-                <div class="utilities"><span>Reply</span></div>
-                <!-- Nested reply -->
-                <div class="reply">
-                    <div class="comment-author">User1</div>
-                    <div class="comment-content">Replying to User2's reply.</div>
-                </div>
-            </div>
-        </div>
+        <div class="comment-section-title">Comments</div>
+
+{{--        @foreach ($comments as $comment)--}}
+{{--            @include('$commonComponents.comment', ['comment' => $comment])--}}
+{{--        @endforeach--}}
+
     </div>
 
     <div class="comment-form">
         <h2>Add Feedback/Queries</h2>
-        <form id="commentForm" method="post" action="{{ route('post-comment') }}">
+        <form id="commentForm" method="post" action="{{ route('post-comment') }}" enctype="multipart/form-data">
             @csrf
 
             <label for="comment">Your Comment:</label>
-            <textarea id="comment" name="comment" rows="4" required></textarea>
+            <textarea id="comment" name="comment" rows="4"></textarea>
+
+            <label for="image">Upload Image:</label>
+            <input type="file" id="image" name="comment_image" accept="image/*"><br>
 
             <button type="submit">Post Comment</button>
         </form>
     </div>
 
 
-    <script>
-        $(document).ready(function () {
-            $("#reply-container").hide();
 
-            $("#reply-comment").click(function () {
-                $("#reply-container").toggle();
-            });
-        });
-    </script>
 @endsection

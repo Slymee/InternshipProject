@@ -19,6 +19,9 @@ Route::middleware(['guest.authenticate'])->group(function () {
 
     Route::get('get-parent-category', [CategoryController::class, 'getPaginatedCategory'])->name('paginated-category');
     Route::get('get-child-option/{parentId}', [CategoryController::class, 'displayChildCategory'])->name('get-child-option');
+
+    Route::post('post-comment', [\App\Http\Controllers\CommentController::class, 'store'])->name('post-comment');
+
 });
 
 

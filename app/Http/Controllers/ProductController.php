@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
@@ -14,12 +15,12 @@ class ProductController extends Controller
      * Display a listing of the resource.
      * @throws \Exception
      */
-    public function index(): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    public function index(): View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
         try {
             return view('userend.index');
         }catch(\Exception $e) {
-            Log::error('Caught Exception: ' . $e->getMessage());
+            Log::error('Caught Exception: ' . $e);
             Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
             throw $e;
         }
@@ -45,7 +46,7 @@ class ProductController extends Controller
      * Display the specified resource.
      * @throws \Exception
      */
-    public function show(Product $products, string $productID): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    public function show(Product $products, string $productID): View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
         try{
             $product = $products->find($productID)->load('category');
@@ -84,9 +85,9 @@ class ProductController extends Controller
     /**
      * List products acording to category
      * @param string $categoryId
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+     * @return View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
      */
-    public function categoryProductList(string $categoryId): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    public function categoryProductList(string $categoryId): View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
         $products = Product::where('category_id', $categoryId)->paginate(10);
         $categoryName = Category::find($categoryId)->category_name;
