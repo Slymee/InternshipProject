@@ -105,6 +105,12 @@ section{
     padding-left: 10px;
 }
 
+.comment-user{
+    font-weight: bold;
+    font-size: 130%;
+    color: #007bff;
+}
+
 
 
 /*Comment form*/

@@ -32,6 +32,11 @@ class Comment extends Model
     {
         return $this->morphMany(Image::class, 'imagable');
     }
+
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }
 
 

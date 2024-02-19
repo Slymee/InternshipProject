@@ -46,4 +46,9 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Comment::class, 'user_id');
+    }
+
 }
