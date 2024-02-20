@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Comment extends Model
 {
@@ -18,22 +21,22 @@ class Comment extends Model
         'comment',
     ];
 
-    public function product(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
     }
 
-    public  function replies(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public  function replies(): HasMany
     {
         return $this->hasMany(Comment::class, 'parent_id');
     }
 
-    public function imagePicture(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    public function imagePicture(): MorphMany
     {
         return $this->morphMany(Image::class, 'imagable');
     }
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

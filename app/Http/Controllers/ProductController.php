@@ -6,7 +6,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
@@ -15,7 +17,7 @@ class ProductController extends Controller
      * Display a listing of the resource.
      * @throws \Exception
      */
-    public function index(): View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    public function index(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         try {
             return view('userend.index');
@@ -46,7 +48,7 @@ class ProductController extends Controller
      * Display the specified resource.
      * @throws \Exception
      */
-    public function show(Product $products, string $productID): View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    public function show(Product $products, string $productID): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         try{
             $product = $products->find($productID)->load('category', 'comments');
@@ -85,9 +87,9 @@ class ProductController extends Controller
     /**
      * List products acording to category
      * @param string $categoryId
-     * @return View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+     * @return View|Application|Factory|\Illuminate\Contracts\Foundation\Application
      */
-    public function categoryProductList(string $categoryId): View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    public function categoryProductList(string $categoryId): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $products = Product::where('category_id', $categoryId)->paginate(10);
         $categoryName = Category::find($categoryId)->category_name;

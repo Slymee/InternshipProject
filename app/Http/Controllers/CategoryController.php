@@ -6,6 +6,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -36,7 +38,7 @@ class CategoryController extends Controller
      *
      * Store a newly created resource in storage.
      */
-    public function store(CategoryRequest $request): \Illuminate\Http\RedirectResponse
+    public function store(CategoryRequest $request): RedirectResponse
     {
         try{
             Category::create([
@@ -78,7 +80,7 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(CategoryRequest $request): \Illuminate\Http\RedirectResponse
+    public function update(CategoryRequest $request): RedirectResponse
     {
         try{
             Category::where('id', $request->category_id)->update([
@@ -99,7 +101,7 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): \Illuminate\Http\RedirectResponse
+    public function destroy(string $id): RedirectResponse
     {
         try{
             Category::find($id)->delete();
@@ -116,9 +118,9 @@ class CategoryController extends Controller
      * Getting paginated parent category
      * @param Category $category
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function getPaginatedCategory(Category $category, Request $request): \Illuminate\Http\JsonResponse
+    public function getPaginatedCategory(Category $category, Request $request): JsonResponse
     {
         // dd($request->all());
         $term = $request->term;
@@ -130,9 +132,9 @@ class CategoryController extends Controller
      * Getting paginated child category
      *
      * @param string $parentId
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function displayChildCategory(string $parentId, Request $request): \Illuminate\Http\JsonResponse
+    public function displayChildCategory(string $parentId, Request $request): JsonResponse
     {
         $term = $request->term;
         $data = Category::where('category_name', 'like', '%'.$term.'%')->where('parent_id', $parentId)->paginate(10);

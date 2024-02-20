@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductCommentRequest;
 use App\Models\Comment;
 use App\Repositories\Interfaces\CommentRepositoryInterface;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 
 class CommentController extends Controller
@@ -35,7 +36,7 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ProductCommentRequest $request): \Illuminate\Http\RedirectResponse
+    public function store(ProductCommentRequest $request): RedirectResponse
     {
         try {
             $imageName = null;

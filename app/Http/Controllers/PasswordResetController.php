@@ -6,6 +6,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Models\Admin;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -22,7 +25,7 @@ class PasswordResetController extends Controller
      * Display a listing of the resource.
      * @throws \Exception
      */
-    public function index(): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    public function index(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         try {
             return view('backend.forgot-password');
@@ -60,7 +63,7 @@ class PasswordResetController extends Controller
     /**
      * @throws \Exception
      */
-    public function showNewPasswordForm(string $token): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    public function showNewPasswordForm(string $token): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         try {
             return view('backend.password-reset', ['token'=> $token]);

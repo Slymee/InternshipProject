@@ -8,6 +8,10 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Tag;
 //use Illuminate\Http\Request;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -16,10 +20,10 @@ class SellerProductController extends Controller
 {
     /**
      * Display a listing of the resource.
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+     * @return View|Application|Factory|\Illuminate\Contracts\Foundation\Application
      * @throws \Exception
      */
-    public function index(): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    public function index(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         try {
             $user = auth()->user();
@@ -35,10 +39,10 @@ class SellerProductController extends Controller
     /**
      * Show the form for creating a new resource.
      * @param Category $category
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+     * @return View|Application|Factory|\Illuminate\Contracts\Foundation\Application
      * @throws \Exception
      */
-    public function create(Category $category): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    public function create(Category $category): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         try {
             $parentCategory = $category->whereNull('parent_id')->paginate(10);
@@ -53,9 +57,9 @@ class SellerProductController extends Controller
     /**
      * Store a newly created resource in storage.
      * @param CreateProductRequest $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function store(CreateProductRequest $request): \Illuminate\Http\RedirectResponse
+    public function store(CreateProductRequest $request): RedirectResponse
     {
         try{
             $request['slug'] = Str::slug($request->input('product_title'));
@@ -103,10 +107,10 @@ class SellerProductController extends Controller
      * Show the form for editing the specified resource.
      * @param Product $productAd
      * @param string $productId
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+     * @return View|Application|Factory|\Illuminate\Contracts\Foundation\Application
      * @throws \Exception
      */
-    public function edit(Product $product, string $productId): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    public function edit(Product $product, string $productId): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         try {
             $productDetails = $product->with('tags')->find($productId);
@@ -125,9 +129,9 @@ class SellerProductController extends Controller
      * Update the specified resource in storage.
      * @param CreateProductRequest $request
      * @param string $productId
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function update(CreateProductRequest $request, string $productId): \Illuminate\Http\RedirectResponse
+    public function update(CreateProductRequest $request, string $productId): RedirectResponse
     {
         try {
             $product = Product::findOrFail($productId);
@@ -170,9 +174,9 @@ class SellerProductController extends Controller
     /**
      * Remove the specified resource from storage.
      * @param string $productId
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function destroy(string $productId): \Illuminate\Http\RedirectResponse
+    public function destroy(string $productId): RedirectResponse
     {
         try {
             $product = Product::find($productId);
