@@ -25,7 +25,7 @@ class ProductCommentRequest extends FormRequest
             'product_id' => ['required', 'bail'],
             'user_id' => ['required', 'bail'],
             'comment' => ['required', 'bail'],
-            'comment_image' => ['image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'comment_image' => ['nullable','image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
         ];
     }
 }

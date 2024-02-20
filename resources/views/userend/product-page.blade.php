@@ -28,15 +28,15 @@
     <div class="comments-container">
         <div class="comment-section-title">Comments</div>
 
-        @foreach ($product->comments as $comment)
-            @include('userend.commonComponents.comment', ['comment' => $comment])
-        @endforeach
+{{--        @foreach ($product->comments as $comment)--}}
+{{--            @include('userend.commonComponents.comment', ['comment' => $comment])--}}
+{{--        @endforeach--}}
 
     </div>
 
     <div class="comment-form">
         <h2>Add Feedback/Queries</h2>
-        <form id="commentForm" method="post" action="{{ route('post-comment') }}" enctype="multipart/form-data">
+        <form id="commentForm" method="POST" action="{{ route('post-comment') }}" enctype="multipart/form-data">
             @csrf
 
             <label for="comment">Your Comment:</label>
@@ -50,7 +50,7 @@
 
             <button type="submit">Post Comment</button>
 
-            <span class="error-message">
+            <br><span class="error-message">
                 @if(session('message'))
                     {{ session('message') }}
                 @endif

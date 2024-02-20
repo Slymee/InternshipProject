@@ -3,14 +3,16 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\Comment;
+use App\Models\User;
 use App\Repositories\Interfaces\CommentRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 
 class CommentRepository implements CommentRepositoryInterface
 {
     /**
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Collection
      */
-    public function all(): \Illuminate\Database\Eloquent\Collection
+    public function all(): Collection
     {
         return Comment::all();
     }
@@ -24,7 +26,7 @@ class CommentRepository implements CommentRepositoryInterface
         $comment = Comment::create($data);
 
         if ($data['image_path']){
-            $comment->imagePicture()->create([
+            $comment->images()->create([
                 'image_path' => $data['image_path'],
             ]);
         }

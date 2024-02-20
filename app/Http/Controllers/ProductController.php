@@ -51,7 +51,7 @@ class ProductController extends Controller
     public function show(Product $products, string $productID): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         try{
-            $product = $products->find($productID)->load('category', 'comments');
+            $product = $products->findOrFail($productID)->load('category');
             return view('userend.product-page', compact('product'));
         }catch (\Exception $e){
             Log::error('Caught Exception: '. $e->getMessage());
@@ -92,7 +92,7 @@ class ProductController extends Controller
     public function categoryProductList(string $categoryId): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $products = Product::where('category_id', $categoryId)->paginate(10);
-        $categoryName = Category::find($categoryId)->category_name;
+        $categoryName = Category::findOrFail    ($categoryId)->category_name;
         return view('userend.product-list', compact('categoryName' , 'products'));
     }
 }
