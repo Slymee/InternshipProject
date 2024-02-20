@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\Log;
 
 class CommentController extends Controller
 {
-    private $commentRepository;
+    private $commentInterface;
 
-    public function __construct(CommentRepositoryInterface $commentRepository)
+    public function __construct(CommentRepositoryInterface $commentInterface)
     {
-        $this->commentRepository = $commentRepository;
+        $this->commentInterface = $commentInterface;
     }
 
     /**
@@ -46,7 +46,7 @@ class CommentController extends Controller
             }
             $request->merge(['image_path' => $imagePath]);
 
-            $this->commentRepository->store($request->all());
+            $this->commentInterface->store($request->all());
 
             return redirect()->back()->with('message', "Comment posted!!");
         }catch (\Exception $e){

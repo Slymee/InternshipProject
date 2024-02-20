@@ -49,7 +49,7 @@ class ProductController extends Controller
     public function show(Product $products, string $productID): View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
         try{
-            $product = $products->find($productID)->load('category', 'comments', 'comments->imagePicture');
+            $product = $products->find($productID)->load('category', 'comments');
             return view('userend.product-page', compact('product'));
         }catch (\Exception $e){
             Log::error('Caught Exception: '. $e->getMessage());

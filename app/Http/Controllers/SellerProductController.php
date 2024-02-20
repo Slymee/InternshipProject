@@ -42,9 +42,7 @@ class SellerProductController extends Controller
     {
         try {
             $parentCategory = $category->whereNull('parent_id')->paginate(10);
-            $childCategories = $category->whereIn('parent_id', $parentCategory->pluck('id'))->get();
-            $grandchildCategories = $category->whereIn('parent_id', $childCategories->pluck('id'))->get();
-            return view('userend.create-product', compact('parentCategory', 'childCategories', 'grandchildCategories'));
+            return view('userend.create-product', compact('parentCategory'));
         }catch (\Exception $e){
             Log::error('Caught Exception: ' . $e->getMessage());
             Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
