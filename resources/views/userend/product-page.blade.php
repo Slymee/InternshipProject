@@ -28,9 +28,9 @@
     <div class="comments-container">
         <div class="comment-section-title">Comments</div>
 
-{{--        @foreach ($product->comments as $comment)--}}
-{{--            @include('userend.commonComponents.comment', ['comment' => $comment])--}}
-{{--        @endforeach--}}
+        @foreach ($product->comments as $comment)
+            @include('userend.commonComponents.comment', ['comment' => $comment])
+        @endforeach
 
     </div>
 
@@ -47,6 +47,7 @@
 
             <input type="hidden" value="{{ auth()->id() }}" name="user_id">
             <input type="hidden" value="{{ $product->id }}" name="product_id">
+            <input type="hidden" name="parent_id" value={{ null }}>
 
             <button type="submit">Post Comment</button>
 

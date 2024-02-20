@@ -33,7 +33,7 @@
                 </div>
                 <div class="mb-3">
                   <label for="formFile" class="form-label">Upload Product Image (Max: 2MB)</label>
-                  <input class="form-control" type="file" id="formFile" name="product_image">
+                  <input class="form-control" type="file" id="formFile" name="product_image" accept="image/*">
                 </div>
                 <div class="mb-3">
                   <label for="parentCategory" class="form-label">Select Category</label>
