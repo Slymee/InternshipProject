@@ -60,4 +60,12 @@ class Product extends Model
     {
         return 'slug';
     }
+
+
+
+
+    public function setProductDescriptionAttribute($value)
+    {
+        $this->attributes['product_description'] = ucwords($value);
+    }
 }
