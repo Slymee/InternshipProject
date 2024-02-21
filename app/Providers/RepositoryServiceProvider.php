@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Providers;
 
@@ -14,7 +15,6 @@ class RepositoryServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(CommentRepositoryInterface::class, CommentRepository::class);
-
     }
 
     /**

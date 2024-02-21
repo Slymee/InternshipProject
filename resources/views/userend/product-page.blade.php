@@ -65,6 +65,15 @@
         </form>
     </div>
 
+    <script>
+        function toggleComment(commentId){
+            console.log(commentId);
+            $("#reply-comment-" + commentId).toggle();
+        }
+        $(document).ready(function(){
+            $(".reply-comment").hide();
+        });
+    </script>
 
 
 @endsection

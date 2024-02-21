@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Models\Comment;
 use App\Models\Product;
-use App\Models\User;
 use App\Repositories\Interfaces\CommentRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 

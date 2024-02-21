@@ -172,6 +172,9 @@ return [
         //view composer
         App\Providers\CategoriesServiceProvider::class,
 
+        //repository service provider
+        App\Providers\RepositoryServiceProvider::class,
+
         //laravel logger
         Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
     ])->toArray(),

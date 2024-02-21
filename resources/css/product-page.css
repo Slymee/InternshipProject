@@ -150,3 +150,9 @@ section{
     width: 40px;
 }
 
+.reply-button{
+    cursor: pointer;
+    text-decoration: underline;
+    color: #007bff;
+}
+
