@@ -62,10 +62,23 @@ class Product extends Model
     }
 
 
-
-
-    public function setProductDescriptionAttribute($value)
+    /**
+     * @param $value
+     * @return void
+     * Laravel mutator product description initial capital
+     */
+    public function setProductDescriptionAttribute($value): void
     {
         $this->attributes['product_description'] = ucwords($value);
+    }
+
+    /**
+     * @param $value
+     * @return float
+     * Laravel accessor product price decimal removal
+     */
+    public function getProductPriceAttribute($value): float
+    {
+        return floor((int)$value);
     }
 }
