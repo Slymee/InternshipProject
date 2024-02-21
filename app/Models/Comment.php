@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Comment extends Model
 {
@@ -15,8 +16,9 @@ class Comment extends Model
 
     protected $fillable = [
         'user_id',
-        'product_id',
         'parent_id',
+        'commentable_type',
+        'commentable_id',
         'comment'
     ];
 
@@ -44,5 +46,10 @@ class Comment extends Model
     public function replies(): HasMany
     {
         return $this->hasMany(Comment::class, 'parent_id')->with('replies');
+    }
+
+    public function commentable(): MorphTo
+    {
+        return $this->morphTo();
     }
 }
