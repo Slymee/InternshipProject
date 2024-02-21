@@ -55,4 +55,9 @@ class Product extends Model
     {
         return $this->morphMany(Comment::class, 'commentable')->whereNull('parent_id');
     }
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 }

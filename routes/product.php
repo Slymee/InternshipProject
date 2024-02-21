@@ -33,4 +33,4 @@ Route::middleware(['guest.authenticate'])->group(function () {
  */
 Route::get('/', [ProductController::class, 'index'])->name('user-home');
 Route::get('/{categoryId}/products', [ProductController::class, 'categoryProductList'])->name('product-listing');
-Route::get('/product/{productId}', [ProductController::class, 'show'])->name('product-display');
+Route::get('/product/{product:slug}', [ProductController::class, 'show'])->name('product-display');
