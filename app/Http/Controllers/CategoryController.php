@@ -139,6 +139,5 @@ class CategoryController extends Controller
         $term = $request->term;
         $data = Category::where('category_name', 'like', '%'.$term.'%')->where('parent_id', $parentId)->paginate(10);
         return response()->json(['items' => $data->items()]);
-        // return response()->json(['items' => $data->items()]);
     }
 }
