@@ -6,6 +6,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -16,7 +19,7 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Category $category): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    public function index(Category $category): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $mainParent = $category->whereNull('parent_id')->paginate(10);
         return view('backend.admin-category', compact('mainParent'));
@@ -25,7 +28,7 @@ class CategoryController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Category $category): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    public function create(Category $category): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $data = $category->whereNull('parent_id')
         ->orWhereHas('parent', fn ($query) => $query->whereNull('parent_id'))
@@ -72,7 +75,8 @@ class CategoryController extends Controller
             return view('backend.modals.admin-edit-category', ['editableData' => $editableData],
                                                             ['datas' => $data]);
         }catch(\Exception $e){
-
+            Log::error('Caught Exception: ' . $e->getMessage());
+            throw $e;
         }
 
     }
