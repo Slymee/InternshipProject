@@ -11,7 +11,7 @@ use Illuminate\Http\Client\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class  UserController extends Controller
+class  UserAPIController extends Controller
 {
     /**
      * Display a listing of the resource.

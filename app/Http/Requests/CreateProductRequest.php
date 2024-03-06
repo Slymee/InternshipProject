@@ -30,7 +30,7 @@ class CreateProductRequest extends FormRequest
             'parent_category' => ['required', 'bail'],
             'sub_category' => ['required', 'bail'],
             'sub_sub_category' => ['required', 'bail'],
-            'product_tags' => ['required', 'bail'],
+            'product_tags' => ['required', 'bail', 'array'],
         ];
 
         if ($this->route()->named('product-update')) {

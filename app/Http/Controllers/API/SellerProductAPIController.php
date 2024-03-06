@@ -1,66 +1,46 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateProductRequest;
-use App\Models\Category;
 use App\Models\Product;
 use App\Models\Tag;
-//use Illuminate\Http\Request;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class SellerProductController extends Controller
+class SellerProductAPIController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     * @return \Illuminate\Contracts\Foundation\Application|Application|Factory|View
+     * @param Request $request
+     * @return \Illuminate\Foundation\Application|Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
      * @throws \Exception
      */
-    public function index(): \Illuminate\Contracts\Foundation\Application|Factory|View|Application
+    public function index(Request $request): \Illuminate\Foundation\Application|Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
         try {
             $user = auth()->user();
             $products = Product::with('category')->where('user_id', $user->id)->paginate(10);
-            return view('userend.my-products', compact('products'));
+            return Response(['status' => '200', 'products' => $products], 200);
         }catch (\Exception $e){
-            Log::error('Caught Exception: ' . $e->getMessage());
-            Log::error('Excepion Details: '. $e);
+            Log::error('Caught Exception: '. $e);
             throw $e;
         }
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @param Category $category
-     * @return View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+     * Store a newly created resources in storage
+     * @param CreateProductRequest $request
+     * @return \Illuminate\Foundation\Application|Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
      * @throws \Exception
      */
-    public function create(Category $category): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
-    {
-        try {
-            $parentCategory = $category->whereNull('parent_id')->paginate(10);
-            return view('userend.create-product', compact('parentCategory'));
-        }catch (\Exception $e){
-            Log::error('Caught Exception: ' . $e->getMessage());
-            Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
-            throw $e;
-        }
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     * @param CreateProductRequest $request
-     * @return RedirectResponse
-     */
-    public function store(CreateProductRequest $request): RedirectResponse
+    public function store(CreateProductRequest $request): \Illuminate\Foundation\Application|Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
         try{
             $request['slug'] = Str::slug($request->input('product_title'));
@@ -84,10 +64,10 @@ class SellerProductController extends Controller
                     $tagIds[] = $tag->id;
                 }
                 $productAd->tags()->sync($tagIds);
-                return redirect()->back()->with('message', 'Product Add Success.');
+                return Response(['status' => 200, 'message' => 'Product Insert Success.'], 201);
 
             }
-            return redirect()->back()->with('message', 'Product Add Failed.');
+            return Response(['message' => 'Product Add Failed'], 500);
 
         }catch(\Exception $e){
             Log::error('Caught Exception: ' . $e->getMessage());
@@ -98,42 +78,12 @@ class SellerProductController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     * @param Product $productAd
-     * @param string $productId
-     * @return View|Application|Factory|\Illuminate\Contracts\Foundation\Application
-     * @throws \Exception
-     */
-    public function edit(Product $product, string $productId): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
-    {
-        try {
-            $productDetails = $product->with('tags')->find($productId);
-            $subSubCategory = $productDetails->category;
-            $subCategory = $productDetails->parentCategory;
-            $parentCategory = $productDetails->grandParentCategory;
-            return view('userend.edit-product', compact('productDetails', 'subSubCategory', 'subCategory', 'parentCategory'));
-        }catch (\Exception $e){
-            Log::error('Caught Exception: ' . $e->getMessage());
-            Log::error('Exception Details: ' . $e);
-            throw $e;
-        }
-    }
-
-    /**
      * Update the specified resource in storage.
      * @param CreateProductRequest $request
      * @param string $productId
-     * @return RedirectResponse
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Foundation\Application|Response
      */
-    public function update(CreateProductRequest $request, string $productId): RedirectResponse
+    public function update(CreateProductRequest $request, string $productId): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Foundation\Application|Response
     {
         try {
             $product = Product::findOrFail($productId);
@@ -163,32 +113,34 @@ class SellerProductController extends Controller
                 }
                 $product->tags()->sync($tagIds);
 
-                return redirect(route('my-product-ads'))->with('message', 'Product Updated!');
+                return Response(['status' => 200, 'message' => 'Product Update Success.'], 201);
             }
-            return redirect(route('my-products-ads'))->with('message', "Product doesn't exist!");
+            return Response(['message' => 'Product Update Failed'], 500);
         }catch (\Exception $e){
             Log::error('Caught Exception: ' . $e->getMessage());
-            Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
-            return redirect()->back()->with('message', $e->getMessage());
+            Log::error('Exception Details: ' . $e);
+            DB::rollBack();
+            throw $e;
         }
     }
 
     /**
      * Remove the specified resource from storage.
      * @param string $productId
-     * @return RedirectResponse
+     * @return Response
      */
-    public function destroy(string $productId): RedirectResponse
+    public function destroy(int $productId): Response
     {
         try {
             $product = Product::find($productId);
             Storage::disk('public')->delete($product->image_path);
             $product->delete();
-            return redirect()->back()->with('message', 'Product Deleted');
+            return Response(['message' => 'Product Deleted.'], 200);
         }catch (\Exception $e){
             Log::error('Caught Exception: ' . $e->getMessage());
-            Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
-            return redirect()->back()->with('message', $e->getMessage());
+            Log::error('Exception Details: ' . $e);
+            DB::rollBack();
+            throw $e;
         }
     }
 }
