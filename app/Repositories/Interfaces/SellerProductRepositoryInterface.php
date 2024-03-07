@@ -11,5 +11,5 @@ interface SellerProductRepositoryInterface{
 
     public function update($productId, array $data);
 
-    public function delete($id);
+    public function delete($productId);
 }

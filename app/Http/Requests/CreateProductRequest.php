@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use http\Env\Request;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateProductRequest extends FormRequest
@@ -33,7 +34,7 @@ class CreateProductRequest extends FormRequest
             'product_tags' => ['required', 'bail', 'array'],
         ];
 
-        if ($this->route()->named('product-update')) {
+        if ($this->route()->named('product-update') || $this->route()->named('api.product-update')) {
             $rules['product_image'] = ['image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'];
         }
         return $rules;

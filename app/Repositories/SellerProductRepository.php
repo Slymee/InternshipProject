@@ -101,7 +101,18 @@ class SellerProductRepository implements SellerProductRepositoryInterface
         }
     }
 
-    public function delete($id){
-
+    public function delete($productId): array
+    {
+        try {
+            $product = Product::find($productId);
+            Storage::disk('public')->delete($product->image_path);
+            $product->delete();
+            return ['status' => 200, 'message' => 'Product Deleted.'];
+        }catch (\Exception $e){
+            Log::error('Caught Exception: ' . $e->getMessage());
+            Log::error('Exception Details: ' . $e);
+            DB::rollBack();
+            throw $e;
+        }
     }
 }

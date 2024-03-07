@@ -45,7 +45,7 @@ Route::middleware(['auth:api_user'])->group(function () {
     Route::get('product-ad', [SellerProductAPIController::class, 'create'])->name('api.product-ad-form');
     Route::post('product-ad', [SellerProductAPIController::class, 'store'])->name('api.product-ad-post');
     Route::get('product/{productId}/edit', [SellerProductAPIController::class, 'edit'])->name('api.product-edit');
-    Route::put('product/{productId}/update', [SellerProductAPIController::class, 'update'])->name('api.product-update');
+    Route::post('product/{productId}/update', [SellerProductAPIController::class, 'update'])->name('api.product-update');
     Route::get('product/{productId}/destroy', [SellerProductAPIController::class, 'destroy'])->name('api.product-destroy');
 
     Route::get('get-parent-category', [CategoryController::class, 'getPaginatedCategory'])->name('api.paginated-category');

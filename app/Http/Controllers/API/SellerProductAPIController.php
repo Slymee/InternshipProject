@@ -58,7 +58,7 @@ class SellerProductAPIController extends Controller
      * @param string $productId
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Foundation\Application|Response
      */
-    public function update(CreateProductRequest $request, string $productId): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Foundation\Application|Response
+    public function update(CreateProductRequest $request, string $productId): \Illuminate\Foundation\Application|Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory//: \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Foundation\Application|Response
     {
         $result = $this->productRepository->update($productId, $request->all());
 
@@ -70,18 +70,10 @@ class SellerProductAPIController extends Controller
      * @param string $productId
      * @return Response
      */
-    public function destroy(int $productId): Response
+    public function destroy(string $productId): Response
     {
-        try {
-            $product = Product::find($productId);
-            Storage::disk('public')->delete($product->image_path);
-            $product->delete();
-            return Response(['message' => 'Product Deleted.'], 200);
-        }catch (\Exception $e){
-            Log::error('Caught Exception: ' . $e->getMessage());
-            Log::error('Exception Details: ' . $e);
-            DB::rollBack();
-            throw $e;
-        }
+        $result = $this->productRepository->delete($productId);
+
+        return Response($result, $result['status']);
     }
 }
