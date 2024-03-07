@@ -9,7 +9,7 @@ interface SellerProductRepositoryInterface{
 
     public function store(array $data);
 
-    public function update($id, array $data);
+    public function update($productId, array $data);
 
     public function delete($id);
 }
