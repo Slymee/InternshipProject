@@ -23,6 +23,7 @@ class SellerProductRepository implements SellerProductRepositoryInterface
 
     }
 
+
     public function store(array $data): array
     {
         try {
@@ -58,7 +59,6 @@ class SellerProductRepository implements SellerProductRepositoryInterface
             throw $e;
         }
     }
-
     public function update($productId, array $data): array
     {
         try {

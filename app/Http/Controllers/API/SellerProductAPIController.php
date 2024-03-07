@@ -5,16 +5,10 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateProductRequest;
-use App\Models\Product;
-use App\Models\Tag;
 use App\Repositories\Interfaces\SellerProductRepositoryInterface;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+
 
 class SellerProductAPIController extends Controller
 {
