@@ -5,6 +5,8 @@ namespace App\Providers;
 
 use App\Repositories\CommentRepository;
 use App\Repositories\Interfaces\CommentRepositoryInterface;
+use App\Repositories\Interfaces\SellerProductRepositoryInterface;
+use App\Repositories\SellerProductRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -15,6 +17,7 @@ class RepositoryServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(CommentRepositoryInterface::class, CommentRepository::class);
+        $this->app->bind(SellerProductRepositoryInterface::class, SellerProductRepository::class);
     }
 
     /**
