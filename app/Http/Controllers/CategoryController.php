@@ -37,9 +37,7 @@ class CategoryController extends Controller
      */
     public function create(Category $category): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        $data = $category->whereNull('parent_id')
-        ->orWhereHas('parent', fn ($query) => $query->whereNull('parent_id'))
-        ->paginate(10);
+        $data = $this->categoryRepository->create();
         return view('backend.modals.admin-add-category', ['datas' => $data]);
     }
 
@@ -50,13 +48,16 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request): RedirectResponse
     {
-        try{
-            Category::create([
+        try {
+            $this->categoryRepository->store([
                 'category_name' => $request->category_name,
                 'parent_id' => $request->parent_id,
             ]);
+
             return redirect()->back()->with('message', 'Category Inserted.');
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
+            Log::error('Caught Exception: ' . $e->getMessage());
+            Log::error('Exception Details: ' . $e);
             return redirect()->back()->with('message', $e->getMessage());
         }
     }
@@ -72,20 +73,11 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        try{
-            $editableData = Category::select('id', 'category_name','parent_id')->findOrFail($id);
-            $data = Category::whereNull('parent_id')
-            ->orWhereHas('parent', fn ($query) => $query->whereNull('parent_id'))
-            ->paginate(10);
-            return view('backend.modals.admin-edit-category', ['editableData' => $editableData],
-                                                            ['datas' => $data]);
-        }catch(\Exception $e){
-            Log::error('Caught Exception: ' . $e->getMessage());
-            throw $e;
-        }
+        $data = $this->categoryRepository->edit($id);
 
+        return view('backend.modals.admin-edit-category', $data);
     }
 
     /**
@@ -93,20 +85,7 @@ class CategoryController extends Controller
      */
     public function update(CategoryRequest $request): RedirectResponse
     {
-        try{
-            Category::where('id', $request->category_id)->update([
-                'category_name' => $request->category_name,
-                'parent_id' => $request->parent_id,
-            ]);
-            return redirect()->back()->with('message', 'Edit Success!');
-
-
-        }catch(\Exception $e){
-            Log::error('Caught Exception: ' . $e->getMessage());
-            Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
-            return redirect()->back()->with('message', $e->getMessage());
-        }
-
+        return $this->categoryRepository->update($request->all());
     }
 
     /**
@@ -114,15 +93,14 @@ class CategoryController extends Controller
      */
     public function destroy(string $id): RedirectResponse
     {
-        try{
-            Category::find($id)->delete();
+        try {
+            $this->categoryRepository->destroy($id);
             return redirect()->back()->with('message', 'Category Deleted');
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             Log::error('Caught Exception: ' . $e->getMessage());
             Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
             return redirect()->back()->with('message', $e->getMessage());
         }
-
     }
 
     /**
@@ -131,11 +109,10 @@ class CategoryController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function getPaginatedCategory(Category $category, Request $request): JsonResponse
+    public function getPaginatedCategory(Request $request): JsonResponse
     {
         $term = $request->term;
-        $mainParent = $category->where('category_name','like','%'.$term.'%')->whereNull('parent_id')->paginate(10);
-        return response()->json(['items' => $mainParent->items()]);
+        return $this->categoryRepository->getPaginatedCategory($term);
     }
 
     /**
@@ -147,7 +124,7 @@ class CategoryController extends Controller
     public function displayChildCategory(string $parentId, Request $request): JsonResponse
     {
         $term = $request->term;
-        $data = Category::where('category_name', 'like', '%'.$term.'%')->where('parent_id', $parentId)->paginate(10);
-        return response()->json(['items' => $data->items()]);
+        $data = $this->categoryRepository->displayChildCategory($parentId, $term);
+        return response()->json($data);
     }
 }
