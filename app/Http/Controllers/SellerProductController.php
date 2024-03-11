@@ -64,13 +64,14 @@ class SellerProductController extends Controller
      */
     public function store(CreateProductRequest $request): RedirectResponse
     {
-        $result = $this->productRepository($request->all());
+        $result = $this->productRepository->store($request->all());
 
         if ($result['status'] === 200) {
             return redirect()->back()->with('message', $result['message']);
-        } else {
-            return redirect()->back()->with('message', $result['message']);
         }
+
+        return redirect()->back()->with('message', $result['message']);
+
     }
 
     /**

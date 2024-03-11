@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
+use App\Repositories\Interfaces\ProductRepositoryInterface;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -13,6 +14,10 @@ use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
+    public function __construct(ProductRepositoryInterface $productRepository)
+    {
+        $this->productRepository = $productRepository;
+    }
     /**
      * Display a listing of the resource.
      * @throws \Exception
@@ -50,11 +55,11 @@ class ProductController extends Controller
      */
     public function show(Product $products, string $productID): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        try{
-            $product = $products->findOrFail($productID)->load('category');
+        try {
+            $product = $this->productRepository->show($productID);
             return view('userend.product-page', compact('product'));
-        }catch (\Exception $e){
-            Log::error('Caught Exception: '. $e->getMessage());
+        } catch (\Exception $e) {
+            Log::error('Caught Exception: ' . $e->getMessage());
             Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
             throw $e;
         }
@@ -91,8 +96,14 @@ class ProductController extends Controller
      */
     public function categoryProductList(string $categoryId): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        $products = Product::where('category_id', $categoryId)->paginate(10);
-        $categoryName = Category::findOrFail    ($categoryId)->category_name;
-        return view('userend.product-list', compact('categoryName' , 'products'));
+        try {
+            $data = $this->productRepository->categoryProductList($categoryId);
+
+            return view('userend.product-list', $data);
+        } catch (\Exception $e) {
+            Log::error('Caught Exception: ' . $e->getMessage());
+            Log::error('Exception details: ' . $e);
+            throw $e;
+        }
     }
 }
