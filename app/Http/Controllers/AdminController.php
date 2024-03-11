@@ -27,7 +27,7 @@ class AdminController extends Controller
             return view('backend.admin-login');
         }catch (\Exception $e){
             Log::error('Caught Exception: ' . $e->getMessage());
-            Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
+            Log::error('Exception details: ' . $e);
             throw $e;
         }
     }
@@ -42,7 +42,7 @@ class AdminController extends Controller
             return redirect()->back()->with('message', 'Invalid Credentials');
         }catch(\Exception $e){
             Log::error('Caught Exception: ' . $e->getMessage());
-            Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
+            Log::error('Exception details: ' . $e);
             return redirect()->back()->with('message', $e->getMessage());
         }
     }

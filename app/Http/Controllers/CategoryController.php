@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use App\Repositories\Interfaces\AdminCategoryRepositoryInterface;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -16,12 +17,18 @@ use Illuminate\Support\Facades\Log;
 
 class CategoryController extends Controller
 {
+    private $categoryRepository;
+
+    public function __construct(AdminCategoryRepositoryInterface $categoryRepository)
+    {
+        $this->categoryRepository = $categoryRepository;
+    }
     /**
      * Display a listing of the resource.
      */
-    public function index(Category $category): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    public function index(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        $mainParent = $category->whereNull('parent_id')->paginate(10);
+        $mainParent = $this->categoryRepository->getAll();
         return view('backend.admin-category', compact('mainParent'));
     }
 
@@ -126,7 +133,6 @@ class CategoryController extends Controller
      */
     public function getPaginatedCategory(Category $category, Request $request): JsonResponse
     {
-        // dd($request->all());
         $term = $request->term;
         $mainParent = $category->where('category_name','like','%'.$term.'%')->whereNull('parent_id')->paginate(10);
         return response()->json(['items' => $mainParent->items()]);

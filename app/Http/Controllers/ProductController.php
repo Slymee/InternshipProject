@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
+    private  $productRepository;
+
     public function __construct(ProductRepositoryInterface $productRepository)
     {
         $this->productRepository = $productRepository;
@@ -27,8 +29,8 @@ class ProductController extends Controller
         try {
             return view('userend.index');
         }catch(\Exception $e) {
-            Log::error('Caught Exception: ' . $e);
-            Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
+            Log::error('Caught Exception: ' . $e->getMessage());
+            Log::error('Exception details: ' . $e);
             throw $e;
         }
     }
