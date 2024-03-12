@@ -26,6 +26,7 @@ class SellerProductAPIController extends Controller
     {
         try {
             $products = $this->productRepository->getAll();
+
             return Response(['status' => '200', 'products' => $products], 200);
         }catch (\Exception $e){
             Log::error('Caught Exception: '. $e);

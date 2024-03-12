@@ -18,7 +18,7 @@
             <div>Title: <span>{{ $product->product_title }}</span></div>
             <div>Category: <span>{{ $product->category->category_name }}</span></div>
             <div>Description: <span class="description-span">{{ $product->product_description }}</span></div>
-            <div class="price-container">Price: <span>{{ $product->product_price }}</span> </div>
+            <div class="price-container">Price: <span>Rs. {{ $product->product_price }}</span> </div>
             <div class="button-container">
                 <a href="#"><button>Purchase</button></a>
             </div>

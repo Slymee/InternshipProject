@@ -15,9 +15,16 @@ return new class extends Migration
         Schema::create('product_tags', function (Blueprint $table){
             $table->id();
             $table->unsignedBigInteger('product_id');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('product_id')->references('id')
+                ->on('products')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
             $table->unsignedBigInteger('tag_id');
-            $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('tag_id')->references('id')
+                ->on('tags')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 
