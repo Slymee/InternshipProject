@@ -52,10 +52,15 @@ class AdminCategoryRepository implements AdminCategoryRepositoryInterface
     public function update(array $data): \Illuminate\Http\RedirectResponse
     {
         try {
-            Category::where('id', $data['category_id'])->update([
+            $updateData = [
                 'category_name' => $data['category_name'],
-                'parent_id' => $data['parent_id'],
-            ]);
+            ];
+
+            if (isset($data['parent_id'])) {
+                $updateData['parent_id'] = $data['parent_id'];
+            }
+
+            Category::where('id', $data['category_id'])->update($updateData);
 
             return redirect()->back()->with('message', 'Edit Success!');
         } catch (\Exception $e) {

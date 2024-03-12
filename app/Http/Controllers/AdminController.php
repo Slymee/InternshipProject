@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Services\AuthService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -17,6 +18,11 @@ use Mockery\Exception;
 
 class AdminController extends Controller
 {
+    private $authService;
+    public function __construct(AuthService $authService)
+    {
+        $this->authService = $authService;
+    }
     //display login form
     /**
      * @throws \Exception
@@ -35,12 +41,15 @@ class AdminController extends Controller
     //login module
     public function login(LoginRequest $request): Application|Redirector|\Illuminate\Contracts\Foundation\Application|RedirectResponse
     {
-        try{
-            if(auth()->guard('admin')->attempt($request->only(['username', 'password']))){
+        try {
+            $credentials = $request->only(['username', 'password']);
+
+            if ($this->authService->login($credentials)) {
                 return redirect(route('admin.dashboard'));
             }
+
             return redirect()->back()->with('message', 'Invalid Credentials');
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             Log::error('Caught Exception: ' . $e->getMessage());
             Log::error('Exception details: ' . $e);
             return redirect()->back()->with('message', $e->getMessage());
@@ -49,9 +58,15 @@ class AdminController extends Controller
 
 
     //logout module
-    public function logout(Request $request): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
+    public function logout(): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
-        Auth::guard('admin')->logout();
-        return redirect('/admin-login');
+        try {
+            $this->authService->logout();
+            return redirect(route('admin.login'));
+        } catch (\Exception $e) {
+            Log::error('Caught Exception: ' . $e->getMessage());
+            Log::error('Exception details: ' . $e);
+            throw $e;
+        }
     }
 }
