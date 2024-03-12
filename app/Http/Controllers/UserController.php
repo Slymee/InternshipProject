@@ -5,56 +5,96 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterUserRequest;
-use App\Models\User;
-use Illuminate\Contracts\Session\Session;
-use Illuminate\Support\Facades\Session as LaravelSession;
-use Illuminate\Http\Request;
+use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Services\AuthService;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 class UserController extends Controller
 {
-    public function userLoginForm(){
-        Redirect::setIntendedUrl(url()->previous());
-        return view('userend.login');
+    protected $userRepository;
+    private $authService;
+
+    public function __construct(UserRepositoryInterface $userRepository, AuthService $authService)
+    {
+        $this->userRepository = $userRepository;
+        $this->authService = $authService;
     }
-
-
-    //User Registration module
-    public function registerUser(RegisterUserRequest $request){
-        try{
-            User::create([
-                'name' => $request->name,
-                'username' => $request->username,
-                'email' => $request->email,
-                'password' => $request->password,
-            ]);
-            return redirect()->back()->with('message', 'User Registered.');
-        }catch(\Exception $e){
-            return redirect()->back()->with('message', $e->getMessage());
+    /**
+     * @return View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+     * @throws \Exception
+     */
+    public function userLoginForm(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    {
+        try {
+            Redirect::setIntendedUrl(url()->previous());
+            return view('userend.login');
+        }catch (\Exception $e){
+            Log::error('Caught Exception: ' . $e->getMessage());
+            Log::error('Exception details: ' . $e);
+            throw $e;
         }
     }
 
-    //User Login module
-    public function loginUser(LoginRequest $request){
-        try{
-            if(Auth::guard('web')->attempt(['username' => $request->username, 'password' => $request->password])){
-                return redirect()->intended();
-            }
-            return redirect()->back()->with('message', 'Invalid Credentials');
 
-        }catch(\Exception $e){
-            return redirect()->back()->with('message', $e->getMessage());
+    /**
+     * User register module
+     * @param RegisterUserRequest $request
+     * @return RedirectResponse
+     */
+    public function registerUser(RegisterUserRequest $request): RedirectResponse
+    {
+        return $this->userRepository->createUser($request->all());
+    }
+
+    /**
+     * User login module
+     * @param LoginRequest $request
+     * @return RedirectResponse
+     */
+    public function loginUser(LoginRequest $request): RedirectResponse
+    {
+        $credentials = ['username' => $request->username, 'password' => $request->password];
+
+        return $this->authService->loginUser($credentials);
+    }
+
+
+    /**
+     * User logout
+     * @return RedirectResponse
+     * @throws \Exception
+     */
+    public function logoutUser(): RedirectResponse
+    {
+        try {
+            $guardName = 'web';
+            $this->authService->logout($guardName);
+            return redirect()->back();
+        }catch (\Exception $e){
+            Log::error('Caught Exception: ' . $e->getMessage());
+            Log::error('Exception details: ' . $e);
+            throw $e;
         }
     }
 
-    //User logout module
-    public function logoutUser(){
-        Auth::guard('web')->logout();
-        return redirect()->back();
-    }
-
-    public function index(){
-        return view('userend.index');
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|View|Application
+     * @throws \Exception
+     */
+    public function index(): Application|View|Factory|\Illuminate\Contracts\Foundation\Application
+    {
+        try {
+            return view('userend.index');
+        }catch (\Exception $e){
+            Log::error('Caught Exception: ' . $e->getMessage());
+            Log::error('Exception details: ' . $e);
+            throw $e;
+        }
     }
 }

@@ -18,7 +18,7 @@ class LoginPageAuthenticate
     public function handle(Request $request, Closure $next): Response
     {
         if(Auth::guard('web')->check()){
-            return redirect('/home');
+            return redirect('/');
         }
         return $next($request);
     }

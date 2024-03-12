@@ -20,4 +20,11 @@ use Illuminate\Support\Facades\Route;
 //});
 
 
+/**
+ * Laravel logs route
+ */
+Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
+
+
+
 

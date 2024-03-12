@@ -9,9 +9,9 @@
 @endsection
 
 @section('content')
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<!-- Include Select2 CSS and JS files -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Include Select2 CSS and JS files -->
 <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <section>
@@ -33,7 +33,7 @@
                 </div>
                 <div class="mb-3">
                   <label for="formFile" class="form-label">Upload Product Image (Max: 2MB)</label>
-                  <input class="form-control" type="file" id="formFile" name="product_image">
+                  <input class="form-control" type="file" id="formFile" name="product_image" accept="image/*">
                 </div>
                 <div class="mb-3">
                   <label for="parentCategory" class="form-label">Select Category</label>
@@ -79,108 +79,6 @@
             </form>
         </div>
     </section>
-
-    {{-- <script>
-      /**
-      * Level 2 Category
-      */
-
-      // async function fetchSubCategory(){
-      //   $('#subCategoryDiv').show();
-      //   document.querySelector('#subCategory').innerHTML = '<option selected>Select Sub Category</option>';
-      //   // document.querySelector('#subCategory').innerHTML = '';
-
-      //   var parentID = document.querySelector('#parentCategory').value;
-      //   const URL = 'get-child-option/'+parentID;
-      //   let response = await axios.get(URL);
-      //   if(response.status===200){
-      //     paginatedData = response.data;
-      //     console.log(paginatedData);
-      //     paginatedData.data.forEach(function (category) {
-      //       $('#subCategory').append('<option value="' + category.id + '">' + category.category_name + '</option>');
-      //     });
-      //    }
-      // }
-      $(document).ready(function() {
-        $('#subCategoryDiv').hide();
-        $('#subSubCategoryDiv').hide();
-
-        $('#parentCategory').change(async function() {
-          $('#subCategoryDiv').show();
-          $('#subCategory').html('<option selected>Select Sub Category</option>');
-
-          var parentID = $(this).val();
-            const URL = 'get-child-option/' + parentID;
-
-          try {
-            let response = await axios.get(URL);
-
-            if (response.status === 200) {
-                let paginatedData = response.data;
-                console.log(paginatedData);
-
-                if (paginatedData && paginatedData.data) {
-                    paginatedData.data.forEach(function (category) {
-                        $('#subCategory').append('<option value="' + category.id + '">' + category.category_name + '</option>');
-                    });
-                } else {
-                    console.error('Invalid data structure:', paginatedData);
-                }
-
-            }
-          } catch (error) {
-            console.error('Error fetching data:', error);
-          }
-      });
-
-
-      /**
-      * Level 3 Category
-      */
-      $('#subCategory').change(async function() {
-          $('#subSubCategoryDiv').show();
-          $('#subSubCategory').html('<option selected>Select Sub Sub Category</option>');
-
-          var parentID = $(this).val();
-            const URL = 'get-child-option/' + parentID;
-
-          try {
-            let response = await axios.get(URL);
-
-            if (response.status === 200) {
-                let paginatedData = response.data;
-                console.log(paginatedData);
-
-                if (paginatedData && paginatedData.data) {
-                    paginatedData.data.forEach(function (category) {
-                        $('#subSubCategory').append('<option value="' + category.id + '">' + category.category_name + '</option>');
-                    });
-                } else {
-                    console.error('Invalid data structure:', paginatedData);
-                }
-
-            }
-          } catch (error) {
-            console.error('Error fetching data:', error);
-          }
-      });
-    });
-
-    //---------------------------------------------------------------------------------------------------
-    // request.open("GET", "get-child-option/"+parentID, true);
-    // request.send();
-    // request.onreadystatechange = function(){
-    //   if(request.readyState == 4 && request.status == 200){
-    //     var data = JSON.parse(request.responseText);
-    //     console.log(data);
-    //     console.log(data[1]['data'][0]['category_name'])
-    //     data.forEach(function (category) {
-    //       $('#subCategory').append('<option value="' + category.id + '">' + category.category_name + '</option>');
-    //     });
-    //   }
-    // }
-    //----------------------------------------------------------------------------------------------------
-    </script> --}}
     @vite(['resources/js/product-ad.js'])
     <script>
       $(document).ready(function() {

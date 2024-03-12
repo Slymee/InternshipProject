@@ -1,12 +1,13 @@
-body{
-    overflow: hidden;
-}
-
 section{
     width: 100%;
     height: auto;
     justify-content: center;
+
     padding: 10px;
+}
+
+.error-message{
+    color: red;
 }
 
 .product-banner{
@@ -21,7 +22,6 @@ section{
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     display: flex;
     justify-content: space-between;
-    text-align: left;
 }
 
 .image-container{
@@ -78,6 +78,81 @@ section{
 }
 
 
-.comment-section{
+/*Comments section css*/
+.comments-container {
     padding: 10px;
+    max-width: 100%;
+    margin: 20px auto;
+    height: 350px;
+    overflow-y: auto;
+    overflow-x: auto;
 }
+
+.comment-section-title{
+    font-size: 150%;
+    font-weight: bold;
+}
+
+/* Example CSS for styling comments */
+.comment {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.replies {
+    margin-left: 20px;
+    border-left: 1px solid #ccc;
+    padding-left: 10px;
+}
+
+.comment-user{
+    font-weight: bold;
+    font-size: 130%;
+    color: #007bff;
+}
+
+
+
+/*Comment form*/
+.comment-form {
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+.comment-form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.comment-form label {
+    margin-top: 10px;
+}
+
+.comment-form textarea {
+    margin-bottom: 10px;
+}
+
+.utilities>span{
+    cursor: pointer;
+    font-size: 90%;
+    color: #e72fd0;
+    text-decoration: underline;
+}
+
+.comment-section-title{
+    font-size: 150%;
+    font-weight: bold;
+}
+
+.comment-image{
+    height: 25px;
+    width: 40px;
+}
+
+.reply-button{
+    cursor: pointer;
+    text-decoration: underline;
+    color: #007bff;
+}
+

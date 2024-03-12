@@ -6,18 +6,32 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
+use App\Repositories\Interfaces\ProductRepositoryInterface;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
+    private  $productRepository;
+
+    public function __construct(ProductRepositoryInterface $productRepository)
+    {
+        $this->productRepository = $productRepository;
+    }
     /**
      * Display a listing of the resource.
+     * @throws \Exception
      */
-    public function index()
+    public function index(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         try {
             return view('userend.index');
-        }catch(\Exception $e){
-            dd($e->getMessage());
+        }catch(\Exception $e) {
+            Log::error('Caught Exception: ' . $e->getMessage());
+            Log::error('Exception details: ' . $e);
+            throw $e;
         }
     }
 
@@ -39,11 +53,18 @@ class ProductController extends Controller
 
     /**
      * Display the specified resource.
+     * @throws \Exception
      */
-    public function show(Product $products, string $productID)
+    public function show(Product $products, string $productID): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        $product = $products->find($productID)->load('category');
-        return view('userend.product-page', compact('product'));
+        try {
+            $product = $this->productRepository->show($productID);
+            return view('userend.product-page', compact('product'));
+        } catch (\Exception $e) {
+            Log::error('Caught Exception: ' . $e->getMessage());
+            Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
+            throw $e;
+        }
     }
 
     /**
@@ -73,13 +94,18 @@ class ProductController extends Controller
     /**
      * List products acording to category
      * @param string $categoryId
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+     * @return View|Application|Factory|\Illuminate\Contracts\Foundation\Application
      */
-    public function categoryProductList(string $categoryId): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    public function categoryProductList(string $categoryId): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
+        try {
+            $data = $this->productRepository->categoryProductList($categoryId);
 
-        $products = Product::where('category_id', $categoryId)->paginate(10);
-        $categoryName = Category::find($categoryId)->category_name;
-        return view('userend.product-list', compact('categoryName' , 'products'));
+            return view('userend.product-list', $data);
+        } catch (\Exception $e) {
+            Log::error('Caught Exception: ' . $e->getMessage());
+            Log::error('Exception details: ' . $e);
+            throw $e;
+        }
     }
 }
