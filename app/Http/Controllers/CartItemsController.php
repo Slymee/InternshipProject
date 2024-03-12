@@ -12,7 +12,7 @@ class CartItemsController extends Controller
      */
     public function index()
     {
-        //
+        return view('userend.cart-items');
     }
 
     /**

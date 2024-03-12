@@ -10,7 +10,7 @@
        <li><a href="{{ route('user-home') }}">Home</a></li>
        <li><a href="#">About</a></li>
        <li><a href="{{ route('product-ad-form') }}">Post an Ad</a></li>
-        <li><a href="#">Cart</a></li>
+        <li><a href="{{ route('cart-items', ['userId' => auth()->id()]) }}">Cart</a></li>
        @guest
         <li><a href="{{ route('user.login') }}">Login</a></li>
        @else
