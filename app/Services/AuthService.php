@@ -25,15 +25,32 @@ class AuthService
     }
 
 
-    public function logout(): bool
+    public function logout(string $guardName): bool
     {
         try {
-            Auth::guard('admin')->logout();
+            Auth::guard($guardName)->logout();
             return true;
         } catch (\Exception $e) {
             Log::error('Caught Exception: ' . $e->getMessage());
             Log::error('Exception details: ' . $e);
             throw $e;
+        }
+    }
+
+
+    public function loginUser(array $credentials): \Illuminate\Http\RedirectResponse
+    {
+        try {
+            if (Auth::guard('web')->attempt($credentials)) {
+                return redirect()->intended();
+            }
+
+            return redirect()->back()->with('message', 'Invalid Credentials');
+        } catch (\Exception $e) {
+            Log::error('Caught Exception: ' . $e->getMessage());
+            Log::error('Exception details: ' . $e);
+
+            return redirect()->back()->with('message', $e->getMessage());
         }
     }
 }

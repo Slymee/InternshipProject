@@ -54,7 +54,7 @@ class PasswordResetController extends Controller
             return back()->with('message', 'Your password reset link has been sent to your email.');
         }catch(\Exception $e){
             Log::error('Caught Exception: ' . $e->getMessage());
-            Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
+            Log::error('Exception details: ' . $e);
             return back()->with('message', $e->getMessage());
         }
     }

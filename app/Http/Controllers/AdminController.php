@@ -8,13 +8,10 @@ use App\Services\AuthService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+//use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Mockery\Exception;
 
 class AdminController extends Controller
 {
@@ -61,7 +58,8 @@ class AdminController extends Controller
     public function logout(): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
         try {
-            $this->authService->logout();
+            $guardName = 'admin';
+            $this->authService->logout($guardName);
             return redirect(route('admin.login'));
         } catch (\Exception $e) {
             Log::error('Caught Exception: ' . $e->getMessage());

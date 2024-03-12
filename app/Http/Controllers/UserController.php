@@ -5,20 +5,26 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterUserRequest;
-use App\Models\User;
-use Illuminate\Contracts\Session\Session;
+use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Services\AuthService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session as LaravelSession;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 class UserController extends Controller
 {
+    protected $userRepository;
+    private $authService;
+
+    public function __construct(UserRepositoryInterface $userRepository, AuthService $authService)
+    {
+        $this->userRepository = $userRepository;
+        $this->authService = $authService;
+    }
     /**
      * @return View|Application|Factory|\Illuminate\Contracts\Foundation\Application
      * @throws \Exception
@@ -30,7 +36,7 @@ class UserController extends Controller
             return view('userend.login');
         }catch (\Exception $e){
             Log::error('Caught Exception: ' . $e->getMessage());
-            Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
+            Log::error('Exception details: ' . $e);
             throw $e;
         }
     }
@@ -43,19 +49,7 @@ class UserController extends Controller
      */
     public function registerUser(RegisterUserRequest $request): RedirectResponse
     {
-        try{
-            User::create([
-                'name' => $request->name,
-                'username' => $request->username,
-                'email' => $request->email,
-                'password' => $request->password,
-            ]);
-            return redirect()->back()->with('message', 'User Registered.');
-        }catch(\Exception $e){
-            Log::error('Caught Exception: ' . $e->getMessage());
-            Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
-            return redirect()->back()->with('message', $e->getMessage());
-        }
+        return $this->userRepository->createUser($request->all());
     }
 
     /**
@@ -65,17 +59,9 @@ class UserController extends Controller
      */
     public function loginUser(LoginRequest $request): RedirectResponse
     {
-        try{
-            if(Auth::guard('web')->attempt(['username' => $request->username, 'password' => $request->password])){
-                return redirect()->intended();
-            }
-            return redirect()->back()->with('message', 'Invalid Credentials');
+        $credentials = ['username' => $request->username, 'password' => $request->password];
 
-        }catch(\Exception $e){
-            Log::error('Caught Exception: ' . $e->getMessage());
-            Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
-            return redirect()->back()->with('message', $e->getMessage());
-        }
+        return $this->authService->loginUser($credentials);
     }
 
 
@@ -87,11 +73,12 @@ class UserController extends Controller
     public function logoutUser(): RedirectResponse
     {
         try {
-            Auth::guard('web')->logout();
+            $guardName = 'web';
+            $this->authService->logout($guardName);
             return redirect()->back();
         }catch (\Exception $e){
             Log::error('Caught Exception: ' . $e->getMessage());
-            Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
+            Log::error('Exception details: ' . $e);
             throw $e;
         }
     }
@@ -106,7 +93,7 @@ class UserController extends Controller
             return view('userend.index');
         }catch (\Exception $e){
             Log::error('Caught Exception: ' . $e->getMessage());
-            Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
+            Log::error('Exception details: ' . $e);
             throw $e;
         }
     }
