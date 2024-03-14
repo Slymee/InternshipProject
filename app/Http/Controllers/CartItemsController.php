@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CartItemsRequest;
 use App\Models\CartItems;
+use App\Repositories\Interfaces\CartItemsRepositoryInterface;
 use Illuminate\Http\Request;
 
 class CartItemsController extends Controller
 {
+    protected $cartItemsRepository;
+    public function __construct(CartItemsRepositoryInterface $cartItemsRepository)
+    {
+        $this->cartItemsRepository = $cartItemsRepository;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -26,9 +33,9 @@ class CartItemsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CartItemsRequest $request)
     {
-        //
+        $this->cartItemsRepository->store($request->all());
     }
 
     /**

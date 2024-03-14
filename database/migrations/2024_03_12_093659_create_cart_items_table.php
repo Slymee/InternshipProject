@@ -34,7 +34,7 @@ return new class extends Migration
 
             $table->unsignedTinyInteger('quantity');
 
-            $table->unsignedBigInteger('total_amount');
+            $table->unsignedBigInteger('amount');
             $table->timestamps();
         });
     }

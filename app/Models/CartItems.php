@@ -14,7 +14,7 @@ class CartItems extends Model
         'buyer_id',
         'seller_id',
         'product_id',
-        'quntity',
-        'total_amount',
+        'quantity',
+        'amount',
     ];
 }

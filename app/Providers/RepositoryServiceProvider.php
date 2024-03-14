@@ -4,8 +4,10 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Repositories\AdminCategoryRepository;
+use App\Repositories\CartItemsRepository;
 use App\Repositories\CommentRepository;
 use App\Repositories\Interfaces\AdminCategoryRepositoryInterface;
+use App\Repositories\Interfaces\CartItemsRepositoryInterface;
 use App\Repositories\Interfaces\CommentRepositoryInterface;
 use App\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Repositories\Interfaces\SellerProductRepositoryInterface;
@@ -27,6 +29,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);
         $this->app->bind(AdminCategoryRepositoryInterface::class, AdminCategoryRepository::class);
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+        $this->app->bind(CartItemsRepositoryInterface::class, CartItemsRepository::class);
     }
 
     /**
