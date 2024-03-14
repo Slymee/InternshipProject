@@ -1,0 +1,42 @@
+/*body{*/
+/*    overflow: hidden;*/
+/*}*/
+.banner-container{
+    padding: 10px;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #eeefef;
+}
+
+.checkout-container{
+    padding: 10px;
+    width: 1500px;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5);
+}
+
+.item-container{
+    padding: 10px;
+    width: 75%;
+
+}
+
+.utility-container{
+    padding: 10px;
+}
+
+
+
+*::-webkit-scrollbar {
+    width: 8px; /* Adjust this value to make the scrollbar thinner or thicker */
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #888; /* Change this to your desired color */
+}
