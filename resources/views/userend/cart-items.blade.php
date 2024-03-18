@@ -11,7 +11,12 @@
 @section('content')
     <section class="banner-container">
         <div class="checkout-container">
-            <div class="item-container">asdasdsad</div>
+            <div class="item-container">
+                <div class="cart-item-banner">
+                    <div class="cart-item-img"></div>
+                    <div class="cart-item-info"></div>
+                </div>
+            </div>
             <div class="utility-container">dfghdfgfdg</div>
         </div>
     </section>

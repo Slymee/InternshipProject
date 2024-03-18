@@ -26,7 +26,6 @@ class CartItemsRequest extends FormRequest
             'seller_id' => ['required', 'bail'],
             'quantity' => ['required', 'integer', 'min:1'],
             'product_id' => ['required', 'bail'],
-            'price' => ['required', 'bail'],
         ];
     }
 }

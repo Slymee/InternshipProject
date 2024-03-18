@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
-interface CartItemsRepositoryInterface
+interface CartRepositoryInterface
 {
     public function store(array $data);
 }

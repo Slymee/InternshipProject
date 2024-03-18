@@ -1,25 +1,26 @@
 <?php
-
+declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CartItemsRequest;
-use App\Models\CartItems;
-use App\Repositories\Interfaces\CartItemsRepositoryInterface;
+use App\Models\Cart;
+use App\Repositories\CartRepository;
+use App\Repositories\Interfaces\CartRepositoryInterface;
 use Illuminate\Http\Request;
 
-class CartItemsController extends Controller
+class CartController extends Controller
 {
-    protected $cartItemsRepository;
-    public function __construct(CartItemsRepositoryInterface $cartItemsRepository)
+    protected $cartRepository;
+    public function __construct(CartRepositoryInterface $cartRepository)
     {
-        $this->cartItemsRepository = $cartItemsRepository;
+        $this->cartRepository = $cartRepository;
     }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('userend.cart-items');
+        //
     }
 
     /**
@@ -35,13 +36,16 @@ class CartItemsController extends Controller
      */
     public function store(CartItemsRequest $request)
     {
-        $this->cartItemsRepository->store($request->all());
+        $this->cartRepository->store($request->all());
+
+        return redirect()->back()->with('message', 'Product added to cart.');
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(CartItems $cartItems)
+    public function show(Cart $cart)
     {
         //
     }
@@ -49,7 +53,7 @@ class CartItemsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(CartItems $cartItems)
+    public function edit(Cart $cart)
     {
         //
     }
@@ -57,7 +61,7 @@ class CartItemsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, CartItems $cartItems)
+    public function update(Request $request, Cart $cart)
     {
         //
     }
@@ -65,7 +69,7 @@ class CartItemsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CartItems $cartItems)
+    public function destroy(Cart $cart)
     {
         //
     }

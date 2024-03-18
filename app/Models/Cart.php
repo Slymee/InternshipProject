@@ -5,16 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CartItems extends Model
+class Cart extends Model
 {
     use HasFactory;
-    protected $table = "cart_items";
+
+    protected $table = 'carts';
 
     protected $fillable = [
         'buyer_id',
-        'seller_id',
-        'product_id',
-        'quantity',
-        'amount',
     ];
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'cart_products')->withPivot('quantity');
+    }
 }
