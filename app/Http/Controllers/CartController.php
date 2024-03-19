@@ -1,10 +1,9 @@
 <?php
-declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CartItemsRequest;
 use App\Models\Cart;
-use App\Repositories\CartRepository;
 use App\Repositories\Interfaces\CartRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -18,9 +17,10 @@ class CartController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(string $userId)
     {
-        //
+        $cartItems = $this->cartRepository->showCartItems($userId);
+        return view('userend.cart-items', compact('cartItems'));
     }
 
     /**
@@ -34,12 +34,12 @@ class CartController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CartItemsRequest $request)
+    public function store(CartItemsRequest $request): \Illuminate\Http\RedirectResponse
     {
-        $this->cartRepository->store($request->all());
-
-        return redirect()->back()->with('message', 'Product added to cart.');
-
+        if ($this->cartRepository->store($request->all())){
+            return redirect()->back()->with('message', 'Product Added to Cart.');
+        }
+        return redirect()->back()->with('message', 'Product failed to add!');
     }
 
     /**
@@ -69,8 +69,14 @@ class CartController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Cart $cart)
+    public function destroy(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'cart_id' => 'required'
+        ]);
+        if ($this->cartRepository->removeFromCart($validated['cart_id'])){
+            return redirect()->back()->with('message', 'Removed from cart.');
+        }
+        return redirect()->back()->with('message', 'Could not remove.');
     }
 }

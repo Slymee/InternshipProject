@@ -58,7 +58,7 @@ class Product extends Model
 
     public function carts()
     {
-        return $this->belongsToMany(CartItems::class)->withPivot('quantity');
+        return $this->hasMany(Cart::class);
     }
 
     public function getRouteKeyName(): string

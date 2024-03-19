@@ -43,6 +43,15 @@
     justify-content: space-between;
 }
 
+.cart-item-img>img{
+    width: 100px;
+    height: 80px;
+}
+.cart-item-info{
+    width: 70%;
+    font-size: 110%;
+}
+
 *::-webkit-scrollbar {
     width: 8px; /* Adjust this value to make the scrollbar thinner or thicker */
 }
