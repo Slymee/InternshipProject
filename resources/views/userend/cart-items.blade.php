@@ -51,7 +51,14 @@
                         @endif
                     </span>
             </div>
-            <div class="utility-container">Rs. {{ $totalAmount }}</div>
+            <div class="utility-container">
+                <div class="total-amount-container">
+                    Total Amount: <span>Rs. {{ $totalAmount }}</span>
+                </div>
+                <div class="checkout-button">
+                    <button>Proceed to Checkout</button>
+                </div>
+            </div>
         </div>
     </section>
     <script>
