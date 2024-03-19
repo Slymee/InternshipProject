@@ -9,6 +9,7 @@
 @endsection
 
 @section('content')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <section class="banner-container">
         <div class="checkout-container">
             <div class="item-container">
@@ -21,6 +22,15 @@
                             <div class="">Quantity: {{ $cartItem->quantity }}</div>
                         </div>
                         <div class="cart-item-util">
+                            <form method="post" action="{{ route('change-cart-item-quantity') }}">
+                                @method('PUT')
+                                @csrf
+                                <input type="hidden" name="cart_id" value="{{ $cartItem->id }}" readonly>
+                                <input type="hidden" name="price" value="{{ $cartItem->price }}">
+                                <label for="item-quantity{{  $cartItem->id }}">Quantity:</label>
+                                <input type="number" name="quantity" id="item-quantity{{  $cartItem->id }}" min="1" value="{{ $cartItem->quantity }}" oninput="validity.valid||(value='');">
+                                <input type="submit" value="Update Quantity">
+                            </form>
                             <form method="POST" action="{{ route('remove-from-cart') }}">
                                 @csrf
                                 <input type="hidden" name="cart_id" value="{{ $cartItem->id }}">
@@ -29,8 +39,21 @@
                         </div>
                     </div>
                 @endforeach
+                    <span class="error-message">
+                        @if(session('message'))
+                            {{ session('message') }}
+                        @endif
+
+                        @if($errors->any())
+                            @foreach ($errors->all() as $error)
+                                {{ $error}} <br>
+                            @endforeach
+                        @endif
+                    </span>
             </div>
-            <div class="utility-container">dfghdfgfdg</div>
+            <div class="utility-container">Rs. {{ $totalAmount }}</div>
         </div>
     </section>
+    <script>
+    </script>
 @endsection

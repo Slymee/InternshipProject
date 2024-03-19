@@ -6,6 +6,7 @@ use App\Http\Requests\CartItemsRequest;
 use App\Models\Cart;
 use App\Repositories\Interfaces\CartRepositoryInterface;
 use Illuminate\Http\Request;
+use function Termwind\renderUsing;
 
 class CartController extends Controller
 {
@@ -17,10 +18,11 @@ class CartController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(string $userId)
+    public function index(string $userId): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
         $cartItems = $this->cartRepository->showCartItems($userId);
-        return view('userend.cart-items', compact('cartItems'));
+        $totalAmount = $cartItems->sum('amount');
+        return view('userend.cart-items', compact('cartItems', 'totalAmount'));
     }
 
     /**
@@ -61,15 +63,19 @@ class CartController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Cart $cart)
+    public function update(CartItemsRequest $request)
     {
-        //
+        if ($this->cartRepository->updateQuantity($request->all())){
+            return redirect()->back()->with('message', 'Quantity Updated.');
+        }
+
+        return redirect()->back()->with('message', 'Quantity Update Failed.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request)
+    public function destroy(Request $request): \Illuminate\Http\RedirectResponse
     {
         $validated = $request->validate([
             'cart_id' => 'required'

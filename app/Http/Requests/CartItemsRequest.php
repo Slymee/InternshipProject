@@ -21,11 +21,19 @@ class CartItemsRequest extends FormRequest
      */
     public function rules(): array
     {
+        if ($this->route()->named('change-cart-item-quantity')){
+            return [
+                'cart_id' => ['required', 'bail'],
+                'quantity' => ['required', 'integer', 'min:1'],
+                'price' => ['required', 'numeric'],
+            ];
+        }
         return [
             'buyer_id' => ['required', 'bail'],
             'seller_id' => ['required', 'bail'],
             'quantity' => ['required', 'integer', 'min:1'],
             'product_id' => ['required', 'bail'],
+            'price' => ['required', 'numeric'],
         ];
     }
 }
