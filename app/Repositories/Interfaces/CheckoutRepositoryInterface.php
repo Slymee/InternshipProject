@@ -4,5 +4,5 @@ namespace App\Repositories\Interfaces;
 
 interface CheckoutRepositoryInterface
 {
-    public function getCheckoutProducts(array $data);
+    public function getCheckoutProducts(string $productId);
 }

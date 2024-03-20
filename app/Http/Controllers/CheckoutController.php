@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductCheckoutRequest;
 use App\Repositories\Interfaces\CheckoutRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CheckoutController extends Controller
 {
@@ -18,7 +19,15 @@ class CheckoutController extends Controller
      */
     public function index(ProductCheckoutRequest $request)
     {
-        $cheeckoutProducts = $this->checkoutRepository->getCheckoutProducts($request->all());
+        try {
+            $checkoutProduct = $this->checkoutRepository->getCheckoutProducts($request->product_id);
+            return view('userend.checkout-page', compact('checkoutProduct'));
+
+        }catch (\Exception $e){
+            Log::error('Caught Exception: ' . $e->getMessage());
+            Log::error('Exception Details: ' . $e);
+            throw $e;
+        }
     }
 
     /**
