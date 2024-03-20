@@ -32,12 +32,17 @@
                 </div>
             @else
             <div class="forms-container">
-                <form method="post" action="#">
+                <form method="post" action="{{ route('checkout-page') }}">
                     @csrf
+                    <input type="hidden" name="buyer_id" value="{{ auth()->id() }}">
                     <input type="hidden" id="purchase-number-of-items" value="1" name="quantity">
-                    <input type="hidden" name="" value="{{ $product->id }}">
+                    <input type="hidden" name="product_id" value="{{ $product->id }}">
                     <div class="button-container">
-                        <a href="#"><button type="submit">Purchase</button></a>
+                        @if(auth()->id()==$product->user_id)
+                            <a href="#"><button onclick="cantBuySelfProduct(event)">Purchase</button></a>
+                        @else
+                            <a href="#"><button type="submit">Purchase</button></a>
+                        @endif
                     </div>
                 </form>
 
@@ -128,7 +133,7 @@
 
         function cantBuySelfProduct(event){
             event.preventDefault();
-            alert("You can't add your own products to cart!!");
+            alert("You can't purchase your own products!!");
         }
     </script>
 

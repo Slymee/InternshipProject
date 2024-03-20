@@ -70,8 +70,6 @@ class CartRepository implements CartRepositoryInterface
             $cartItem->save();
             return true;
         }catch (\Exception $e){
-            DB::rollBack();
-            dd($e->getMessage());
             Log::error('Caught Exception: ' . $e->getMessage());
             Log::error('Exception Details: ' . $e);
             return false;
