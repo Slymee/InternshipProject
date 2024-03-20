@@ -23,16 +23,16 @@ class CartItemsRequest extends FormRequest
     {
         if ($this->route()->named('change-cart-item-quantity')){
             return [
-                'cart_id' => ['required', 'bail'],
+                'cart_id' => ['required', 'bail', 'integer'],
                 'quantity' => ['required', 'integer', 'min:1'],
                 'price' => ['required', 'numeric'],
             ];
         }
         return [
-            'buyer_id' => ['required', 'bail'],
-            'seller_id' => ['required', 'bail'],
+            'buyer_id' => ['required', 'bail', 'integer'],
+            'seller_id' => ['required', 'bail', 'integer'],
             'quantity' => ['required', 'integer', 'min:1'],
-            'product_id' => ['required', 'bail'],
+            'product_id' => ['required', 'bail', 'integer'],
             'price' => ['required', 'numeric'],
         ];
     }

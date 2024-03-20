@@ -18,6 +18,7 @@
             <div>Title: <span>{{ $product->product_title }}</span></div>
             <div>Category: <span>{{ $product->category->category_name }}</span></div>
             <div>Description: <span class="description-span">{{ $product->product_description }}</span></div>
+            <div>Seller: <span class="description-span">{{ $product->user->name }}</span></div>
             <div class="price-container">Price: <span>Rs. {{ $product->product_price }}</span> </div>
             <label for="number-of-items">Number of Items: </label>
             <input type="number" id="number-of-items" value="1" min="1" oninput="validity.valid||(value='');">
@@ -27,7 +28,7 @@
                 </div>
 
                 <div class="button-container">
-                    <a href="user.login"><button type="submit">Add to Cart</button></a>
+                    <a href="{{ route('user.login') }}"><button type="submit">Add to Cart</button></a>
                 </div>
             @else
             <div class="forms-container">
@@ -48,7 +49,11 @@
                     <input type="hidden" name="product_id" value="{{ $product->id }}">
                     <input type="hidden" name="price" value="{{ $product->product_price }}">
                     <div class="button-container">
-                        <a href="#"><button type="submit">Add to Cart</button></a>
+                        @if(auth()->id()==$product->user_id)
+                            <a href="#"><button onclick="cantBuySelfProduct(event)">Add to Cart</button></a>
+                        @else
+                            <a href="#"><button type="submit">Add to Cart</button></a>
+                        @endif
                     </div>
 
                     <br><span class="error-message">
@@ -120,6 +125,11 @@
             $('#purchase-number-of-items').val($(this).val());
             $('#cart-number-of-items').val($(this).val());
         });
+
+        function cantBuySelfProduct(event){
+            event.preventDefault();
+            alert("You can't add your own products to cart!!");
+        }
     </script>
 
 
