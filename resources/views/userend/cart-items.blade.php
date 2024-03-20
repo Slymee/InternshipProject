@@ -39,17 +39,6 @@
                         </div>
                     </div>
                 @endforeach
-                    <span class="error-message">
-                        @if(session('message'))
-                            {{ session('message') }}
-                        @endif
-
-                        @if($errors->any())
-                            @foreach ($errors->all() as $error)
-                                {{ $error}} <br>
-                            @endforeach
-                        @endif
-                    </span>
             </div>
             <div class="utility-container">
                 <div class="total-amount-container">
@@ -58,9 +47,18 @@
                 <div class="checkout-button">
                     <button>Proceed to Checkout</button>
                 </div>
+                <span class="error-message">
+                        @if(session('message'))
+                        {{ session('message') }}
+                    @endif
+
+                    @if($errors->any())
+                        @foreach ($errors->all() as $error)
+                            {{ $error}} <br>
+                        @endforeach
+                    @endif
+                    </span>
             </div>
         </div>
     </section>
-    <script>
-    </script>
 @endsection

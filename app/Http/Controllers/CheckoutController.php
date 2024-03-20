@@ -21,7 +21,8 @@ class CheckoutController extends Controller
     {
         try {
             $checkoutProduct = $this->checkoutRepository->getCheckoutProducts($request->product_id);
-            return view('userend.checkout-page', compact('checkoutProduct'));
+            $quantity = $request->quantity;
+            return view('userend.checkout-page', compact('checkoutProduct', 'quantity'));
 
         }catch (\Exception $e){
             Log::error('Caught Exception: ' . $e->getMessage());
