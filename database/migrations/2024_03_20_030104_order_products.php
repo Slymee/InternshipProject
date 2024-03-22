@@ -19,6 +19,11 @@ return new class extends Migration
                 ->references('id')
                 ->onDelete('cascade');
 
+            $table->unsignedBigInteger('product_id');
+            $table->foreign('product_id')->on('products')
+                ->references('id')
+                ->onDelete('cascade');
+
             $table->integer('quantity');
             $table->decimal('price', 8, 2);
 

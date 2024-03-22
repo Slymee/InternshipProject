@@ -12,11 +12,14 @@ class Order extends Model
     protected $table = 'orders';
 
     protected $fillable = [
-        'product_id',
         'buyer_id',
-        'seller_id',
-        'quantity',
         'total_amount',
-        'state'
+        'status'
     ];
+
+    public function products(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'order_products')->withPivot('quantity', 'price');
+    }
+
 }

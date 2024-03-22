@@ -31,7 +31,7 @@ class PasswordResetController extends Controller
             return view('backend.forgot-password');
         }catch (\Exception $e){
             Log::error('Caught Exception: ' . $e->getMessage());
-            Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
+            Log::error('Exception details: ' . $e);
             throw $e;
         }
     }
@@ -94,7 +94,7 @@ class PasswordResetController extends Controller
         return redirect()->route('admin.login')->with('message', 'Password successfully updated!!');
         }catch(\Exception $e){
             Log::error('Caught Exception: ' . $e->getMessage());
-            Log::error('Exception details: ' . json_encode($e->getTrace(), JSON_PRETTY_PRINT));
+            Log::error('Exception details: ' . $e);
             throw $e;
         }
     }

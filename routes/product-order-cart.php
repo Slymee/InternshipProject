@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -16,8 +17,10 @@ Route::middleware(['guest.authenticate'])->group(function (){
 
 
 /**
- * Routes for checkout operations
+ * Routes for checkout/order operations
  */
 Route::middleware(['guest.authenticate'])->group(function (){
     Route::post('items-checkout', [CheckoutController::class, 'index'])->name('checkout-page');
+
+    Route::post('order-placement', [OrderController::class, 'store'])->name('product-order-placement');
 });

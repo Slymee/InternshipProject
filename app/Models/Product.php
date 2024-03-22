@@ -56,9 +56,14 @@ class Product extends Model
         return $this->morphMany(Comment::class, 'commentable')->whereNull('parent_id');
     }
 
-    public function carts()
+    public function carts(): HasMany
     {
         return $this->hasMany(Cart::class);
+    }
+
+    public function orders(): BelongsToMany
+    {
+        return $this->belongsToMany(Order::class, 'order_products')->withPivot('quantity', 'price');
     }
 
     public function getRouteKeyName(): string
