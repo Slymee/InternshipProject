@@ -6,6 +6,7 @@ use App\Models\Comment;
 use App\Models\Product;
 use App\Repositories\Interfaces\CommentRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 class CommentRepository implements CommentRepositoryInterface
 {

@@ -7,6 +7,7 @@ namespace App\Repositories;
 use App\Models\Category;
 use App\Repositories\Interfaces\AdminCategoryRepositoryInterface;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class AdminCategoryRepository implements AdminCategoryRepositoryInterface
 {
@@ -26,13 +27,17 @@ class AdminCategoryRepository implements AdminCategoryRepositoryInterface
     public function store(array $data)
     {
         try {
+            DB::beginTransaction();
             Category::create([
                 'category_name' => $data['category_name'],
                 'parent_id' => $data['parent_id'],
             ]);
 
+            DB::commit();
+
             return ['status' => 200, 'message' => 'Category Inserted.'];
         } catch (\Exception $e) {
+            DB::rollBack();
             Log::error('Caught Exception: ' . $e->getMessage());
             Log::error('Exception Details: ' . $e);
             throw $e;
@@ -59,11 +64,13 @@ class AdminCategoryRepository implements AdminCategoryRepositoryInterface
             if (isset($data['parent_id'])) {
                 $updateData['parent_id'] = $data['parent_id'];
             }
-
+            DB::beginTransaction();
             Category::where('id', $data['category_id'])->update($updateData);
+            DB::commit();
 
             return redirect()->back()->with('message', 'Edit Success!');
         } catch (\Exception $e) {
+            DB::rollBack();
             Log::error('Caught Exception: ' . $e->getMessage());
             Log::error('Exception details: ' . $e);
             return redirect()->back()->with('message', $e->getMessage());

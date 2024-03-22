@@ -11,9 +11,9 @@
 @section('content')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <section class="banner-container">
+        @if($checkoutProduct)
         <div class="checkout-container">
             <div class="item-container">
-                @if($checkoutProduct)
                     <div class="cart-item-banner">
                         <div class="cart-item-img"><img src="{{ asset('storage/'. $checkoutProduct->image_path) }}" alt=""></div>
                         <div class="cart-item-info">
@@ -26,14 +26,21 @@
 
                         </div>
                     </div>
-                @endif
             </div>
+            <form method="POST" action="{{ route('product-order-placement') }}">
+                @csrf
+                <input type="hidden" name="buyer_id" value="{{ auth()->id() }}">
+                <input type="hidden" name="total_amount" value="{{ $totalAmount }}">
+                <input type="hidden" name="status" value="pending">
+                <input type="hidden" name="product_id" value="{{ $checkoutProduct->id }}">
+                <input type="hidden" name="quantity" value="{{ $quantity }}">
+                <input type="hidden" name="price" value="{{ $checkoutProduct->product_price }}">
             <div class="utility-container">
                 <div class="total-amount-container">
                     Total Amount: <span>Rs. {{ $totalAmount }}</span>
                 </div>
                 <div class="checkout-button">
-                    <button>Place Order</button>
+                        <button type="submit">Place Order</button>
                 </div>
                 <span class="error-message">
                     @if(session('message'))
@@ -47,6 +54,8 @@
                     @endif
                     </span>
             </div>
+            </form>
         </div>
+        @endif
     </section>
 @endsection

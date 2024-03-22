@@ -33,6 +33,7 @@ class CartRepository implements CartRepositoryInterface
     {
         // TODO: Implement store() method.
         try {
+            DB::beginTransaction();
             $cart = Cart::where('buyer_id', $data['buyer_id'])
                 ->where('product_id', $data['product_id'])
                 ->first();
@@ -50,6 +51,7 @@ class CartRepository implements CartRepositoryInterface
                     'amount' => ($data['quantity']*$data['price']),
                 ]);
             }
+            DB::commit();
             return true;
         }catch (\Exception $e){
             DB::rollBack();
@@ -63,13 +65,16 @@ class CartRepository implements CartRepositoryInterface
     public function updateQuantity(array $data): bool
     {
         try {
+            DB::beginTransaction();
             $cartItem = Cart::findOrFail($data['cart_id']);
             $cartItem->quantity = $data['quantity'];
             $cartItem->amount = $data['quantity']*$data['price'];
 
             $cartItem->save();
+            DB::commit();
             return true;
         }catch (\Exception $e){
+            DB::rollBack();
             Log::error('Caught Exception: ' . $e->getMessage());
             Log::error('Exception Details: ' . $e);
             return false;
@@ -83,9 +88,11 @@ class CartRepository implements CartRepositoryInterface
     public function removeFromCart(string $cartId): bool
     {
         try {
+            DB::beginTransaction();
             if (Cart::find($cartId)->delete()){
                 return true;
             }
+            DB::commit();
             return false;
         }catch (\Exception $e){
             DB::rollBack();

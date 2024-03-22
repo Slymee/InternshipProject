@@ -27,6 +27,7 @@ class SellerProductRepository implements SellerProductRepositoryInterface
     public function store(array $data): array
     {
         try {
+            DB::beginTransaction();
             $data['slug'] = Str::slug($data['product_title']);
             $imageName = 'solo' . time() . 'leveling' . '.' . $data['product_image']->extension();
 
@@ -47,6 +48,7 @@ class SellerProductRepository implements SellerProductRepositoryInterface
                     $tagIds[] = $tag->id;
                 }
                 $productAd->tags()->sync($tagIds);
+                DB::commit();
 
                 return ['status' => 200, 'message' => 'Product Insert Success.'];
             }
@@ -62,6 +64,7 @@ class SellerProductRepository implements SellerProductRepositoryInterface
     public function update($productId, array $data): array
     {
         try {
+            DB::beginTransaction();
             $product = Product::findOrFail($productId);
             $imagePath = $product->image_path;
 
@@ -88,6 +91,7 @@ class SellerProductRepository implements SellerProductRepositoryInterface
                     $tagIds[] = $tag->id;
                 }
                 $product->tags()->sync($tagIds);
+                DB::commit();
 
                 return ['status' => 200, 'message' => 'Product Update Success.'];
             }
@@ -104,9 +108,11 @@ class SellerProductRepository implements SellerProductRepositoryInterface
     public function delete($productId): array
     {
         try {
+            DB::beginTransaction();
             $product = Product::find($productId);
             Storage::disk('public')->delete($product->image_path);
             $product->delete();
+            DB::commit();
             return ['status' => 200, 'message' => 'Product Deleted.'];
         }catch (\Exception $e){
             Log::error('Caught Exception: ' . $e->getMessage());
