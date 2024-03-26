@@ -33,7 +33,6 @@ class OrderRepository implements OrderRepositoryInterface
 
 //            $this->sendEmailReceipt((array)auth()->user(), $data);
 
-
             DB::commit();
             return true;
         }catch (\Exception $e){
