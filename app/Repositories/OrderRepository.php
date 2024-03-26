@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\Order;
+use App\Models\Product;
 use App\Repositories\Interfaces\OrderRepositoryInterface;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class OrderRepository implements OrderRepositoryInterface
 {
-    public function storeOrder(array $data)
+    public function storeOrder(array $data): bool
     {
         try {
             DB::beginTransaction();
@@ -29,12 +31,26 @@ class OrderRepository implements OrderRepositoryInterface
             ];
             $order->products()->attach($pivotData);
 
+//            $this->sendEmailReceipt((array)auth()->user(), $data);
+
+
             DB::commit();
+            return true;
         }catch (\Exception $e){
             DB::rollBack();
             Log::error('Caught Exception: ' . $e->getMessage());
             Log::error('Exception Details: ' . $e);
-            throw $e;
+            return false;
         }
+    }
+
+    public function sendEmailReceipt(array $userDetails, array $orderInfo)
+    {
+        $nameOfUser = $userDetails->name;
+        $productName = Product::find($orderInfo['product_id']);
+        Mail::send('userend.commonComponents.purchase-receipt-email', compact('nameOfUser', 'productName', 'orderInfo'), function($message) use ($userDetails) {
+            $message->to($userDetails->email);
+            $message->subject('Purchase Receipt');
+        });
     }
 }

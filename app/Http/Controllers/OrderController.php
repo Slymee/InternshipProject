@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
@@ -34,9 +35,14 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(OrderRequest $request)
+    public function store(OrderRequest $request): \Illuminate\Http\RedirectResponse
     {
-        $this->orderRepository->storeOrder($request->all());
+        if ($this->orderRepository->storeOrder($request->all())){
+            return redirect()
+                ->route('product-display', ['productId' => $request->product_id])
+                ->with('message', 'Order Placed, check Email.*');
+        }
+        return redirect()->back()->with('message', 'Order Placement Failed');
     }
 
     /**
