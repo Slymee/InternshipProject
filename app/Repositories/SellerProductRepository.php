@@ -12,6 +12,10 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 class SellerProductRepository implements SellerProductRepositoryInterface
 {
+    /**
+     * Fetch all self product
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
     public function getAll(): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         $user = auth()->user();
@@ -24,6 +28,12 @@ class SellerProductRepository implements SellerProductRepositoryInterface
     }
 
 
+    /**
+     * Store new product to sell
+     * @param array $data
+     * @return array|string[]
+     * @throws \Exception
+     */
     public function store(array $data): array
     {
         try {
@@ -61,6 +71,14 @@ class SellerProductRepository implements SellerProductRepositoryInterface
             throw $e;
         }
     }
+
+    /**
+     * update existing product
+     * @param $productId
+     * @param array $data
+     * @return array|string[]
+     * @throws \Exception
+     */
     public function update($productId, array $data): array
     {
         try {
@@ -105,6 +123,12 @@ class SellerProductRepository implements SellerProductRepositoryInterface
         }
     }
 
+    /**
+     * Remove existing product
+     * @param $productId
+     * @return array
+     * @throws \Exception
+     */
     public function delete($productId): array
     {
         try {

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 class CommentRepository implements CommentRepositoryInterface
 {
     /**
+     * Fetch all comment
      * @return Collection
      */
     public function all(): Collection
@@ -19,6 +20,7 @@ class CommentRepository implements CommentRepositoryInterface
     }
 
     /**
+     * Stoe new comment/reply
      * @param $data
      * @return mixed
      */

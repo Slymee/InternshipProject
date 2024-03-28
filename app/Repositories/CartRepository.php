@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Log;
 class CartRepository implements CartRepositoryInterface
 {
     /**
+     * Display cart items
      * @param string $userId
      * @return mixed
      */
@@ -26,6 +27,7 @@ class CartRepository implements CartRepositoryInterface
     }
 
     /**
+     * Store cart items
      * @param array $data
      * @return bool
      */
@@ -62,6 +64,11 @@ class CartRepository implements CartRepositoryInterface
     }
 
 
+    /**
+     * Update cart quantity
+     * @param array $data
+     * @return bool
+     */
     public function updateQuantity(array $data): bool
     {
         try {
@@ -82,6 +89,7 @@ class CartRepository implements CartRepositoryInterface
     }
 
     /**
+     * Remove items from cart
      * @param string $cartId
      * @return bool
      */

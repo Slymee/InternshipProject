@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Mail;
 
 class OrderRepository implements OrderRepositoryInterface
 {
+    /**
+     * Store new order
+     * @param array $data
+     * @return bool
+     */
     public function storeOrder(array $data): bool
     {
         try {
@@ -42,6 +47,12 @@ class OrderRepository implements OrderRepositoryInterface
         }
     }
 
+    /**
+     * Send email receipt to customer
+     * @param $userDetails
+     * @param array $orderInfo
+     * @return void
+     */
     public function sendEmailReceipt($userDetails, array $orderInfo)
     {
         $nameOfUser = $userDetails->name;

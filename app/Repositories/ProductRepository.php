@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Log;
 
 class ProductRepository implements ProductRepositoryInterface
 {
+    /**
+     * FInd particular product
+     * @param string $productId
+     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|array|null
+     * @throws \Exception
+     */
     public function show(string $productId): \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|array|null
     {
         try {
@@ -21,6 +27,13 @@ class ProductRepository implements ProductRepositoryInterface
         }
     }
 
+
+    /**
+     * Fetch product of particular category
+     * @param string $categoryId
+     * @return array
+     * @throws \Exception
+     */
     public function categoryProductList(string $categoryId): array
     {
         try {
@@ -47,6 +60,12 @@ class ProductRepository implements ProductRepositoryInterface
         }
     }
 
+
+    /**
+     * fetch all child category
+     * @param $parentId
+     * @return array
+     */
     public function getAllChildrenCategory($parentId)
     {
         $childrenIds = Category::where('parent_id', $parentId)->pluck('id')->toArray();

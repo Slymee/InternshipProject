@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\Log;
 
 class UserRepository implements UserRepositoryInterface
 {
+
+    /**
+     * Create new user module
+     * @param array $data
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function createUser(array $data): \Illuminate\Http\RedirectResponse
     {
         try {
