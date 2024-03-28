@@ -18,9 +18,9 @@
 
     <pre>
         Product: {{ $productName }}
-        Price: {{ $data['price'] }}
-        Quantity: {{ $data['quantity'] }}
-        Total Amount: {{ $data['total_amount'] }}
+        Price: {{ $orderInfo['price'] }}
+        Quantity: {{ $orderInfo['quantity'] }}
+        Total Amount: {{ $orderInfo['total_amount'] }}
     </pre>
 
     <p>Your Product is in process and will be delivered in 5 to 7 business days.</p>

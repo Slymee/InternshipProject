@@ -32,7 +32,7 @@
                 </div>
             @else
             <div class="forms-container">
-                <form method="post" action="{{ route('checkout-page') }}">
+                <form method="get" action="{{ route('checkout-page') }}">
                     @csrf
                     <input type="hidden" name="buyer_id" value="{{ auth()->id() }}">
                     <input type="hidden" id="purchase-number-of-items" value="1" name="quantity">
@@ -136,6 +136,4 @@
             alert("You can't purchase your own products!!");
         }
     </script>
-
-
 @endsection

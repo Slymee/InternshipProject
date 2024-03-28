@@ -20,7 +20,7 @@ Route::middleware(['guest.authenticate'])->group(function (){
  * Routes for checkout/order operations
  */
 Route::middleware(['guest.authenticate'])->group(function (){
-    Route::post('items-checkout', [CheckoutController::class, 'index'])->name('checkout-page');
+    Route::get('items-checkout', [CheckoutController::class, 'index'])->name('checkout-page');
 
     Route::post('order-placement', [OrderController::class, 'store'])->name('product-order-placement');
 });

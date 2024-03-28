@@ -31,8 +31,7 @@ class OrderRepository implements OrderRepositoryInterface
             ];
             $order->products()->attach($pivotData);
 
-//            $this->sendEmailReceipt((array)auth()->user(), $data);
-
+            $this->sendEmailReceipt(auth()->user(), $data);
             DB::commit();
             return true;
         }catch (\Exception $e){
@@ -43,10 +42,10 @@ class OrderRepository implements OrderRepositoryInterface
         }
     }
 
-    public function sendEmailReceipt(array $userDetails, array $orderInfo)
+    public function sendEmailReceipt($userDetails, array $orderInfo)
     {
         $nameOfUser = $userDetails->name;
-        $productName = Product::find($orderInfo['product_id']);
+        $productName = Product::find($orderInfo['product_id'])->product_title;
         Mail::send('userend.commonComponents.purchase-receipt-email', compact('nameOfUser', 'productName', 'orderInfo'), function($message) use ($userDetails) {
             $message->to($userDetails->email);
             $message->subject('Purchase Receipt');
