@@ -12,8 +12,14 @@ use Illuminate\Support\Facades\Log;
 
 class CommentController extends Controller
 {
+    /**
+     * @var CommentRepositoryInterface
+     */
     private $commentInterface;
 
+    /**
+     * @param CommentRepositoryInterface $commentInterface
+     */
     public function __construct(CommentRepositoryInterface $commentInterface)
     {
         $this->commentInterface = $commentInterface;
@@ -36,6 +42,8 @@ class CommentController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * @param ProductCommentRequest $request
+     * @return RedirectResponse
      */
     public function store(ProductCommentRequest $request): RedirectResponse
     {

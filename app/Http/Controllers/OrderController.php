@@ -10,7 +10,10 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    protected $orderRepository;
+    /**
+     * @var OrderRepositoryInterface
+     */
+    protected OrderRepositoryInterface $orderRepository;
 
     public function __construct(OrderRepositoryInterface $orderRepository)
     {

@@ -37,7 +37,11 @@ class PasswordResetController extends Controller
     }
 
 
-    //send reset mail to the user
+    /**
+     * Send reset mail to user
+     * @param ForgotPasswordRequest $request
+     * @return RedirectResponse
+     */
     public function sendResetMail(ForgotPasswordRequest $request): RedirectResponse
     {
         $token = Str::random(64);
@@ -61,6 +65,7 @@ class PasswordResetController extends Controller
 
 
     /**
+     * Display form for password submission
      * @throws \Exception
      */
     public function showNewPasswordForm(string $token): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
@@ -76,6 +81,7 @@ class PasswordResetController extends Controller
 
 
     /**
+     * Store new password
      * @param ResetPasswordRequest $request
      * @return string|RedirectResponse
      * @throws \Exception

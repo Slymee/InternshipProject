@@ -12,7 +12,14 @@ use Illuminate\Support\Facades\Log;
 
 class SellerProductAPIController extends Controller
 {
-    protected $productRepository;
+    /**
+     * @var SellerProductRepositoryInterface
+     */
+    protected SellerProductRepositoryInterface $productRepository;
+
+    /**
+     * @param SellerProductRepositoryInterface $productRepository
+     */
     public function __construct(SellerProductRepositoryInterface $productRepository)
     {
         $this->productRepository = $productRepository;

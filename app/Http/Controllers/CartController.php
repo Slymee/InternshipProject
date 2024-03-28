@@ -11,13 +11,23 @@ use function Termwind\renderUsing;
 
 class CartController extends Controller
 {
-    protected $cartRepository;
+    /**
+     * @var CartRepositoryInterface
+     */
+    protected CartRepositoryInterface $cartRepository;
+
+    /**
+     * @param CartRepositoryInterface $cartRepository
+     */
     public function __construct(CartRepositoryInterface $cartRepository)
     {
         $this->cartRepository = $cartRepository;
     }
+
     /**
      * Display a listing of the resource.
+     * @param string $userId
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
      */
     public function index(string $userId): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
@@ -36,6 +46,8 @@ class CartController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * @param CartItemsRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(CartItemsRequest $request): \Illuminate\Http\RedirectResponse
     {
@@ -63,6 +75,8 @@ class CartController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * @param CartItemsRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(CartItemsRequest $request)
     {
@@ -75,6 +89,8 @@ class CartController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Request $request): \Illuminate\Http\RedirectResponse
     {

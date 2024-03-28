@@ -10,13 +10,20 @@ use Illuminate\Support\Facades\Log;
 
 class CheckoutController extends Controller
 {
+    /**
+     * @var CheckoutRepositoryInterface
+     */
     protected $checkoutRepository;
     public function __construct(CheckoutRepositoryInterface $checkoutRepository)
     {
         $this->checkoutRepository = $checkoutRepository;
     }
+
     /**
      * Display a listing of the resource.
+     * @param ProductCheckoutRequest $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
+     * @throws \Exception
      */
     public function index(ProductCheckoutRequest $request)
     {
