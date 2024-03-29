@@ -62,4 +62,5 @@ class OrderRepository implements OrderRepositoryInterface
             $message->subject('Purchase Receipt');
         });
     }
+
 }
