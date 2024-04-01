@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Jobs\SendEmailJob;
 use App\Models\Order;
 use App\Models\Product;
 use App\Repositories\Interfaces\OrderRepositoryInterface;
@@ -36,7 +37,9 @@ class OrderRepository implements OrderRepositoryInterface
             ];
             $order->products()->attach($pivotData);
 
-            $this->sendEmailReceipt(auth()->user(), $data);
+            dispatch(new SendEmailJob(auth()->user(), $data));
+
+//            $this->sendEmailReceipt(auth()->user(), $data);
             DB::commit();
             return true;
         }catch (\Exception $e){
@@ -53,14 +56,14 @@ class OrderRepository implements OrderRepositoryInterface
      * @param array $orderInfo
      * @return void
      */
-    public function sendEmailReceipt($userDetails, array $orderInfo)
-    {
-        $nameOfUser = $userDetails->name;
-        $productName = Product::find($orderInfo['product_id'])->product_title;
-        Mail::send('userend.commonComponents.purchase-receipt-email', compact('nameOfUser', 'productName', 'orderInfo'), function($message) use ($userDetails) {
-            $message->to($userDetails->email);
-            $message->subject('Purchase Receipt');
-        });
-    }
+//    public function sendEmailReceipt($userDetails, array $orderInfo)
+//    {
+//        $nameOfUser = $userDetails->name;
+//        $productName = Product::find($orderInfo['product_id'])->product_title;
+//        Mail::send('userend.commonComponents.purchase-receipt-email', compact('nameOfUser', 'productName', 'orderInfo'), function($message) use ($userDetails) {
+//            $message->to($userDetails->email);
+//            $message->subject('Purchase Receipt');
+//        });
+//    }
 
 }

@@ -6,5 +6,5 @@ interface OrderRepositoryInterface
 {
     public function storeOrder(array $data);
 
-    public function sendEmailReceipt(array $userDetails, array $orderInfo);
+//    public function sendEmailReceipt(array $userDetails, array $orderInfo);
 }
