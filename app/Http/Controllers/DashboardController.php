@@ -9,6 +9,7 @@ class DashboardController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
      */
     public function index()
     {
